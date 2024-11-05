@@ -14,9 +14,9 @@ return new class extends Migration
     {
         Schema::create('t_tugas', function (Blueprint $table) {
             $table->id('tugas_id');
-            $table->unsignedBigInteger('dosen_id')->index();
-            $table->unsignedBigInteger('tendik_id')->index();
-            $table->unsignedBigInteger('admin_id')->index();
+            $table->unsignedBigInteger('dosen_id')->index()->nullable();
+            $table->unsignedBigInteger('tendik_id')->index()->nullable();
+            $table->unsignedBigInteger('admin_id')->index()->nullable();
             $table->string('tugas_nama', 100);
             $table->text('deskripsi');
             $table->unsignedBigInteger('tugas_bobot');
