@@ -11,7 +11,7 @@ class AbsensiModel extends Model
 {
     use HasFactory;
 
-    protected $table = 'm_absensi_mhs';
+    protected $table = 't_absensi_mhs';
     protected $primaryKey = 'absensi_id';
 
     protected $fillable = ['mahasiswa_id','sakit','izin','alpha','poin','status','periode'];
