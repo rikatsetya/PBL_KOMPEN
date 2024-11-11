@@ -14,7 +14,7 @@ class MahasiswaModel extends Model
     protected $table = 'm_mahasiswa';
     protected $primaryKey = 'mahasiswa_id';
 
-    protected $fillable = ['nim','username','mahasiswa_nama','password','foto','no_telp','jurusan','prodi','kelas'];
+    protected $fillable = ['nim','username','mahasiswa_nama','password','foto','no_telp','jurusan','prodi','kelas','created_at', 'updated_at'];
 
     public function pengumpulan(): HasMany{
         return $this->hasMany(TugasModel::class);

@@ -12,7 +12,7 @@ class PengumpulanModel extends Model
     protected $table = 't_pengumpulan';
     protected $primaryKey = 'pengumpulan_id';
 
-    protected $fillable = ['tugas_id','mahasiswa_id','lampiran','foto_sebelum','foto_sesudah','tanggal'];
+    protected $fillable = ['tugas_id','mahasiswa_id','lampiran','foto_sebelum','foto_sesudah','tanggal','created_at', 'updated_at'];
 
     public function mahasiswa():BelongsTo{
         return $this->belongsTo(MahasiswaModel::class);

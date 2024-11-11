@@ -13,7 +13,7 @@ class TendikModel extends Model
     protected $table = 'm_tendik';
     protected $primaryKey = 'tendik_id';
 
-    protected $fillable = ['no_induk','username','tendik_nama','password','foto'];
+    protected $fillable = ['no_induk','username','tendik_nama','password','foto','created_at', 'updated_at'];
 
     public function tugas(): HasMany{
         return $this->hasMany(TugasModel::class);

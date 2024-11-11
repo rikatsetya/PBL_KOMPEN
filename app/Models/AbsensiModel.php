@@ -14,7 +14,7 @@ class AbsensiModel extends Model
     protected $table = 't_absensi_mhs';
     protected $primaryKey = 'absensi_id';
 
-    protected $fillable = ['mahasiswa_id','sakit','izin','alpha','poin','status','periode'];
+    protected $fillable = ['mahasiswa_id','sakit','izin','alpha','poin','status','periode','created_at', 'updated_at'];
 
     public function mahasiswa(): BelongsTo{
         return $this->belongsTo(MahasiswaModel::class);

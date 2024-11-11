@@ -12,7 +12,7 @@ class SuratModel extends Model
     protected $table = 't_surat_kompen';
     protected $primaryKey = 'surat_id';
 
-    protected $fillable = ['mahasiswa_id','admin_id','absensi_id','tanggal_pengajuan'];
+    protected $fillable = ['mahasiswa_id','admin_id','absensi_id','tanggal_pengajuan','created_at', 'updated_at'];
 
     public function mahasiswa(): BelongsTo{
         return $this->belongsTo(MahasiswaModel::class);
