@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\KompetensiController;
 use App\Http\Controllers\LevelController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\UserController;
@@ -64,19 +65,19 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::middleware(['authorize:ADM'])->group(function () {
-        Route::get('/kompetensi', [UserController::class, 'index']);
-        Route::post('/kompetensi/list', [UserController::class, 'list']);
-        Route::get('/kompetensi/create_ajax', [UserController::class, 'create_ajax']);
-        Route::post('/kompetensi/ajax', [UserController::class, 'store_ajax']);
-        Route::get('/kompetensi/import', [UserController::class, 'import']);
-        Route::post('/kompetensi/import_ajax', [UserController::class, 'import_ajax']);
-        Route::get('/kompetensi/export_excel', [UserController::class, 'export_excel']);
-        Route::get('/kompetensi/export_pdf', [UserController::class, 'export_pdf']);
-        Route::get('/kompetensi/{id}', [UserController::class, 'show']);
-        Route::get('/kompetensi/{id}/edit_ajax', [UserController::class, 'edit_ajax']);
-        Route::put('/kompetensi/{id}/update_ajax', [UserController::class, 'update_ajax']);
-        Route::get('/kompetensi/{id}/delete_ajax', [UserController::class, 'confirm_ajax']);
-        Route::delete('/kompetensi/{id}/delete_ajax', [UserController::class, 'delete_ajax']);
+        Route::get('/kompetensi', [KompetensiController::class, 'index']);
+        Route::post('/kompetensi/list', [KompetensiController::class, 'list']);
+        Route::get('/kompetensi/create_ajax', [KompetensiController::class, 'create_ajax']);
+        Route::post('/kompetensi/ajax', [KompetensiController::class, 'store_ajax']);
+        Route::get('/kompetensi/import', [KompetensiController::class, 'import']);
+        Route::post('/kompetensi/import_ajax', [KompetensiController::class, 'import_ajax']);
+        Route::get('/kompetensi/export_excel', [KompetensiController::class, 'export_excel']);
+        Route::get('/kompetensi/export_pdf', [KompetensiController::class, 'export_pdf']);
+        Route::get('/kompetensi/{id}', [KompetensiController::class, 'show']);
+        Route::get('/kompetensi/{id}/edit_ajax', [KompetensiController::class, 'edit_ajax']);
+        Route::put('/kompetensi/{id}/update_ajax', [KompetensiController::class, 'update_ajax']);
+        Route::get('/kompetensi/{id}/delete_ajax', [KompetensiController::class, 'confirm_ajax']);
+        Route::delete('/kompetensi/{id}/delete_ajax', [KompetensiController::class, 'delete_ajax']);
     });
 
     Route::middleware(['authorize:ADM'])->group(function () {

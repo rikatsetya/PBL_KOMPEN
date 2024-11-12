@@ -17,12 +17,12 @@ class AbsensiModel extends Model
     protected $fillable = ['mahasiswa_id','sakit','izin','alpha','poin','status','periode','created_at', 'updated_at'];
 
     public function mahasiswa(): BelongsTo{
-        return $this->belongsTo(MahasiswaModel::class);
+        return $this->belongsTo(MahasiswaModel::class, 'mahasiswa_id', 'mahasiswa_id');
     }
-    public function admin(): BelongsTo{
-        return $this->belongsTo(AdminModel::class);
+    public function user(): BelongsTo{
+        return $this->belongsTo(UserModel::class, 'user_id', 'user_id');
     }
     public function surat(): HasOne{
-        return $this->hasOne(SuratModel::class);
+        return $this->hasOne(SuratModel::class, 'surat_id', 'surat_id');
     }
 }

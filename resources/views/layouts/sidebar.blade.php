@@ -42,11 +42,28 @@
                     </li>
                 </ul>
             </li>
-            <li class="nav-item">
-                <a href="{{ url('/kompetensi') }}" class="nav-link {{ $activeMenu == 'kompetensi' ? 'active' : '' }} ">
-                    <i class="nav-icon far fa-list-alt"></i>
-                    <p>Bidang Kompetensi</p>
+            <li class="nav-item {{ $activeMenu == 'detail' ? 'menu-open' : '' }}">
+                <a href="#" class="nav-link {{ $activeMenu == 'detail' ? 'active' : '' }} ">
+                    <i class="nav-icon fas fa-table"></i>
+                    <p>
+                        Detail Kompen
+                        <i class="fas fa-angle-left right"></i>
+                    </p>
                 </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="{{ url('/kompetensi') }}" class="nav-link {{ $activeSubMenu == 'kompetensi' ? 'active' : '' }} ">
+                            <i class="nav-icon far fa-list-alt"></i>
+                            <p>Bidang Kompetensi</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url('/jenis') }}" class="nav-link {{ $activeSubMenu == 'jenis' ? 'active' : '' }} ">
+                            <i class="nav-icon far fa-list-alt"></i>
+                            <p>Jenis Tugas</p>
+                        </a>
+                    </li>
+                </ul>
             </li>
             <li class="nav-item">
                 <a href="{{ url('/mahasiswa') }}" class="nav-link {{ $activeMenu == 'mahasiswa' ? 'active' : '' }} ">
@@ -54,13 +71,13 @@
                     <p>Data Mahasiswa</p>
                 </a>
             </li>
-            <li class="nav-header">Data Transaksi</li>
             <li class="nav-item">
                 <a href="{{ url('/stok') }}" class="nav-link {{ $activeMenu == 'stok' ? 'active' : '' }} ">
                     <i class="nav-icon fas fa-cubes"></i>
-                    <p>Stok Barang</p>
+                    <p>Daftar Tugas</p>
                 </a>
             </li>
+            <li class="nav-header">Data Transaksi</li>
             <li class="nav-item">
                 <a href="{{ url('/barang') }}" class="nav-link {{ $activeMenu == 'penjualan' ? 'active' : '' }} ">
                     <i class="nav-icon fas fa-cash-register"></i>
