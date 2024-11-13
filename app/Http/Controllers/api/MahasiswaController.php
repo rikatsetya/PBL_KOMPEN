@@ -37,9 +37,7 @@ class MahasiswaController extends Controller
      */
     public function show(string $id)
     {
-        $mahasiswa = MahasiswaModel::select(
-            'username', 'mahasiswa_nama','nim','jurusan','prodi','kelas','no_telp'
-        )->find($id);
+        $mahasiswa = MahasiswaModel::all()->find($id);
         return $mahasiswa;
     }
 
@@ -59,10 +57,10 @@ class MahasiswaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        $data = MahasiswaModel::select('password')->where('mahasiswa_id', $request->mahasiswa_id)->first();
-        $data->password = $request->password;
+        $data = MahasiswaModel::all()->where('mahasiswa_id', $request->mahasiswa_id)->first();
+        $data->password = bcrypt($request->password);
         $data->save();
         return "Berhasil Mengubah Data";
     }
