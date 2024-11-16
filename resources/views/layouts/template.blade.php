@@ -9,6 +9,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Untuk mengirimkan token Laravel CSRF pada setiap request ajax -->
 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -19,7 +20,7 @@
     <link rel="stylesheet"
         href="{{ asset('adminlte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('adminlte/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
-    <!-- SweetAlert2 -->
+    {{-- Sweet Alert2 --}}
     <link rel="stylesheet" href="{{ asset('adminlte/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('adminlte/dist/css/adminlte.min.css') }}">
@@ -41,6 +42,7 @@
             <a href="{{ url('/') }}" class="brand-link">
                 <img src="{{ asset('adminlte/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo"
                     class="brand-image img-circle elevation-3" style="opacity: .8">
+
                 <span class="brand-text font-weight-light">PWL - Starter Code</span>
             </a>
 
@@ -52,7 +54,7 @@
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
-            @include('layouts.breadcrump')
+            @include('layouts.breadcrumb')
 
             <!-- Main content -->
             <section class="content">
@@ -81,7 +83,7 @@
         <script src="{{ asset('adminlte/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
         <script src="{{ asset('adminlte/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
         <script src="{{ asset('adminlte/plugins/datatables-buttons/js/buttons.colvis.min.js') }}"></script>
-        <!-- jquery-validation -->
+        <!-- jquery-validation-->
         <script src="{{ asset('adminlte/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
         <script src="{{ asset('adminlte/plugins/jquery-validation/additional-methods.min.js') }}"></script>
         <!-- SweetAlert2 -->
