@@ -15,6 +15,8 @@ class MahasiswaModel extends Model
     protected $primaryKey = 'mahasiswa_id';
 
     protected $fillable = ['nim','username','mahasiswa_nama','password','foto','no_telp','jurusan','prodi','kelas','created_at','updated_at'];
+    protected $hidden = ['password']; // jangan di tampilkan saat select
+    protected $casts = ['password' => 'hashed']; // casting password agar otomatis di hash
 
     public function pengumpulan(): HasMany{
         return $this->hasMany(TugasModel::class);

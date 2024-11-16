@@ -141,7 +141,6 @@
                     },
                     no_telp: {
                         required: true,
-                        number: true,
                         minlength: 9,
                         maxlength: 20
                     },
