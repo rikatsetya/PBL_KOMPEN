@@ -43,6 +43,10 @@
                             <td class="col-9">{{ $user->nama }}</td>
                         </tr>
                         <tr>
+                            <th class="text-right col-3">Nomer Induk</th>
+                            <td class="col-9">{{ $user->no_induk }}</td>
+                        </tr>
+                        <tr>
                             <th class="text-right col-3">Password</th>
                             <td class="col-9">********</td>
                         </tr>

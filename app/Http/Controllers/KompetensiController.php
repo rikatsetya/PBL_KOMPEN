@@ -181,8 +181,8 @@ class KompetensiController extends Controller
                 foreach ($data as $baris => $value) {
                     if ($baris > 1) { // baris ke 1 adalah header, maka lewati
                         $insert[] = [
-                            'kompetensi_kode' => $value['A'],
-                            'kompetensi_nama' => $value['B'],
+                            'kompetensi_nama' => $value['A'],
+                            'kompetensi_deskripsi' => $value['B'],
                             'created_at' => now(),
                         ];
                     }
@@ -208,16 +208,16 @@ class KompetensiController extends Controller
     public function export_excel()
     {
         // ambil data kompetensi yang akan di export
-        $kompetensi = KompetensiModel::select('kompetensi_kode', 'kompetensi_nama')
-            ->orderBy('kompetensi_kode')
+        $kompetensi = KompetensiModel::select('kompetensi_nama', 'kompetensi_deskripsi')
+            ->orderBy('kompetensi_nama')
             ->get();
 
         // load library excel
         $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet(); // ambil sheet yang aktif
         $sheet->setCellValue('A1', 'No');
-        $sheet->setCellValue('B1', 'Kode kompetensi');
-        $sheet->setCellValue('C1', 'Nama kompetensi');
+        $sheet->setCellValue('B1', 'nama kompetensi');
+        $sheet->setCellValue('C1', 'deskripsi kompetensi');
 
         $sheet->getStyle('A1:C1')->getFont()->setBold(true); // bold header
 
@@ -225,8 +225,8 @@ class KompetensiController extends Controller
         $baris = 2; // baris data dimulai dari baris ke 2
         foreach ($kompetensi as $key => $value) {
             $sheet->setCellValue('A' . $baris, $no);
-            $sheet->setCellValue('B' . $baris, $value->kompetensi_kode);
-            $sheet->setCellValue('C' . $baris, $value->kompetensi_nama);
+            $sheet->setCellValue('B' . $baris, $value->kompetensi_nama);
+            $sheet->setCellValue('C' . $baris, $value->kompetensi_deskripsi);
             $baris++;
             $no++;
         }
@@ -252,8 +252,8 @@ class KompetensiController extends Controller
 
     public function export_pdf()
     {
-        $kompetensi = KompetensiModel::select('kompetensi_kode', 'kompetensi_nama')
-            ->orderBy('kompetensi_kode')
+        $kompetensi = KompetensiModel::select('kompetensi_nama', 'kompetensi_deskripsi')
+            ->orderBy('kompetensi_nama')
             ->get();
         // use Barryvdh\DomPDF\Facade\Pdf;
         $pdf = Pdf::loadView('kompetensi.export_pdf', ['kompetensi' => $kompetensi]);

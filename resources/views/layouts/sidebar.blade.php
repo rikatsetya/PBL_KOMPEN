@@ -46,7 +46,7 @@
                 <a href="#" class="nav-link {{ $activeMenu == 'detail' ? 'active' : '' }} ">
                     <i class="nav-icon fas fa-table"></i>
                     <p>
-                        Detail Kompen
+                        Manage Kompen
                         <i class="fas fa-angle-left right"></i>
                     </p>
                 </a>
@@ -68,11 +68,11 @@
             <li class="nav-item">
                 <a href="{{ url('/mahasiswa') }}" class="nav-link {{ $activeMenu == 'mahasiswa' ? 'active' : '' }} ">
                     <i class="nav-icon far fa-file"></i>
-                    <p>Data Mahasiswa</p>
+                    <p>Manage Mahasiswa</p>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{ url('/stok') }}" class="nav-link {{ $activeMenu == 'stok' ? 'active' : '' }} ">
+                <a href="{{ url('/daftar_tugas') }}" class="nav-link {{ $activeMenu == 'daftar_tugas' ? 'active' : '' }} ">
                     <i class="nav-icon fas fa-cubes"></i>
                     <p>Daftar Tugas</p>
                 </a>

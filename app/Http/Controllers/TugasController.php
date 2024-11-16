@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\LevelModel;
+use App\Models\TugasModel;
+use App\Models\UserModel;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
 class TugasController extends Controller
 {
@@ -11,7 +15,34 @@ class TugasController extends Controller
      */
     public function index()
     {
-        //
+        $breadcrumb = (object) [
+            'title' => 'Daftar Tugas',
+            'list' => ['Home', 'Tugas']
+        ];
+        $page = (object) [
+            'title' => 'Daftar Tugas yang terdaftar dalam sistem'
+        ];
+        $activeMenu = 'daftar_tugas';
+        $activeSubMenu = '';
+        $user = UserModel::all();
+        return view('daftar_tugas.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu, 'user' => $user]);
+    }
+
+    public function list(Request $request)
+    {
+        $tugas = TugasModel::select('tugas_id','jenis_id', 'm_user.user_id','m_user.level_id', 'tugas_nama', 'deskripsi', 'tugas_bobot', 'tugas_tenggat', 'periode')->join('m_user', 't_tugas.user_id', '=','m_user.user_id')->with('jenis')->with('user');
+
+        if ($request->level_id) {
+            $tugas->where('level_id', $request->level_id);
+        }
+        return DataTables::of($tugas)
+            ->addIndexColumn() // menambahkan kolom index / no urut (default nama kolom: DT_RowIndex) 
+            ->addColumn('aksi', function ($tugas) {
+                $btn = '<a href="' . url('/daftar_tugas/' . $tugas->tugas_id) . '" class="btn btn-info btn-sm">Detail</a>';
+                return $btn;
+            })
+            ->rawColumns(['aksi']) // memberitahu bahwa kolom aksi adalah html 
+            ->make(true);
     }
 
     /**
@@ -35,7 +66,12 @@ class TugasController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $daftar_tugas = TugasModel::select('tugas_id','jenis_id', 'm_user.user_id','m_user.level_id', 'tugas_nama', 'deskripsi', 'tugas_bobot', 'tugas_tenggat', 'periode')->join('m_user', 't_tugas.user_id', '=','m_user.user_id')->with('jenis')->with('user')->find($id);
+        $breadcrumb = (object) ['title' => 'Daftar Tugas', 'list' => ['Home', 'Daftar Tugas', 'Detail']];
+        $page = (object) ['title' => 'Daftar Tugas'];
+        $activeMenu = 'daftar_tugas';
+        $activeSubMenu = '';
+        return view('daftar_tugas.show', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu, 'daftar_tugas' => $daftar_tugas]);
     }
 
     /**

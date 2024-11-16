@@ -16,6 +16,10 @@ class MahasiswaModel extends Model
 
     protected $fillable = ['nim','username','mahasiswa_nama','password','foto','no_telp','jurusan','prodi','kelas','created_at', 'updated_at'];
 
+    protected $hiidden = ['password'];
+
+    protected $casts = ['password' => 'hashed'];
+
     public function pengumpulan(): HasMany{
         return $this->hasMany(TugasModel::class, 'pengumpulan_id', 'pengumpulan_id');
     }

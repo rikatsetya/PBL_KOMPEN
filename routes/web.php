@@ -2,9 +2,11 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\JenisController;
 use App\Http\Controllers\KompetensiController;
 use App\Http\Controllers\LevelController;
 use App\Http\Controllers\MahasiswaController;
+use App\Http\Controllers\TugasController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
@@ -78,6 +80,38 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/kompetensi/{id}/update_ajax', [KompetensiController::class, 'update_ajax']);
         Route::get('/kompetensi/{id}/delete_ajax', [KompetensiController::class, 'confirm_ajax']);
         Route::delete('/kompetensi/{id}/delete_ajax', [KompetensiController::class, 'delete_ajax']);
+    });
+
+    Route::middleware(['authorize:ADM'])->group(function () {
+        Route::get('/jenis', [JenisController::class, 'index']);
+        Route::post('/jenis/list', [JenisController::class, 'list']);
+        Route::get('/jenis/create_ajax', [JenisController::class, 'create_ajax']);
+        Route::post('/jenis/ajax', [JenisController::class, 'store_ajax']);
+        Route::get('/jenis/import', [JenisController::class, 'import']);
+        Route::post('/jenis/import_ajax', [JenisController::class, 'import_ajax']);
+        Route::get('/jenis/export_excel', [JenisController::class, 'export_excel']);
+        Route::get('/jenis/export_pdf', [JenisController::class, 'export_pdf']);
+        Route::get('/jenis/{id}', [JenisController::class, 'show']);
+        Route::get('/jenis/{id}/edit_ajax', [JenisController::class, 'edit_ajax']);
+        Route::put('/jenis/{id}/update_ajax', [JenisController::class, 'update_ajax']);
+        Route::get('/jenis/{id}/delete_ajax', [JenisController::class, 'confirm_ajax']);
+        Route::delete('/jenis/{id}/delete_ajax', [JenisController::class, 'delete_ajax']);
+    });
+
+    Route::middleware(['authorize:ADM'])->group(function () {
+        Route::get('/daftar_tugas', [TugasController::class, 'index']);
+        Route::post('/daftar_tugas/list', [TugasController::class, 'list']);
+        Route::get('/daftar_tugas/create_ajax', [TugasController::class, 'create_ajax']);
+        Route::post('/daftar_tugas/ajax', [TugasController::class, 'store_ajax']);
+        Route::get('/daftar_tugas/import', [TugasController::class, 'import']);
+        Route::post('/daftar_tugas/import_ajax', [TugasController::class, 'import_ajax']);
+        Route::get('/daftar_tugas/export_excel', [TugasController::class, 'export_excel']);
+        Route::get('/daftar_tugas/export_pdf', [TugasController::class, 'export_pdf']);
+        Route::get('/daftar_tugas/{id}', [TugasController::class, 'show']);
+        Route::get('/daftar_tugas/{id}/edit_ajax', [TugasController::class, 'edit_ajax']);
+        Route::put('/daftar_tugas/{id}/update_ajax', [TugasController::class, 'update_ajax']);
+        Route::get('/daftar_tugas/{id}/delete_ajax', [TugasController::class, 'confirm_ajax']);
+        Route::delete('/daftar_tugas/{id}/delete_ajax', [TugasController::class, 'delete_ajax']);
     });
 
     Route::middleware(['authorize:ADM'])->group(function () {

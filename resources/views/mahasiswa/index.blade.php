@@ -25,7 +25,7 @@
             <table class="table table-bordered table-striped table-hover table-sm" id="table-mahasiswa">
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>No</th>
                         <th>NIM</th>
                         <th>Nama Mahasiswa</th>
                         <th>Jurusan</th>

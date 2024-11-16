@@ -91,21 +91,21 @@
             </td>
         </tr>
     </table>
-    <h3 class="text-center">LAPORAN DATA KOMPETENSI</h4>
+    <h3 class="text-center">LAPORAN DATA LEVEL</h4>
         <table class="border-all">
             <thead>
                 <tr>
                     <th class="text-center">No</th>
-                    <th>Nama Kompetensi</th>
-                    <th>Deskripsi Kompetensi</th>
+                    <th>Kode Level</th>
+                    <th>Nama Level</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($kompetensi as $b)
+                @foreach ($level as $b)
                     <tr>
                         <td class="text-center">{{ $loop->iteration }}</td>
-                        <td>{{ $b->kompetensi_nama }}</td>
-                        <td>{{ $b->kompetensi_deskripsi }}</td>
+                        <td>{{ $b->level_kode }}</td>
+                        <td>{{ $b->level_nama }}</td>
                     </tr>
                 @endforeach
             </tbody>

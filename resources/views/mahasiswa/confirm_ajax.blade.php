@@ -70,7 +70,7 @@
                                     title: 'Berhasil',
                                     text: response.message
                                 });
-                                tableUser.ajax.reload();
+                                tableMahasiswa.ajax.reload();
                             } else {
                                 $('.error-text').text('');
                                 $.each(response.msgField, function(prefix, val) {
