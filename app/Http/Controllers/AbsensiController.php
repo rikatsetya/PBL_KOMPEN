@@ -184,8 +184,8 @@ class AbsensiController extends Controller
     public function export_excel()
     {
         // ambil data supplier yang akan di export
-        $supplier = AbsensiModel::select('supplier_kode', 'supplier_nama', 'supplier_alamat')
-            ->orderBy('supplier_kode')
+        $supplier = AbsensiModel::select('absensi_id','mahasiswa_id', 'mahasiswa.mahasiswa_nama', 'sakit','izin','alpha','poin','status','periode')
+            ->orderBy('absensi_id')
             ->get();
         // load library excel
         $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
@@ -220,7 +220,7 @@ class AbsensiController extends Controller
         foreach (range('A', 'J') as $columnID) {
             $sheet->getColumnDimension($columnID)->setAutoSize(true); // set auto size untuk kolom
         }
-        $sheet->setTitle('Data supplier'); // set title sheet
+        $sheet->setTitle('Data Absensi'); // set title sheet
         $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
         $filename = 'Data supplier ' . date('Y-m-d H:i:s') . '.xlsx';
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
@@ -243,6 +243,6 @@ class AbsensiController extends Controller
         $pdf = Pdf::loadView('user.export_pdf', ['user' => $user]);
         $pdf->setPaper('a4', 'portrait'); // set ukuran kertas dan orientasi
         $pdf->setOption("isRemoteEnabled", true); // set true jika ada gambar dari url $pdf->render();
-        return $pdf->stream('Data supplier' . date('Y-m-d H:i:s') . '.pdf');
+        return $pdf->stream('Data absensi' . date('Y-m-d H:i:s') . '.pdf');
     }
 }
