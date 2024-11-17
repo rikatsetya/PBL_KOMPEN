@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\MahasiswaKompenController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +15,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/mhs', [MahasiswaKompenController::class, 'index']);
+Route::post('/mhs/list', [MahasiswaKompenController::class, 'list']);
+Route::get('/mhs/{id}', [MahasiswaKompenController::class, 'show']);
+Route::get('/mhs/create_ajax', [MahasiswaKompenController::class, 'create_ajax']);
+Route::post('/mhs/ajax', [MahasiswaKompenController::class, 'store_ajax']);
+Route::get('/mhs/{id}/edit_ajax', [MahasiswaKompenController::class, 'edit_ajax']);
+Route::put('/mhs/{id}/update_ajax', [MahasiswaKompenController::class, 'update_ajax']);
+Route::get('/mhs/{id}/delete_ajax', [MahasiswaKompenController::class, 'confirm_ajax']);
+Route::delete('/mhs/{id}/delete_ajax', [MahasiswaKompenController::class, 'delete_ajax']); 
