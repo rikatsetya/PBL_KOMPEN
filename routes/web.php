@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AbsensiController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\JenisController;
@@ -101,17 +102,11 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['authorize:ADM'])->group(function () {
         Route::get('/daftar_tugas', [TugasController::class, 'index']);
         Route::post('/daftar_tugas/list', [TugasController::class, 'list']);
-        Route::get('/daftar_tugas/create_ajax', [TugasController::class, 'create_ajax']);
-        Route::post('/daftar_tugas/ajax', [TugasController::class, 'store_ajax']);
-        Route::get('/daftar_tugas/import', [TugasController::class, 'import']);
-        Route::post('/daftar_tugas/import_ajax', [TugasController::class, 'import_ajax']);
-        Route::get('/daftar_tugas/export_excel', [TugasController::class, 'export_excel']);
-        Route::get('/daftar_tugas/export_pdf', [TugasController::class, 'export_pdf']);
+        // Route::get('/daftar_tugas/import', [TugasController::class, 'import']);
+        // Route::post('/daftar_tugas/import_ajax', [TugasController::class, 'import_ajax']);
+        // Route::get('/daftar_tugas/export_excel', [TugasController::class, 'export_excel']);
+        // Route::get('/daftar_tugas/export_pdf', [TugasController::class, 'export_pdf']);
         Route::get('/daftar_tugas/{id}', [TugasController::class, 'show']);
-        Route::get('/daftar_tugas/{id}/edit_ajax', [TugasController::class, 'edit_ajax']);
-        Route::put('/daftar_tugas/{id}/update_ajax', [TugasController::class, 'update_ajax']);
-        Route::get('/daftar_tugas/{id}/delete_ajax', [TugasController::class, 'confirm_ajax']);
-        Route::delete('/daftar_tugas/{id}/delete_ajax', [TugasController::class, 'delete_ajax']);
     });
 
     Route::middleware(['authorize:ADM'])->group(function () {
@@ -128,5 +123,15 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/mahasiswa/{id}/update_ajax', [MahasiswaController::class, 'update_ajax']);
         Route::get('/mahasiswa/{id}/delete_ajax', [MahasiswaController::class, 'confirm_ajax']);
         Route::delete('/mahasiswa/{id}/delete_ajax', [MahasiswaController::class, 'delete_ajax']);
+    });
+
+    Route::middleware(['authorize:ADM'])->group(function () {
+        Route::get('/daftar_alpha', [AbsensiController::class, 'index']);
+        Route::post('/daftar_alpha/list', [AbsensiController::class, 'list']);
+        Route::get('/daftar_alpha/import', [AbsensiController::class, 'import']);
+        Route::post('/daftar_alpha/import_ajax', [AbsensiController::class, 'import_ajax']);
+        Route::get('/daftar_alpha/export_excel', [AbsensiController::class, 'export_excel']);
+        Route::get('/daftar_alpha/export_pdf', [AbsensiController::class, 'export_pdf']);
+        Route::get('/daftar_alpha/{id}', [AbsensiController::class, 'show']);
     });
 });

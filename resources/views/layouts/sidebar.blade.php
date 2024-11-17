@@ -77,11 +77,11 @@
                     <p>Daftar Tugas</p>
                 </a>
             </li>
-            <li class="nav-header">Data Transaksi</li>
+            <li class="nav-header">Informasi Kompen</li>
             <li class="nav-item">
-                <a href="{{ url('/barang') }}" class="nav-link {{ $activeMenu == 'penjualan' ? 'active' : '' }} ">
+                <a href="{{ url('/daftar_alpha') }}" class="nav-link {{ $activeMenu == 'daftar_alpha' ? 'active' : '' }} ">
                     <i class="nav-icon fas fa-cash-register"></i>
-                    <p>Transaksi Penjualan</p>
+                    <p>Daftar Mahasiswa Alpha</p>
                 </a>
             </li>
             <li class="nav-item">
