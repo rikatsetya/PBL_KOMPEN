@@ -40,7 +40,7 @@ class AbsensiController extends Controller
         return DataTables::of($absensi)
             ->addIndexColumn() // menambahkan kolom index / no urut (default nama kolom: DT_RowIndex) 
             ->addColumn('aksi', function ($absensi) { // menambahkan kolom aksi 
-                $btn = '<a href="' . url('/daftar_alpha/' . $absensi->absensi_id) . '" class="btn btn-info btn-sm">Detail</a> ';
+                $btn  = '<button onclick="modalAction(\'' . url('/daftar_alpha/' . $absensi->absensi_id) . '\')" class="btn btn-info btn-sm" title="Detail tugas">Detail</button>';
                 return $btn;
             })
             ->rawColumns(['aksi']) // memberitahu bahwa kolom aksi adalah html 
@@ -68,7 +68,8 @@ class AbsensiController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $absensi = AbsensiModel::find($id);
+        return view('daftar_alpha.show_ajax', [ 'absensi' => $absensi]);
     }
 
     /**
