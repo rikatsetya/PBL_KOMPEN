@@ -29,7 +29,7 @@ class AbsensiController extends Controller
         $activeMenu = 'user'; // set menu yang sedang aktif
 
         // $supplier = SupplierModel::all(); // ambil data supplier untuk filter supplier
-        return view('user.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);    
+        return view('user.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
 
         // $data = MahasiswaModel::select(
         //     'm_mahasiswa.mahasiswa_id', 
@@ -51,7 +51,7 @@ class AbsensiController extends Controller
         // )
         // ->leftJoin('t_absensi_mhs', 'm_mahasiswa.mahasiswa_id', '=', 't_absensi_mhs.mahasiswa_id')
         // ->get();
-    
+
         // return response()->json($data);
 
     }
@@ -94,9 +94,25 @@ class AbsensiController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show_ajax(Request $request, $id)
     {
-        //
+        $absensi = AbsensiModel::find($id);
+
+        if (!$absensi) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Data not found.',
+            ], 404);
+        }
+    
+        if ($request->ajax()) {
+            return response()->json([
+                'status' => true,
+                'data' => view('user.show_ajax', compact('absensi'))->render(),
+            ]);
+        }
+    
+        return redirect()->back()->with('error', 'Invalid request.');
     }
 
     /**
@@ -184,7 +200,7 @@ class AbsensiController extends Controller
     public function export_excel()
     {
         // ambil data supplier yang akan di export
-        $supplier = AbsensiModel::select('absensi_id','mahasiswa_id', 'mahasiswa.mahasiswa_nama', 'sakit','izin','alpha','poin','status','periode')
+        $supplier = AbsensiModel::select('absensi_id', 'mahasiswa_id', 'mahasiswa.mahasiswa_nama', 'sakit', 'izin', 'alpha', 'poin', 'status', 'periode')
             ->orderBy('absensi_id')
             ->get();
         // load library excel
@@ -236,7 +252,7 @@ class AbsensiController extends Controller
     } // end function export_excel
     public function export_pdf()
     {
-        $user = AbsensiModel::select('absensi_id', 'mahasiswa_id','mahasiswa.mahasiswa_nama','sakit','izin','alpha','poin','status','periode')
+        $user = AbsensiModel::select('absensi_id', 'mahasiswa_id', 'mahasiswa.mahasiswa_nama', 'sakit', 'izin', 'alpha', 'poin', 'status', 'periode')
             ->orderBy('absensi_id')
             ->get();
         // use Barryvdh\DomPDF\Facade\Pdf;
