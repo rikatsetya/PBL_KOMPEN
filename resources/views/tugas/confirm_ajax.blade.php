@@ -1,30 +1,32 @@
-@empty($mahasiswa)
+@empty($tugas)
     <div id="modal-master" class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Kesalahan</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
                 <div class="alert alert-danger">
                     <h5><i class="icon fas fa-ban"></i> Kesalahan!!!</h5>
                     Data yang anda cari tidak ditemukan
                 </div>
-                <a href="{{ url('/mahasiswa') }}" class="btn btn-warning">Kembali</a>
+                <a href="{{ url('/tugas') }}" class="btn btn-warning">Kembali</a>
             </div>
         </div>
     </div>
 @else
-    <form action="{{ url('/mahasiswa/' . $mahasiswa->mahasiswa_id . '/delete_ajax') }}" method="POST" id="form-delete">
+    <form action="{{ url('/tugas/' . $tugas->tugas_id . '/delete_ajax') }}" method="POST" id="formdelete">
         @csrf
         @method('DELETE')
         <div id="modal-master" class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Hapus Data mahasiswa</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
+                    <h5 class="modal-title" id="exampleModalLabel">Hapus Data Tugas</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
                 <div class="modal-body">
                     <div class="alert alert-warning">
@@ -33,40 +35,32 @@
                     </div>
                     <table class="table table-sm table-bordered table-striped">
                         <tr>
-                            <th class="text-right col-3">Username :</th>
-                            <td class="col-9">{{ $mahasiswa->username }}</td>
+                            <th class="text-right col-3">Jenis Tugas :</th>
+                            <td class="col-9">{{ $tugas->jenis->jenis_nama }}</td>
                         </tr>
                         <tr>
-                            <th class="text-right col-3">Nama Mahasiswa :</th>
-                            <td class="col-9">{{ $mahasiswa->mahasiswa_nama }}</td>
+                            <th class="text-right col-3">Pembuat Tugas :</th>
+                            <td class="col-9">{{ $tugas->user->username }}</td>
                         </tr>
                         <tr>
-                            <th class="text-right col-3">NIM :</th>
-                            <td class="col-9">{{ $mahasiswa->nim }}</td>
+                            <th class="text-right col-3">Tugas Nama :</th>
+                            <td class="col-9">{{ $tugas->tugas_nama }}</td>
                         </tr>
                         <tr>
-                            <th class="text-right col-3">No_telp :</th>
-                            <td class="col-9">{{ $mahasiswa->no_telp }}</td>
+                            <th class="text-right col-3">Deskripsi :</th>
+                            <td class="col-9">{{ $tugas->deskripsi }}</td>
                         </tr>
                         <tr>
-                            <th class="text-right col-3">Jurusan :</th>
-                            <td class="col-9">{{ $mahasiswa->jurusan }}</td>
+                            <th class="text-right col-3">Bobot Tugas :</th>
+                            <td class="col-9">{{ $tugas->tugas_bobot }}</td>
                         </tr>
                         <tr>
-                            <th class="text-right col-3">Prodi :</th>
-                            <td class="col-9">{{ $mahasiswa->prodi }}</td>
+                            <th class="text-right col-3">Tenggat Tugas :</th>
+                            <td class="col-9">{{ $tugas->tugas_tenggat }}</td>
                         </tr>
                         <tr>
-                            <th class="text-right col-3">Kelas :</th>
-                            <td class="col-9">{{ $mahasiswa->mahasiswa_nama }}</td>
-                        </tr>
-                        <tr>
-                            <th class="text-right col-3">Password :</th>
-                            <td class="col-9">***********</td>
-                        </tr>
-                        <tr>
-                            <th class="text-right col-3">foto</th>
-                            <td class="col-9"><img src=" {{ asset($mahasiswa->foto) }} " height="100" alt="Foto Kosong"></td>
+                            <th class="text-right col-3">Periode :</th>
+                            <td class="col-9">{{ $tugas->periode }}</td>
                         </tr>
                     </table>
                 </div>
@@ -79,7 +73,7 @@
     </form>
     <script>
         $(document).ready(function() {
-            $("#form-delete").validate({
+            $("#formdelete").validate({
                 rules: {},
                 submitHandler: function(form) {
                     $.ajax({
@@ -94,7 +88,7 @@
                                     title: 'Berhasil',
                                     text: response.message
                                 });
-                                tableMahasiswa.ajax.reload();
+                                tableTugas.ajax.reload();
                             } else {
                                 $('.error-text').text('');
                                 $.each(response.msgField, function(prefix, val) {

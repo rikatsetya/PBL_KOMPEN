@@ -85,6 +85,12 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a href="{{ url('/tugas') }}" class="nav-link {{ $activeMenu == 'tugas' ? 'active' : '' }} ">
+                    <i class="nav-icon fas fa-cash-register"></i>
+                    <p>Manage Tugas</p>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a href="{{ url('logout') }}" class="nav-link"
                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     <i class="nav-icon fas fa-sign-out-alt"></i>

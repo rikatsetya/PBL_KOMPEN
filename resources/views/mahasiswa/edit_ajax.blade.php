@@ -1,4 +1,4 @@
-@empty($user)
+@empty($mahasiswa)
     <div id="modal-master" class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -10,45 +10,73 @@
                         <h5><i class="icon fas fa-ban"></i> Kesalahan!!!</h5>
                         Data yang anda cari tidak ditemukan
                     </div>
-                    <a href="{{ url('/user') }}" class="btn btn-warning">Kembali</a>
+                    <a href="{{ url('/mahasiswa') }}" class="btn btn-warning">Kembali</a>
                 </div>
             </div>
         </div>
     @else
-        <form action="{{ url('/user/' . $user->user_id . '/update_ajax') }}" method="POST" id="form-edit"
+        <form action="{{ url('/mahasiswa/' . $mahasiswa->mahasiswa_id . '/update_ajax') }}" method="POST" id="form-edit"
             enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div id="modal-master" class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Edit Data User</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Edit Data mahasiswa</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                 aria-hidden="true">&times;</span></button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label>Level Pengguna</label>
-                            <select name="level_id" id="level_id" class="form-control" required>
-                                <option value="">- Pilih Level -</option>
-                                @foreach ($level as $l)
-                                    <option {{ $l->level_id == $user->level_id ? 'selected' : '' }}
-                                        value="{{ $l->level_id }}">{{ $l->level_nama }}</option>
-                                @endforeach
-                            </select>
-                            <small id="error-level_id" class="error-text form-text text-danger"></small>
-                        </div>
-                        <div class="form-group">
                             <label>Username</label>
-                            <input value="{{ $user->username }}" type="text" name="username" id="username"
-                                class="form-control" required>
+                            <input placeholder="{{ $mahasiswa->username }}" type="text" name="username" id="username"
+                                class="form-control">
+                                <small class="form-text text-muted">Abaikan jika tidak ingin ubah
+                                    username</small>
                             <small id="error-username" class="error-text form-text text-danger"></small>
                         </div>
                         <div class="form-group">
-                            <label>Nama</label>
-                            <input value="{{ $user->nama }}" type="text" name="nama" id="nama"
-                                class="form-control" required>
+                            <label>Nama Mahasiswa</label>
+                            <input value="{{ $mahasiswa->mahasiswa_nama }}" type="text" name="mahasiswa_nama"
+                                id="mahasiswa_nama" class="form-control" required>
                             <small id="error-nama" class="error-text form-text text-danger"></small>
+                        </div>
+                        <div class="form-group">
+                            <label>NIM</label>
+                            <input placeholder="{{ $mahasiswa->nim }}" type="text" name="nim" id="nim"
+                                class="form-control">
+                                <small class="form-text text-muted">Abaikan jika tidak ingin ubah
+                                    NIM</small>
+                            <small id="error-nim" class="error-text form-text text-danger"></small>
+                        </div>
+                        <div class="form-group">
+                            <label>No Telp</label>
+                            <input value="{{ $mahasiswa->no_telp }}" type="text" name="no_telp" id="no_telp"
+                                class="form-control" required>
+                            <small id="error-no_telp" class="error-text form-text text-danger"></small>
+                        </div>
+                        <div class="form-group">
+                            <label>Jurusan</label>
+                            <select name="jurusan" id="jurusan" class="form-control">
+                                <option value="" selected>--Select--</option>
+                                <option value="Teknologi Informasi">Teknologi Informasi</option>
+                            </select>
+                            <small id="error-jurusan" class="error-text form-text text-danger"></small>
+                        </div>
+                        <div class="form-group">
+                            <label>Prodi</label>
+                            <select name="prodi" id="prodi" class="form-control">
+                                <option value="" selected>--Select--</option>
+                                <option value="Teknik Informatika">Teknik Informatika</option>
+                                <option value="Sistem Informasi Bisnis">Sistem Informasi Bisnis</option>
+                            </select>
+                            <small id="error-prodi" class="error-text form-text text-danger"></small>
+                        </div>
+                        <div class="form-group">
+                            <label>Kelas</label>
+                            <input value="{{ $mahasiswa->kelas }}" type="text" name="kelas" id="kelas"
+                                class="form-control" placeholder="contoh: 3B, 1A" required>
+                            <small id="error-kelas" class="error-text form-text text-danger"></small>
                         </div>
                         <div class="form-group">
                             <label>Password</label>
@@ -77,25 +105,45 @@
             $(document).ready(function() {
                 $("#form-edit").validate({
                     rules: {
-                        level_id: {
-                            required: true,
-                            number: true
-                        },
                         username: {
-                            required: true,
+                            required: false,
                             minlength: 3,
                             maxlength: 20
                         },
-                        nama: {
+                        nama_mahasiswa: {
                             required: true,
                             minlength: 3,
                             maxlength: 100
                         },
+                        nim: {
+                            required: false,
+                            minlength: 3,
+                            maxlength: 20
+                        },
+                        no_telp: {
+                            required: true,
+                            minlength: 3,
+                            maxlength: 20,
+                            number: true
+                        },
+                        jurusan: {
+                            required: true,
+                        },
+                        prodi: {
+                            required: true,
+                        },
+                        kelas: {
+                            required: true,
+                            minlength: 1,
+                            maxlength: 3
+                        },
                         password: {
+                            required: false,
                             minlength: 6,
                             maxlength: 20
                         },
                         foto: {
+                            required: false,
                             accept: "png,jpg,jpeg"
                         },
                     },

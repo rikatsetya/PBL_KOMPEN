@@ -32,7 +32,7 @@ Route::get('register', [AuthController::class, 'register']);
 Route::post('register', [AuthController::class, 'store']);
 
 Route::middleware(['auth'])->group(function () {
-    
+
     Route::get('/', [WelcomeController::class, 'index']);
 
     Route::middleware(['authorize:ADM'])->group(function () {
@@ -100,12 +100,8 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::middleware(['authorize:ADM'])->group(function () {
-        Route::get('/daftar_tugas', [TugasController::class, 'index']);
-        Route::post('/daftar_tugas/list', [TugasController::class, 'list']);
-        // Route::get('/daftar_tugas/import', [TugasController::class, 'import']);
-        // Route::post('/daftar_tugas/import_ajax', [TugasController::class, 'import_ajax']);
-        // Route::get('/daftar_tugas/export_excel', [TugasController::class, 'export_excel']);
-        // Route::get('/daftar_tugas/export_pdf', [TugasController::class, 'export_pdf']);
+        Route::get('/daftar_tugas', [TugasController::class, 'indexTugas']);
+        Route::post('/daftar_tugas/list', [TugasController::class, 'listTugas']);
         Route::get('/daftar_tugas/{id}', [TugasController::class, 'show']);
     });
 
@@ -123,6 +119,22 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/mahasiswa/{id}/update_ajax', [MahasiswaController::class, 'update_ajax']);
         Route::get('/mahasiswa/{id}/delete_ajax', [MahasiswaController::class, 'confirm_ajax']);
         Route::delete('/mahasiswa/{id}/delete_ajax', [MahasiswaController::class, 'delete_ajax']);
+    });
+
+    Route::middleware(['authorize:ADM'])->group(function () {
+        Route::get('/tugas', [TugasController::class, 'index']);
+        Route::post('/tugas/list', [TugasController::class, 'list']);
+        Route::get('/tugas/create_ajax', [TugasController::class, 'create_ajax']);
+        Route::post('/tugas/ajax', [TugasController::class, 'store_ajax']);
+        Route::get('/tugas/import', [TugasController::class, 'import']); //ajax form upload excel
+        Route::post('/tugas/import_ajax', [TugasController::class, 'import_ajax']); //ajax import excel
+        Route::get('/tugas/export_excel', [TugasController::class, 'export_excel']); // export excel
+        Route::get('/tugas/export_pdf', [TugasController::class, 'export_pdf']);
+        Route::get('/tugas/{id}/show_ajax', [TugasController::class, 'show_ajax']);
+        Route::get('/tugas/{id}/edit_ajax', [TugasController::class, 'edit_ajax']);
+        Route::put('/tugas/{id}/update_ajax', [TugasController::class, 'update_ajax']);
+        Route::get('/tugas/{id}/delete_ajax', [TugasController::class, 'confirm_ajax']);
+        Route::delete('/tugas/{id}/delete_ajax', [TugasController::class, 'delete_ajax']);
     });
 
     Route::middleware(['authorize:ADM'])->group(function () {

@@ -26,7 +26,8 @@ class AuthController extends Controller
 
             if (Auth::attempt($credentials)) {
                 session([
-                    'user_id' => Auth::user()->user_id
+                    'user_id' => Auth::user()->user_id,
+                    'level_id' => Auth::user()->level_id
                 ]);
                 return response()->json([
                     'status' => true,
