@@ -7,6 +7,7 @@ use App\Http\Controllers\JenisController;
 use App\Http\Controllers\KompetensiController;
 use App\Http\Controllers\LevelController;
 use App\Http\Controllers\MahasiswaController;
+use App\Http\Controllers\MahasiswaKompenController;
 use App\Http\Controllers\TugasController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WelcomeController;
@@ -35,7 +36,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/', [WelcomeController::class, 'index']);
 
-    Route::middleware(['authorize:ADM'])->group(function () {
+    Route::middleware(['authorize:ADM,MHS'])->group(function () {
         Route::get('/level', [LevelController::class, 'index']);
         Route::post('/level/list', [LevelController::class, 'list']);
         Route::get('/level/create_ajax', [LevelController::class, 'create_ajax']);
@@ -51,7 +52,7 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/level/{id}/delete_ajax', [LevelController::class, 'delete_ajax']);
     });
 
-    Route::middleware(['authorize:ADM'])->group(function () {
+    Route::middleware(['authorize:ADM,MHS'])->group(function () {
         Route::get('/user', [UserController::class, 'index']);
         Route::post('/user/list', [UserController::class, 'list']);
         Route::get('/user/create_ajax', [UserController::class, 'create_ajax']);
@@ -145,5 +146,17 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/daftar_alpha/export_excel', [AbsensiController::class, 'export_excel']);
         Route::get('/daftar_alpha/export_pdf', [AbsensiController::class, 'export_pdf']);
         Route::get('/daftar_alpha/{id}', [AbsensiController::class, 'show']);
+    });
+
+    Route::middleware(['authorize:ADM'])->group(function () {
+        Route::get('/mhs', [MahasiswaKompenController::class, 'index']);
+        Route::post('/mhs/list', [MahasiswaKompenController::class, 'list']);
+        Route::get('/mhs/{id}', [MahasiswaKompenController::class, 'show']);
+        Route::get('/mhs/create_ajax', [MahasiswaKompenController::class, 'create_ajax']);
+        Route::post('/mhs/ajax', [MahasiswaKompenController::class, 'store_ajax']);
+        Route::get('/mhs/{id}/edit_ajax', [MahasiswaKompenController::class, 'edit_ajax']);
+        Route::put('/mhs/{id}/update_ajax', [MahasiswaKompenController::class, 'update_ajax']);
+        Route::get('/mhs/{id}/delete_ajax', [MahasiswaKompenController::class, 'confirm_ajax']);
+        Route::delete('/mhs/{id}/delete_ajax', [MahasiswaKompenController::class, 'delete_ajax']);
     });
 });

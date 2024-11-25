@@ -85,6 +85,12 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a href="{{ url('/mhs') }}" class="nav-link {{ $activeMenu == 'mhs' ? 'active' : '' }} ">
+                    <i class="nav-icon fas fa-cash-register"></i>
+                    <p>Daftar Mahasiswa Kompen</p>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a href="{{ url('/tugas') }}" class="nav-link {{ $activeMenu == 'tugas' ? 'active' : '' }} ">
                     <i class="nav-icon fas fa-cash-register"></i>
                     <p>Manage Tugas</p>

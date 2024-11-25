@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AdminModel;
 use App\Models\LevelModel;
 use App\Models\UserModel;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -34,7 +35,7 @@ class UserController extends Controller
     // Ambil data user dalam bentuk json untuk datatables
     public function list(Request $request)
     {
-        $user = UserModel::select('user_id', 'no_induk', 'username', 'nama', 'foto', 'level_id')
+        $user = UserModel::select('user_id', 'username', 'nama', 'level_id')
             ->with('level');
 
         if ($request->level_id) {
@@ -82,7 +83,30 @@ class UserController extends Controller
                 ]);
             }
             $request['foto']= "images/profile/default.jpg";
-            UserModel::create($request->all());
+            $userId= UserModel::insertGetId([
+                'level_id' => $request->level_id,
+                'username' => $request->username,
+                'nama' => $request->mahasiswa_nama,
+                'password' => bcrypt($request->password),
+            ]);
+            $request['user_id']= $userId;
+            switch ($request->level_id) {
+                case '1':
+                    AdminModel::create()
+                    break;
+                    
+                case '2':
+                    # code...
+                    break;
+                    
+                case '3':
+                    # code...
+                    break;
+                    
+                default:
+                    # code...
+                    break;
+            }
             return response()->json([
                 'status'    => true,
                 'message'   => 'Data user berhasil disimpan'

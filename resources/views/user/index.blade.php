@@ -45,7 +45,6 @@
                         <th>Username</th>
                         <th>Nama</th>
                         <th>Level Pengguna</th>
-                        <th>Nomer Induk</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -100,12 +99,6 @@
                     width: "14%",
                     orderable: true,
                     searchable: false
-                }, {
-                    data: "no_induk",
-                    className: "",
-                    width: "14%",
-                    orderable: false,
-                    searchable: true,
                 }, {
                     data: "aksi",
                     className: "text-center",

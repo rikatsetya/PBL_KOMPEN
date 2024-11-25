@@ -61,7 +61,7 @@ class AuthController extends Controller
                 'username'  => 'required|string|min:3|unique:m_mahasiswa,username',
                 'mahasiswa_nama'      => 'required|string|max:100',
                 'nim'      => 'required|integer|unique:m_mahasiswa,nim',
-                'no_telp'      => 'required|integer',
+                'no_telp'      => 'required|string',
                 'jurusan'      => 'required|string',
                 'prodi'      => 'required|string',
                 'kelas'      => 'required|string',
@@ -78,7 +78,16 @@ class AuthController extends Controller
                     'msgField'  => $validator->errors(), // pesan error validasi
                 ]);
             }
-            MahasiswaModel::create($request->all());
+            $userId= UserModel::insertGetId([
+                'level_id' => '5',
+                'username' => $request->username,
+                'nama' => $request->mahasiswa_nama,
+                'password' => bcrypt($request->password),
+            ]);
+            $request['user_id']= $userId;
+            if (!empty($request['user_id'])) {
+                MahasiswaModel::create($request->all());
+            }
             return response()->json([
                 'status'    => true,
                 'message'   => 'Data user berhasil disimpan',

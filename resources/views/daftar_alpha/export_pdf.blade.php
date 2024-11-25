@@ -77,7 +77,7 @@
 <body>
     <table class="border-bottom-header">
         <tr>
-            <td width="15%" class="text-center"><img src="{{ asset('image/logo_polinema.png') }}" style="height: 80px; width:80px"></td>
+            <td width="15%" class="text-center"><img src="{{ asset('images/logo_polinema.png') }}" style="height: 80px; width:80px"></td>
             <td width="85%">
                 <span class="text-center d-block font-11 font-bold mb-1">KEMENTERIAN
                     PENDIDIKAN, KEBUDAYAAN, RISET, DAN TEKNOLOGI</span>
