@@ -4,10 +4,8 @@
         <div class="card-header">
             <h3 class="card-title">Daftar Mahasiswa Kompen</h3>
             <div class="card-tools">
-                <button onclick="modalAction('{{ url('/mhs/import') }}')" class="btn btn-info">Import Daftar</button>
-                <a href="{{ url('/mhs/export_excel') }}" class="btn btn-primary"><i class="fa fa-file-excel"></i> Export Daftar</a>
-                <a href="{{ url('/mhs/export_pdf') }}" class="btn btn-warning"><i class="fa fa-file-pdf"></i> Export Daftar</a>
-                <button onclick="modalAction('{{ url('/mhs/create_ajax') }}')" class="btn btn-success">Tambah Data (Ajax)</button>
+                <a href="{{ url('/mhskmp/export_excel') }}" class="btn btn-primary"><i class="fa fa-file-excel"></i> Export Daftar</a>
+                <a href="{{ url('/mhskmp/export_pdf') }}" class="btn btn-warning"><i class="fa fa-file-pdf"></i> Export Daftar</a>
             </div>
         </div>
         <div class="card-body">
@@ -38,13 +36,14 @@
             @endif
 
             <!-- Tabel -->
-            <table class="table table-bordered table-sm" id="table-mhs">
+            <table class="table table-bordered table-sm" id="table-mahasiswa">
                 <thead>
                     <tr>
                         <th>No</th>
                         <th>Nama Mahasiswa</th>
                         <th>Poin</th>
                         <th>Status</th>
+                        <th>Periode</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -65,11 +64,11 @@
         }
 
         $(document).ready(function() {
-            var tablemhs = $('#table-mhs').DataTable({
+            var tablemahasiswa = $('#table-mahasiswa').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ url('mhs/list') }}",
+                    url: "{{ url('mhskmp/list') }}",
                     type: "POST",
                     data: function(d) {
                         d.filter_mahasiswa = $('.filter_mahasiswa').val();
@@ -80,12 +79,13 @@
                     { data: "mahasiswa.mahasiswa_nama", orderable: true },
                     { data: "poin", orderable: true },
                     { data: "status", orderable: true },
+                    { data: "periode", orderable: true },
                     { data: "aksi", className: "text-center", orderable: false }
                 ]
             });
 
             $('.filter_mahasiswa').change(function() {
-                tablemhs.draw();
+                tablemahasiswa.draw();
             });
         });
     </script>

@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\MahasiswaKompenController;
+use App\Http\Controllers\CetakSuratController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,12 +15,11 @@ use App\Http\Controllers\MahasiswaKompenController;
 |
 */
 
-Route::get('/mhs', [MahasiswaKompenController::class, 'index']);
-Route::post('/mhs/list', [MahasiswaKompenController::class, 'list']);
-Route::get('/mhs/{id}', [MahasiswaKompenController::class, 'show']);
-Route::get('/mhs/create_ajax', [MahasiswaKompenController::class, 'create_ajax']);
-Route::post('/mhs/ajax', [MahasiswaKompenController::class, 'store_ajax']);
-Route::get('/mhs/{id}/edit_ajax', [MahasiswaKompenController::class, 'edit_ajax']);
-Route::put('/mhs/{id}/update_ajax', [MahasiswaKompenController::class, 'update_ajax']);
-Route::get('/mhs/{id}/delete_ajax', [MahasiswaKompenController::class, 'confirm_ajax']);
-Route::delete('/mhs/{id}/delete_ajax', [MahasiswaKompenController::class, 'delete_ajax']); 
+Route::get('/mhskmp', [MahasiswaKompenController::class, 'index'])->name('mahasiswakmp.index');
+Route::post('/mhskmp/list', [MahasiswaKompenController::class, 'list']);
+Route::get('/mhskmp/{id}', [MahasiswaKompenController::class, 'show']);
+Route::get('/mhskmp/export_excel', [MahasiswaKompenController::class, 'export_excel']);
+Route::get('/mhskmp/export_pdf', [MahasiswaKompenController::class, 'export_pdf']);
+
+Route::get('/cetak', [CetakSuratController::class, 'index']);
+Route::post('/cetak/list', [CetakSuratController::class, 'list']);
