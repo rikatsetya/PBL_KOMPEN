@@ -6,16 +6,28 @@
             <div class="card-tools"></div>
         </div>
         <div class="card-body">
-            @if(is_null($mahasiswa))
-                <div class="alert alert-danger alert-dismissible">
-                    <h5><i class="icon fas fa-ban"></i> Kesalahan!</h5>
-                    Data yang Anda cari tidak ditemukan.
-                </div>
+            @empty($mahasiswa)
+            <div class="alert alert-danger alert-dismissible">
+                <h5><i class="icon fas fa-ban"></i> Kesalahan!</h5>
+                Data yang Anda cari tidak ditemukan.
+            </div>
             @else
                 <table class="table table-bordered table-striped table-hover table-sm">
                     <tr>
+                        <th>Absensi ID</th>
+                        <td>{{ $mahasiswa->absensi_id }}</td>
+                    </tr>
+                    <tr>
+                        <th>NIM</th>
+                        <td>{{ $mahasiswa->mahasiswa->nim }}</td>
+                    </tr>
+                    <tr>
                         <th>Nama Mahasiswa</th>
-                        <td>{{ $mahasiswa->mahasiswa->mahasiswa_nama ?? 'Tidak tersedia' }}</td>
+                        <td>{{ $mahasiswa->mahasiswa->mahasiswa_nama }}</td>
+                    </tr>
+                    <tr>
+                        <th>Periode Tahun</th>
+                        <td>{{ $mahasiswa->periode->periode_tahun }}</td>
                     </tr>
                     <tr>
                         <th>Alpha</th>
@@ -29,13 +41,9 @@
                         <th>Status</th>
                         <td>{{ $mahasiswa->status }}</td>
                     </tr>
-                    <tr>
-                        <th>Periode</th>
-                        <td>{{ $mahasiswa->periode }}</td>
-                    </tr>
                 </table>
             @endif
-            <a href="{{ url('mhskmp') }}" class="btn btn-sm btn-default mt-2">Kembali</a>
+            <a href="{{ url('mahasiswa') }}" class="btn btn-sm btn-default mt-2">Kembali</a>
         </div>
     </div>
 @endsection

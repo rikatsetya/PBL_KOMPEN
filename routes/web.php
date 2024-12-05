@@ -15,11 +15,13 @@ use App\Http\Controllers\CetakSuratController;
 |
 */
 
-Route::get('/mhskmp', [MahasiswaKompenController::class, 'index'])->name('mahasiswakmp.index');
-Route::post('/mhskmp/list', [MahasiswaKompenController::class, 'list']);
-Route::get('/mhskmp/{id}', [MahasiswaKompenController::class, 'show']);
-Route::get('/mhskmp/export_excel', [MahasiswaKompenController::class, 'export_excel']);
-Route::get('/mhskmp/export_pdf', [MahasiswaKompenController::class, 'export_pdf']);
+Route::get('/mahasiswa', [MahasiswaKompenController::class, 'index']);
+Route::post('/mahasiswa/list', [MahasiswaKompenController::class, 'list']);
+Route::get('/mahasiswa/{id}', [MahasiswaKompenController::class, 'show']);
+Route::get('/mahasiswa/export_excel', [MahasiswaKompenController::class, 'export_excel']);
+Route::get('/mahasiswa/export_pdf', [MahasiswaKompenController::class, 'export_pdf']);
 
 Route::get('/cetak', [CetakSuratController::class, 'index']);
 Route::post('/cetak/list', [CetakSuratController::class, 'list']);
+Route::get('/cetak/export_pdf/{id}', [CetakSuratController::class, 'exportPdf']);  // Perubahan di sini
+
