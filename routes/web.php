@@ -8,6 +8,7 @@ use App\Http\Controllers\KompetensiController;
 use App\Http\Controllers\LevelController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\MahasiswaKompenController;
+use App\Http\Controllers\PeriodeController;
 use App\Http\Controllers\TugasController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WelcomeController;
@@ -98,6 +99,22 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/jenis/{id}/update_ajax', [JenisController::class, 'update_ajax']);
         Route::get('/jenis/{id}/delete_ajax', [JenisController::class, 'confirm_ajax']);
         Route::delete('/jenis/{id}/delete_ajax', [JenisController::class, 'delete_ajax']);
+    });
+
+    Route::middleware(['authorize:ADM'])->group(function () {
+        Route::get('/periode', [PeriodeController::class, 'index']);
+        Route::post('/periode/list', [PeriodeController::class, 'list']);
+        Route::get('/periode/create_ajax', [PeriodeController::class, 'create_ajax']);
+        Route::post('/periode/ajax', [PeriodeController::class, 'store_ajax']);
+        Route::get('/periode/import', [PeriodeController::class, 'import']);
+        Route::post('/periode/import_ajax', [PeriodeController::class, 'import_ajax']);
+        Route::get('/periode/export_excel', [PeriodeController::class, 'export_excel']);
+        Route::get('/periode/export_pdf', [PeriodeController::class, 'export_pdf']);
+        Route::get('/periode/{id}', [PeriodeController::class, 'show']);
+        Route::get('/periode/{id}/edit_ajax', [PeriodeController::class, 'edit_ajax']);
+        Route::put('/periode/{id}/update_ajax', [PeriodeController::class, 'update_ajax']);
+        Route::get('/periode/{id}/delete_ajax', [PeriodeController::class, 'confirm_ajax']);
+        Route::delete('/periode/{id}/delete_ajax', [PeriodeController::class, 'delete_ajax']);
     });
 
     Route::middleware(['authorize:ADM'])->group(function () {

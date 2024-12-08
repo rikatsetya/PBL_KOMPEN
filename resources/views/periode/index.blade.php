@@ -2,7 +2,11 @@
 @section('content')
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Daftar level</h3>
+            <h3 class="card-title">Daftar Periode</h3>
+            <div class="card-tools">
+                <button onclick="modalAction('{{ url('/periode/create_ajax') }}')" class="btn btn-success">Tambah Data
+                    (Ajax)</button>
+            </div>
         </div>
         <div class="card-body">
             @if (session('success'))
@@ -11,12 +15,13 @@
             @if (session('error'))
                 <div class="alert alert-danger">{{ session('error') }}</div>
             @endif
-            <table class="table table-bordered table-sm table-striped table-hover" id="table_level">
+            <table class="table table-bordered table-sm table-striped table-hover" id="table_periode">
                 <thead>
                     <tr>
                         <th>No</th>
-                        <th>Kode level</th>
-                        <th>Nama level</th>
+                        <th>Tahun periode</th>
+                        <th>Semester</th>
+                        <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
@@ -33,13 +38,13 @@
                 $('#myModal').modal('show');
             });
         }
-        var tableLevel;
+        var tablePeriode;
         $(document).ready(function() {
-            tableLevel = $('#table_level').DataTable({
+            tablePeriode = $('#table_periode').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    "url": "{{ url('/level/list') }}",
+                    "url": "{{ url('/periode/list') }}",
                     "dataType": "json",
                     "type": "POST",
                     "data": function(d) {
@@ -53,26 +58,32 @@
                     orderable: false,
                     searchable: false
                 },{
-                    data: "level_kode",
-                    className: "",
-                    width: "10%",
-                    orderable: true,
-                    searchable: true
-                }, {
-                    data: "level_nama",
+                    data: "periode_tahun",
                     className: "",
                     width: "37%",
                     orderable: true,
                     searchable: true,
+                }, {
+                    data: "periode_semester",
+                    className: "",
+                    width: "37%",
+                    orderable: false,
+                    searchable: false,
+                }, {
+                    data: "aksi",
+                    className: "text-center",
+                    width: "14%",
+                    orderable: false,
+                    searchable: false
                 }]
             });
-            $('#table_level_filter input').unbind().bind().on('keyup', function(e) {
+            $('#table_periode_filter input').unbind().bind().on('keyup', function(e) {
                 if (e.keyCode == 13) { // enter key
-                    tableLevel.search(this.value).draw();
+                    tablePeriode.search(this.value).draw();
                 }
             });
             $('.filter_kategori').change(function() {
-                tableLevel.draw();
+                tablePeriode.draw();
             });
         });
     </script>

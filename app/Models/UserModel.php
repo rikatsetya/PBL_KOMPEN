@@ -28,6 +28,18 @@ class UserModel extends Authenticateable
     public function tugas(): HasMany{
         return $this->hasMany(TugasModel::class);
     }
+    public function admin(): HasMany{
+        return $this->hasMany(AdminModel::class, 'user_id', 'user_id');
+    }
+    public function tendik(): HasMany{
+        return $this->hasMany(TendikModel::class, 'user_id', 'user_id');
+    }
+    public function dosen(): HasMany{
+        return $this->hasMany(DosenModel::class, 'user_id', 'user_id');
+    }
+    public function mahasiswa(): HasMany{
+        return $this->hasMany(MahasiswaModel::class, 'user_id', 'user_id');
+    }
 
     public function getRoleName(): string
     {

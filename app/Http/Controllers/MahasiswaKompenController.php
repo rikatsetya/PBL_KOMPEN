@@ -36,7 +36,7 @@ class MahasiswaKompenController extends Controller
     $mahasiswa_id = $request->input('filter_mahasiswa');
 
     $mhs = AbsensiModel::with('mahasiswa') // Memuat relasi mahasiswa
-        ->select('mahasiswa_id', 'sakit', 'izin', 'alpha', 'poin', 'status', 'periode')
+        ->select('mahasiswa_id', 'alpha', 'poin', 'status', 'periode_id')
         ->when($mahasiswa_id, function ($query) use ($mahasiswa_id) {
             $query->where('mahasiswa_id', $mahasiswa_id);
         });

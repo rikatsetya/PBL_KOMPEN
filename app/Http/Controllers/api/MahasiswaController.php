@@ -35,10 +35,30 @@ class MahasiswaController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request)
     {
-        $mahasiswa = MahasiswaModel::all()->find($id);
-        return $mahasiswa;
+        
+        $id = $request->input('id');
+
+        $data = MahasiswaModel::select(
+            'm_mahasiswa.mahasiswa_id',
+            'nim',
+            'username',
+            'mahasiswa_nama',
+            'foto',
+            'no_telp',
+            'jurusan',
+            'prodi',
+            'kelas',
+            't_absensi_mhs.alpha',
+            't_absensi_mhs.poin',
+            't_absensi_mhs.status',
+        )
+            ->leftJoin('t_absensi_mhs', 'm_mahasiswa.mahasiswa_id', '=', 't_absensi_mhs.mahasiswa_id')
+            ->where('m_mahasiswa.mahasiswa_id', $id)
+            ->first();
+
+        return response()->json($data);
     }
 
     /**

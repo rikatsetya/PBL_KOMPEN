@@ -1,23 +1,23 @@
-<form action="{{ url('/kompetensi/import_ajax') }}" method="POST" id="form-import" enctype="multipart/form-data">
+<form action="{{ url('/daftar_alpha/import_ajax') }}" method="POST" id="form-import" enctype="multipart/form-data">
     @csrf
     <div id="modal-master" class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Import Data kompetensi</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Import Data supplier</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
                 <div class="form-group">
                     <label>Download Template</label>
-                    <a href="{{ asset('template_kompetensi.xlsx') }}" class="btn btn-info btn-sm" download><i
+                    <a href="{{ asset('template_absensi.xlsx') }}" class="btn btn-info btn-sm" download><i
                             class="fa fa-file-excel"></i>Download</a>
-                    <small id="error-kategori_id" class="error-text form-text text-danger"></small>
+                    <small id="error-absensi_id" class="error-text form-text text-danger"></small>
                 </div>
                 <div class="form-group">
                     <label>Pilih File</label>
-                    <input type="file" name="file_kompetensi" id="file_kompetensi" class="form-control" required>
-                    <small id="error-file_kompetensi" class="error-text form-text text-danger"></small>
+                    <input type="file" name="file_absensi" id="file_absensi" class="form-control" required>
+                    <small id="error-file_absensi" class="error-text form-text text-danger"></small>
                 </div>
             </div>
             <div class="modal-footer">
@@ -31,7 +31,7 @@
     $(document).ready(function() {
         $("#form-import").validate({
             rules: {
-                file_kompetensi: {
+                file_absensi: {
                     required: true,
                     extension: "xlsx"
                 },
@@ -52,7 +52,7 @@
                                 title: 'Berhasil',
                                 text: response.message
                             });
-                            tableKompetensi.ajax.reload(); // reload datatable
+                            dataabsensi.ajax.reload(); // reload datatable
                         } else { // jika error
                             $('.error-text').text('');
                             $.each(response.msgField, function(prefix, val) {

@@ -43,6 +43,7 @@
                     <tr>
                         <th>No</th>
                         <th>Nama Mahasiswa</th>
+                        <th>Alpha</th>
                         <th>Poin</th>
                         <th>Status</th>
                         <th>Aksi</th>
@@ -78,6 +79,7 @@
                 columns: [
                     { data: "DT_RowIndex", className: "text-center", orderable: false },
                     { data: "mahasiswa.mahasiswa_nama", orderable: true },
+                    { data: "alpha", orderable: true },
                     { data: "poin", orderable: true },
                     { data: "status", orderable: true },
                     { data: "aksi", className: "text-center", orderable: false }

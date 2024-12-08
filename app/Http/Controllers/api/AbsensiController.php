@@ -18,20 +18,19 @@ class AbsensiController extends Controller
             'nim',
             'username',
             'mahasiswa_nama',
-            'password',
             'foto',
             'no_telp',
             'jurusan',
             'prodi',
             'kelas',
-            't_absensi_mhs.sakit',
-            't_absensi_mhs.izin',
             't_absensi_mhs.alpha',
             't_absensi_mhs.poin',
             't_absensi_mhs.status',
-            't_absensi_mhs.periode'
+            't_periode.periode_tahun',
+            't_periode.periode_semester'
         )
             ->leftJoin('t_absensi_mhs', 'm_mahasiswa.mahasiswa_id', '=', 't_absensi_mhs.mahasiswa_id')
+            ->leftJoin('t_periode', 't_absensi_mhs.periode_id','=', 't_periode.periode_id')
             ->get();
 
         return response()->json($data);
@@ -66,18 +65,14 @@ class AbsensiController extends Controller
             'nim',
             'username',
             'mahasiswa_nama',
-            'password',
             'foto',
             'no_telp',
             'jurusan',
             'prodi',
             'kelas',
-            't_absensi_mhs.sakit',
-            't_absensi_mhs.izin',
             't_absensi_mhs.alpha',
             't_absensi_mhs.poin',
             't_absensi_mhs.status',
-            't_absensi_mhs.periode'
         )
             ->leftJoin('t_absensi_mhs', 'm_mahasiswa.mahasiswa_id', '=', 't_absensi_mhs.mahasiswa_id')
             ->where('m_mahasiswa.mahasiswa_id', $id)

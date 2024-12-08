@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AbsensiModel;
 use App\Models\MahasiswaModel;
+use App\Models\PeriodeModel;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -31,7 +32,7 @@ class AbsensiController extends Controller
 
     public function list(Request $request)
     {
-        $absensi = AbsensiModel::select('mahasiswa_id', 'absensi_id', 'sakit', 'izin', 'alpha', 'poin', 'status', 'periode')
+        $absensi = AbsensiModel::select('mahasiswa_id', 'absensi_id', 'alpha', 'poin', 'status', 'periode_id')
             ->with('mahasiswa');
         // Filter data absensi berdasarkan absensi_id
         // if ($request->absensi_id) {
@@ -101,59 +102,81 @@ class AbsensiController extends Controller
         return view('daftar_alpha.import');
     }
     public function import_ajax(Request $request)
-    {
-        if ($request->ajax() || $request->wantsJson()) {
-            $rules = [
-                // validasi file harus xls atau xlsx, max 1MB
-                'file_absensi' => ['required', 'mimes:xlsx', 'max:1024']
-            ];
-            $validator = Validator::make($request->all(), $rules);
-            if ($validator->fails()) {
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Validasi Gagal',
-                    'msgField' => $validator->errors()
-                ]);
-            }
-            $file = $request->file('file_absensi'); // ambil file dari request
-            $reader = IOFactory::createReader('Xlsx'); // load reader file excel
-            $reader->setReadDataOnly(true); // hanya membaca data
-            $spreadsheet = $reader->load($file->getRealPath()); // load file excel
-            $sheet = $spreadsheet->getActiveSheet(); // ambil sheet yang aktif
-            $data = $sheet->toArray(null, false, true, true); // ambil data excel
-            $insert = [];
-            if (count($data) > 1) { // jika data lebih dari 1 baris
-                foreach ($data as $baris => $value) {
-                    if ($baris > 1) { // baris ke 1 adalah header, maka lewati
-                        $insert[] = [
-                            'mahasiswa_id' => $value['A'],
-                            'sakit' => $value['B'],
-                            'izin' => $value['C'],
-                            'alpha' => $value['D'],
-                            'poin' => $value['E'],
-                            'status' => $value['F'],
-                            'periode' => $value['G'],
-                            'created_at' => now(),
-                        ];
+{
+    if ($request->ajax() || $request->wantsJson()) {
+        // Validasi file
+        $rules = [
+            'file_absensi' => ['required', 'mimes:xlsx', 'max:1024'], // Validasi file xlsx, max 1MB
+        ];
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Validasi Gagal',
+                'msgField' => $validator->errors(),
+            ]);
+        }
+
+        $file = $request->file('file_absensi'); // Ambil file dari request
+        $reader = IOFactory::createReader('Xlsx'); // Load reader file excel
+        $reader->setReadDataOnly(true); // Hanya membaca data
+        $spreadsheet = $reader->load($file->getRealPath()); // Load file excel
+        $sheet = $spreadsheet->getActiveSheet(); // Ambil sheet yang aktif
+        $data = $sheet->toArray(null, false, true, true); // Ambil data excel sebagai array
+
+        $insert = [];
+        if (count($data) > 1) { // Pastikan ada data lebih dari 1 baris
+            foreach ($data as $baris => $value) {
+                if ($baris > 1) { // Lewati baris pertama (header)
+
+                    // Cari mahasiswa_id berdasarkan NIM
+                    $mahasiswa = MahasiswaModel::where('nim', $value['A'])->first();
+                    if (!$mahasiswa) {
+                        continue; // Lewati jika NIM tidak ditemukan
                     }
+
+                    // Cari periode_id berdasarkan nama periode
+                    $periode = PeriodeModel::where('nama_periode', $value['E'])->first();
+                    if (!$periode) {
+                        continue; // Lewati jika periode tidak ditemukan
+                    }
+
+                    // Siapkan data untuk insert
+                    $insert[] = [
+                        'mahasiswa_id' => $mahasiswa->id,
+                        'alpha' => $value['B'],
+                        'poin' => $value['C'],
+                        'status' => $value['D'],
+                        'periode_id' => $periode->id,
+                        'created_at' => now(),
+                    ];
                 }
-                if (count($insert) > 0) {
-                    // insert data ke database, jika data sudah ada, maka diabaikan
-                    AbsensiModel::insertOrIgnore($insert);
-                }
+            }
+
+            if (count($insert) > 0) {
+                // Insert data ke database, jika data sudah ada, maka diabaikan
+                AbsensiModel::insertOrIgnore($insert);
+
                 return response()->json([
                     'status' => true,
-                    'message' => 'Data berhasil diimport'
+                    'message' => 'Data berhasil diimport',
                 ]);
             } else {
                 return response()->json([
                     'status' => false,
-                    'message' => 'Tidak ada data yang diimport'
+                    'message' => 'Tidak ada data yang valid untuk diimport',
                 ]);
             }
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => 'Tidak ada data yang diimport',
+            ]);
         }
-        return redirect('/');
     }
+    return redirect('/');
+}
     public function export_excel()
     {
         // ambil data absensi yang akan di export

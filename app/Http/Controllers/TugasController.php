@@ -47,7 +47,7 @@ class TugasController extends Controller
 
     public function list(Request $request)
     {
-        $tugas = TugasModel::select('tugas_id','jenis_id', 'm_user.user_id','m_user.level_id', 'tugas_nama', 'deskripsi', 'tugas_bobot', 'tugas_tenggat', 'periode')->join('m_user', 't_tugas.user_id', '=','m_user.user_id')->with('jenis')->with('user');
+        $tugas = TugasModel::select('tugas_id','jenis_id', 'm_user.user_id','m_user.level_id', 'tugas_nama', 'deskripsi', 'tugas_bobot', 'tugas_tenggat')->join('m_user', 't_tugas.user_id', '=','m_user.user_id')->with('jenis')->with('user');
 
         if ($request->level_id) {
             $tugas->where('level_id', $request->level_id);
@@ -66,7 +66,7 @@ class TugasController extends Controller
 
     public function listTugas(Request $request)
     {
-        $tugas = TugasModel::select('tugas_id','jenis_id', 'm_user.user_id','m_user.level_id', 'tugas_nama', 'deskripsi', 'tugas_bobot', 'tugas_tenggat', 'periode')->join('m_user', 't_tugas.user_id', '=','m_user.user_id')->with('jenis')->with('user');
+        $tugas = TugasModel::select('tugas_id','jenis_id', 'm_user.user_id','m_user.level_id', 'tugas_nama', 'deskripsi', 'tugas_bobot', 'tugas_tenggat')->join('m_user', 't_tugas.user_id', '=','m_user.user_id')->with('jenis')->with('user');
 
         if ($request->level_id) {
             $tugas->where('level_id', $request->level_id);

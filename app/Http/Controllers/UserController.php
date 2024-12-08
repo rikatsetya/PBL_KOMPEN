@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\AdminModel;
+use App\Models\DosenModel;
 use App\Models\LevelModel;
+use App\Models\TendikModel;
 use App\Models\UserModel;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
@@ -36,7 +38,8 @@ class UserController extends Controller
     public function list(Request $request)
     {
         $user = UserModel::select('user_id', 'username', 'nama', 'level_id')
-            ->with('level');
+            ->with('level')
+            ->where('level_id', '!=', 5);
 
         if ($request->level_id) {
             $user->where('level_id', $request->level_id);
@@ -82,29 +85,46 @@ class UserController extends Controller
                     'msgField'  => $validator->errors(), // pesan error validasi
                 ]);
             }
-            $request['foto']= "images/profile/default.jpg";
-            $userId= UserModel::insertGetId([
+            $request['foto'] = "images/profile/default.jpg";
+            $userId = UserModel::insertGetId([
                 'level_id' => $request->level_id,
                 'username' => $request->username,
-                'nama' => $request->mahasiswa_nama,
+                'nama' => $request->nama,
                 'password' => bcrypt($request->password),
             ]);
-            $request['user_id']= $userId;
+            $request['user_id'] = $userId;
             switch ($request->level_id) {
                 case '1':
-                    AdminModel::create()
+                    AdminModel::create([
+                        'user_id' => $request->user_id,
+                        'no_induk' => $request->no_induk,
+                        'username' => $request->username,
+                        'admin_nama' => $request->nama,
+                        'foto' => $request->foto,
+                        'password' => bcrypt($request->password),
+                    ]);
                     break;
-                    
+
                 case '2':
-                    # code...
+                    DosenModel::create([
+                        'user_id' => $request->user_id,
+                        'nip' => $request->no_induk,
+                        'username' => $request->username,
+                        'dosen_nama' => $request->nama,
+                        'foto' => $request->foto,
+                        'password' => bcrypt($request->password),
+                    ]);
                     break;
-                    
+
                 case '3':
-                    # code...
-                    break;
-                    
-                default:
-                    # code...
+                    TendikModel::create([
+                        'user_id' => $request->user_id,
+                        'no_induk' => $request->no_induk,
+                        'username' => $request->username,
+                        'tendik_nama' => $request->nama,
+                        'foto' => $request->foto,
+                        'password' => bcrypt($request->password),
+                    ]);
                     break;
             }
             return response()->json([
@@ -118,11 +138,38 @@ class UserController extends Controller
     // Menampilkan detail user
     public function show(string $id)
     {
-        $user = UserModel::with('level')->find($id);
-        $breadcrumb = (object) ['title' => 'Detail User', 'list' => ['Home', 'User', 'Detail']];
-        $page = (object) ['title' => 'Detail user'];
-        $activeMenu = 'user'; // set menu yang sedang aktif
-        return view('user.show', ['breadcrumb' => $breadcrumb, 'page' => $page, 'user' => $user, 'activeMenu' => $activeMenu]);
+        $users = UserModel::with('level')->find($id);
+        switch ($users->level_id) {
+            case '1':
+                $user = AdminModel::select('m_level.level_nama', 'm_level.level_id', 'm_user.level_id', 'm_admin.username', 'm_admin.admin_nama', 'm_admin.foto', 'm_admin.no_induk', 'm_admin.password')
+                ->join('m_user', 'm_admin.user_id', '=', 'm_user.user_id')
+                ->join('m_level', 'm_user.level_id', '=', 'm_level.level_id')
+                ->where('m_user.user_id', $id)
+                ->first();
+                return view('user.show', ['user' => $user]);
+                break;
+            case '2':
+                $user = DosenModel::select('m_level.level_nama', 'm_level.level_id', 'm_user.level_id', 'm_dosen.username', 'm_dosen.dosen_nama', 'm_dosen.foto', 'm_dosen.nip', 'm_dosen.password')
+                ->join('m_user', 'm_dosen.user_id', '=', 'm_user.user_id')
+                ->join('m_level', 'm_user.level_id', '=', 'm_level.level_id')
+                ->where('m_user.user_id', $id)
+                ->first();
+                return view('user.show', ['user' => $user]);
+                break;
+            case '3':
+                $user = TendikModel::select('m_level.level_nama', 'm_level.level_id', 'm_user.level_id', 'm_tendik.username', 'm_tendik.tendik_nama', 'm_tendik.foto', 'm_tendik.no_induk', 'm_tendik.password')
+                ->join('m_user', 'm_tendik.user_id', '=', 'm_user.user_id')
+                ->join('m_level', 'm_user.level_id', '=', 'm_level.level_id')
+                ->where('m_user.user_id', $id)
+                ->first();
+                return view('user.show', ['user' => $user]);
+                break;
+            
+            default:
+                # code...
+                break;
+        }
+        
     }
 
     // Menampilkan halaman form edit user ajax
@@ -172,7 +219,7 @@ class UserController extends Controller
                         $path = 'image/profile/';
                         $file->move($path, $filename);
                         $pathname = $filename;
-                        $request['foto']= $pathname;
+                        $request['foto'] = $pathname;
                     }
                 } else {
                     if ($request->has('foto')) {
@@ -184,7 +231,7 @@ class UserController extends Controller
                         $path = 'image/profile/';
                         $file->move($path, $filename);
                         $pathname = $path . $filename;
-                        $request['foto']= $pathname;
+                        $request['foto'] = $pathname;
                     }
                 }
                 $check->update($request->all());

@@ -26,34 +26,92 @@
                 </div>
                 <div class="modal-body">
                     <table class="table table-sm table-bordered table-striped">
-                        <tr>
-                            <th class="text-right col-3">ID</th>
-                            <td class="col-9">{{ $user->user_id }}</td>
-                        </tr>
-                        <tr>
-                            <th class="text-right col-3">Level</th>
-                            <td class="col-9">{{ $user->level->level_nama }}</td>
-                        </tr>
-                        <tr>
-                            <th class="text-right col-3">Username</th>
-                            <td class="col-9">{{ $user->username }}</td>
-                        </tr>
-                        <tr>
-                            <th class="text-right col-3">Nama</th>
-                            <td class="col-9">{{ $user->nama }}</td>
-                        </tr>
-                        <tr>
-                            <th class="text-right col-3">Nomer Induk</th>
-                            <td class="col-9">{{ $user->no_induk }}</td>
-                        </tr>
-                        <tr>
-                            <th class="text-right col-3">Password</th>
-                            <td class="col-9">********</td>
-                        </tr>
-                        <tr>
-                            <th class="text-right col-3">foto</th>
-                            <td class="col-9"><img src=" {{ asset($user->foto) }} " height="100" alt="Foto Kosong"></td>
-                        </tr>
+                        @switch($user->level_id)
+                            @case('1')
+                            <tr>
+                                <th class="text-right col-3">Level</th>
+                                <td class="col-9">{{ $user->level_nama }}</td>
+                            </tr>
+                            <tr>
+                                <th class="text-right col-3">Username</th>
+                                <td class="col-9">{{ $user->username }}</td>
+                            </tr>
+                            <tr>
+                                <th class="text-right col-3">Nama</th>
+                                <td class="col-9">{{ $user->admin_nama }}</td>
+                            </tr>
+                            <tr>
+                                <th class="text-right col-3">Nomer Induk</th>
+                                <td class="col-9">{{ $user->no_induk }}</td>
+                            </tr>
+                            <tr>
+                                <th class="text-right col-3">Password</th>
+                                <td class="col-9">********</td>
+                            </tr>
+                            <tr>
+                                <th class="text-right col-3">foto</th>
+                                <td class="col-9"><img src=" {{ asset($user->foto) }} " height="100" alt="Foto Kosong">
+                                </td>
+                            </tr>
+                                @break
+                            @case('2')
+                            <tr>
+                                <th class="text-right col-3">Level</th>
+                                <td class="col-9">{{ $user->level_nama }}</td>
+                            </tr>
+                            <tr>
+                                <th class="text-right col-3">Username</th>
+                                <td class="col-9">{{ $user->username }}</td>
+                            </tr>
+                            <tr>
+                                <th class="text-right col-3">Nama</th>
+                                <td class="col-9">{{ $user->dosen_nama }}</td>
+                            </tr>
+                            <tr>
+                                <th class="text-right col-3">NIP</th>
+                                <td class="col-9">{{ $user->nip }}</td>
+                            </tr>
+                            <tr>
+                                <th class="text-right col-3">Password</th>
+                                <td class="col-9">********</td>
+                            </tr>
+                            <tr>
+                                <th class="text-right col-3">foto</th>
+                                <td class="col-9"><img src=" {{ asset($user->foto) }} " height="100" alt="Foto Kosong">
+                                </td>
+                            </tr>
+                                @break
+                            @case('3')
+                            <tr>
+                                <th class="text-right col-3">Level</th>
+                                <td class="col-9">{{ $user->level_nama }}</td>
+                            </tr>
+                            <tr>
+                                <th class="text-right col-3">Username</th>
+                                <td class="col-9">{{ $user->username }}</td>
+                            </tr>
+                            <tr>
+                                <th class="text-right col-3">Nama</th>
+                                <td class="col-9">{{ $user->tendik_nama }}</td>
+                            </tr>
+                            <tr>
+                                <th class="text-right col-3">Nomer Induk</th>
+                                <td class="col-9">{{ $user->no_induk }}</td>
+                            </tr>
+                            <tr>
+                                <th class="text-right col-3">Password</th>
+                                <td class="col-9">********</td>
+                            </tr>
+                            <tr>
+                                <th class="text-right col-3">foto</th>
+                                <td class="col-9"><img src=" {{ asset($user->foto) }} " height="100" alt="Foto Kosong">
+                                </td>
+                            </tr>
+                                @break
+                        
+                            @default
+                                
+                        @endswitch
                     </table>
                 </div>
                 <div class="modal-footer">

@@ -6,6 +6,7 @@
         <div class="card-header">
             <h3 class="card-title">{{ $page->title }}</h3>
             <div class="card-tools">
+                <button onclick="modalAction('{{ url('/daftar_alpha/import') }}')" class="btn btn-info btn-sm">Import Absensi</button>
                 <a href="{{ url('/daftar_alpha/export_excel') }}" class="btn btn-primary btn-sm"><i class="fa fa-file-excel"></i> Export Absensi</a>
                 <a href="{{ url('/daftar_alpha/export_pdf') }}" class="btn btn-warning btn-sm"><i class="fa fa-file-pdf"></i> Export Absensi</a>
             </div>
@@ -23,8 +24,6 @@
                         <th>No</th>
                         <th>NIM</th>
                         <th>Nama Mahasiswa</th>
-                        <th>Sakit</th>
-                        <th>Izin</th>
                         <th>Alpha</th>
                         <th>Periode</th>
                         <th>Aksi</th>
@@ -75,25 +74,13 @@
                     orderable: true,
                     searchable: true
                 }, {
-                    data: "sakit",
-                    className: "",
-                    width: "5%",
-                    orderable: false,
-                    searchable: false
-                }, {
-                    data: "izin",
-                    className: "",
-                    width: "5%",
-                    orderable: false,
-                    searchable: false
-                }, {
                     data: "alpha",
                     className: "",
                     width: "5%",
                     orderable: false,
                     searchable: false
                 }, {
-                    data: "periode",
+                    data: "periode.periode_tahun",
                     className: "",
                     width: "10%",
                     orderable: false,
