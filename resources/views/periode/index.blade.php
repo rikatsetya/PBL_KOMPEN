@@ -47,9 +47,6 @@
                     "url": "{{ url('/periode/list') }}",
                     "dataType": "json",
                     "type": "POST",
-                    "data": function(d) {
-                        d.filter_kategori = $('.filter_kategori').val();
-                    }
                 },
                 columns: [{
                     data: "DT_RowIndex",
@@ -81,9 +78,6 @@
                 if (e.keyCode == 13) { // enter key
                     tablePeriode.search(this.value).draw();
                 }
-            });
-            $('.filter_kategori').change(function() {
-                tablePeriode.draw();
             });
         });
     </script>

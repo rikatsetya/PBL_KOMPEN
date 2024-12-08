@@ -10,6 +10,7 @@
                 <div class="form-group">
                     <label>Tahun Periode</label>
                     <input value="" type="text" name="periode_tahun" id="periode_tahun" class="form-control" required>
+                    <small>Contoh : 20XX/20XX</small>
                     <small id="error-periode_tahun" class="error-text form-text text-danger"></small>
                 </div>
                 <div class="form-group">
@@ -36,8 +37,8 @@
             rules: {
                 periode_tahun: {
                     required: true,
-                    minlength: 3,
-                    maxlength: 20,
+                    minlength: 9,
+                    maxlength: 9,
                 },
                 periode_semester: {
                     required: true,

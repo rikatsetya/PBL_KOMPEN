@@ -13,7 +13,7 @@ class PeriodeModel extends Model
     protected $table = 't_periode';
     protected $primaryKey = 'periode_id';
 
-    protected $fillable = ['periode_tahun','created_at', 'updated_at'];
+    protected $fillable = ['periode_tahun','periode_semester','created_at', 'updated_at'];
 
     public function tugas():HasMany
     {

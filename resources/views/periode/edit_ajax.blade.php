@@ -1,4 +1,4 @@
-@empty($jenis)
+@empty($periode)
     <div id="modal-master" class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -10,27 +10,37 @@
                         <h5><i class="icon fas fa-ban"></i> Kesalahan!!!</h5>
                         Data yang anda cari tidak ditemukan
                     </div>
-                    <a href="{{ url('/jenis') }}" class="btn btn-warning">Kembali</a>
+                    <a href="{{ url('/periode') }}" class="btn btn-warning">Kembali</a>
                 </div>
             </div>
         </div>
     @else
-        <form action="{{ url('/jenis/' . $jenis->jenis_id . '/update_ajax') }}" method="POST" id="form-edit">
+        <form action="{{ url('/periode/' . $periode->periode_id . '/update_ajax') }}" method="POST" id="form-edit">
             @csrf
             @method('PUT')
             <div id="modal-master" class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Edit Data jenis</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Edit Data Periode</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                 aria-hidden="true">&times;</span></button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label>Nama jenis</label>
-                            <input value="{{ $jenis->jenis_nama }}" type="text" name="jenis_nama" id="jenis_nama"
-                                class="form-control" required>
-                            <small id="error-jenis_nama" class="error-text form-text text-danger"></small>
+                            <label>Nama Periode</label>
+                            <input placeholder="{{ $periode->periode_tahun }}" type="text" name="periode_tahun"
+                                id="periode_tahun" class="form-control">
+                            <small>Kosongi jika tidak ingin merubah tahun</small>
+                            <small id="error-periode_tahun" class="error-text form-text text-danger"></small>
+                        </div>
+                        <div class="form-group">
+                            <label>Semester</label>
+                            <select name="periode_semester" id="periode_semester" class="form-control" required>
+                                <option value="" selected>--Select--</option>
+                                <option value="ganjil">Ganjil</option>
+                                <option value="genap">Genap</option>
+                            </select>
+                            <small id="error-periode_semester" class="error-text form-text text-danger"></small>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -44,10 +54,13 @@
             $(document).ready(function() {
                 $("#form-edit").validate({
                     rules: {
-                        jenis_nama: {
+                        periode_tahun: {
+                            required: false,
+                            minlength: 9,
+                            maxlength: 9,
+                        },
+                        periode_semester: {
                             required: true,
-                            minlength: 3,
-                            maxlength: 100
                         }
                     },
                     submitHandler: function(form) {
@@ -63,7 +76,7 @@
                                         title: 'Berhasil',
                                         text: response.message
                                     });
-                                    tableJenis.ajax.reload();
+                                    tablePeriode.ajax.reload();
                                 } else {
                                     $('.error-text').text('');
                                     $.each(response.msgField, function(prefix, val) {

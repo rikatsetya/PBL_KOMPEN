@@ -47,7 +47,7 @@ class PeriodeController extends Controller
         if ($request->ajax() || $request->wantsJson()) {
             $rules = [
                 'periode_tahun'    => 'required|string|min:3|unique:t_periode,periode_tahun',
-                'periode_semester' => 'required|string|min:3',
+                'periode_semester' => 'required|in:ganjil,genap',
             ];
             // use Illuminate\Support\Facades\Validator;
             $validator = Validator::make($request->all(), $rules);
@@ -80,8 +80,8 @@ class PeriodeController extends Controller
         // cek apakah request dari ajax
         if ($request->ajax() || $request->wantsJson()) {
             $rules = [
-                'periode_tahun'    => 'required|string|min:3|unique:t_periode,periode_tahun',
-                'periode_semester' => 'required|string|min:3',
+                'periode_tahun'    => 'nullable|string|min:3|unique:t_periode,periode_tahun',
+                'periode_semester' => 'required|in:ganjil,genap',
             ];
             // use Illuminate\Support\Facades\Validator;
             $validator = Validator::make($request->all(), $rules);
@@ -94,6 +94,10 @@ class PeriodeController extends Controller
             }
             $check = PeriodeModel::find($id);
             if ($check) {
+                if (!$request->filled('periode_tahun')) { // jika password tidak diisi, maka hapus dari request
+                    $request->request->remove('periode_tahun');
+                }
+
                 $check->update($request->all());
                 return response()->json([
                     'status' => true,
