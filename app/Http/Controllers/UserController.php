@@ -142,42 +142,72 @@ class UserController extends Controller
         switch ($users->level_id) {
             case '1':
                 $user = AdminModel::select('m_level.level_nama', 'm_level.level_id', 'm_user.level_id', 'm_admin.username', 'm_admin.admin_nama', 'm_admin.foto', 'm_admin.no_induk', 'm_admin.password')
-                ->join('m_user', 'm_admin.user_id', '=', 'm_user.user_id')
-                ->join('m_level', 'm_user.level_id', '=', 'm_level.level_id')
-                ->where('m_user.user_id', $id)
-                ->first();
+                    ->join('m_user', 'm_admin.user_id', '=', 'm_user.user_id')
+                    ->join('m_level', 'm_user.level_id', '=', 'm_level.level_id')
+                    ->where('m_user.user_id', $id)
+                    ->first();
                 return view('user.show', ['user' => $user]);
                 break;
             case '2':
                 $user = DosenModel::select('m_level.level_nama', 'm_level.level_id', 'm_user.level_id', 'm_dosen.username', 'm_dosen.dosen_nama', 'm_dosen.foto', 'm_dosen.nip', 'm_dosen.password')
-                ->join('m_user', 'm_dosen.user_id', '=', 'm_user.user_id')
-                ->join('m_level', 'm_user.level_id', '=', 'm_level.level_id')
-                ->where('m_user.user_id', $id)
-                ->first();
+                    ->join('m_user', 'm_dosen.user_id', '=', 'm_user.user_id')
+                    ->join('m_level', 'm_user.level_id', '=', 'm_level.level_id')
+                    ->where('m_user.user_id', $id)
+                    ->first();
                 return view('user.show', ['user' => $user]);
                 break;
             case '3':
                 $user = TendikModel::select('m_level.level_nama', 'm_level.level_id', 'm_user.level_id', 'm_tendik.username', 'm_tendik.tendik_nama', 'm_tendik.foto', 'm_tendik.no_induk', 'm_tendik.password')
-                ->join('m_user', 'm_tendik.user_id', '=', 'm_user.user_id')
-                ->join('m_level', 'm_user.level_id', '=', 'm_level.level_id')
-                ->where('m_user.user_id', $id)
-                ->first();
+                    ->join('m_user', 'm_tendik.user_id', '=', 'm_user.user_id')
+                    ->join('m_level', 'm_user.level_id', '=', 'm_level.level_id')
+                    ->where('m_user.user_id', $id)
+                    ->first();
                 return view('user.show', ['user' => $user]);
                 break;
-            
+
             default:
                 # code...
                 break;
         }
-        
     }
 
     // Menampilkan halaman form edit user ajax
     public function edit_ajax(string $id)
     {
-        $user = UserModel::find($id);
-        $level = LevelModel::select('level_id', 'level_nama')->get();
-        return view('user.edit_ajax', ['user' => $user, 'level' => $level]);
+        $users = UserModel::with('level')->find($id);
+        switch ($users->level_id) {
+            case '1':
+                $level = LevelModel::select('level_id', 'level_nama')->get();
+                $user = AdminModel::select('m_level.level_nama', 'm_level.level_id', 'm_user.level_id', 'm_user.user_id', 'm_admin.username', 'm_admin.admin_nama', 'm_admin.foto', 'm_admin.no_induk', 'm_admin.password')
+                    ->join('m_user', 'm_admin.user_id', '=', 'm_user.user_id')
+                    ->join('m_level', 'm_user.level_id', '=', 'm_level.level_id')
+                    ->where('m_user.user_id', $id)
+                    ->first();
+                return view('user.edit_ajax', ['user' => $user, 'level' => $level]);
+                break;
+            case '2':
+                $level = LevelModel::select('level_id', 'level_nama')->get();
+                $user = DosenModel::select('m_level.level_nama', 'm_level.level_id', 'm_user.level_id', 'm_user.user_id', 'm_dosen.username', 'm_dosen.dosen_nama', 'm_dosen.foto', 'm_dosen.nip', 'm_dosen.password')
+                    ->join('m_user', 'm_dosen.user_id', '=', 'm_user.user_id')
+                    ->join('m_level', 'm_user.level_id', '=', 'm_level.level_id')
+                    ->where('m_user.user_id', $id)
+                    ->first();
+                return view('user.edit_ajax', ['user' => $user, 'level' => $level]);
+                break;
+            case '3':
+                $level = LevelModel::select('level_id', 'level_nama')->get();
+                $user = TendikModel::select('m_level.level_nama', 'm_level.level_id', 'm_user.level_id', 'm_user.user_id', 'm_tendik.username', 'm_tendik.tendik_nama', 'm_tendik.foto', 'm_tendik.no_induk', 'm_tendik.password')
+                    ->join('m_user', 'm_tendik.user_id', '=', 'm_user.user_id')
+                    ->join('m_level', 'm_user.level_id', '=', 'm_level.level_id')
+                    ->where('m_user.user_id', $id)
+                    ->first();
+                return view('user.edit_ajax', ['user' => $user, 'level' => $level]);
+                break;
+
+            default:
+                # code...
+                break;
+        }
     }
 
     public function update_ajax(Request $request, $id)
@@ -185,10 +215,11 @@ class UserController extends Controller
         // cek apakah request dari ajax
         if ($request->ajax() || $request->wantsJson()) {
             $rules = [
-                'level_id' => 'required|integer',
-                'username' => 'required|max:20|unique:m_user,username,' . $id . ',user_id',
-                'nama' => 'required|max:100',
-                'password' => 'nullable|min:6|max:20',
+                'level_id'  => 'required|integer',
+                'no_induk'  => 'required|integer',
+                'username'  => 'nullable|string|min:3|unique:m_user,username',
+                'nama'      => 'required|string|max:100',
+                'password'  => 'nullable|min:6',
                 'foto'      => 'nullable|mimes:jpeg,png,jpg|max:4096'
             ];
             // use Illuminate\Support\Facades\Validator;
@@ -202,6 +233,9 @@ class UserController extends Controller
             }
             $check = UserModel::find($id);
             if ($check) {
+                if (!$request->filled('username')) { // jika password tidak diisi, maka hapus dari request
+                    $request->request->remove('username');
+                }
                 if (!$request->filled('password')) { // jika password tidak diisi, maka hapus dari request
                     $request->request->remove('password');
                 }
@@ -234,6 +268,25 @@ class UserController extends Controller
                         $request['foto'] = $pathname;
                     }
                 }
+                switch ($request->level_id) {
+                    case '1':
+                        $admin = AdminModel::where('user_id', $id)->first();
+                        $admin->update($request->all());
+                        break;
+
+                    case '2':
+                        $dosen = DosenModel::where('user_id', $id)->first();
+                        $request['nip'] = $request->no_induk;
+                        $request->request->remove('no_induk');
+                        $dosen->update($request->all());
+                        break;
+
+                    case '3':
+                        $tendik = TendikModel::where('user_id', $id)->first();
+                        $tendik->update($request->all());
+                        break;
+                }
+                $request->request->remove('no_induk');
                 $check->update($request->all());
                 return response()->json([
                     'status' => true,
@@ -306,18 +359,101 @@ class UserController extends Controller
             if (count($data) > 1) { // jika data lebih dari 1 baris
                 foreach ($data as $baris => $value) {
                     if ($baris > 1) { // baris ke 1 adalah header, maka lewati
-                        $insert[] = [
-                            'level_id' => $value['A'],
-                            'username' => $value['B'],
-                            'nama' => $value['C'],
-                            'password' => bcrypt($value['D']),
-                            'created_at' => now(),
-                        ];
+                        switch ($value['A']) {
+                            case 'admin':
+                                $insert[] = [
+                                    'level_id' => '1',
+                                    'username' => $value['B'],
+                                    'nama' => $value['C'],
+                                    'no_induk' => $value['D'],
+                                    'password' => bcrypt($value['E']),
+                                    'foto' => 'images/profile/default.jpg',
+                                    'created_at' => now(),
+                                ];
+                                break;
+
+                            case 'dosen':
+                                $insert[] = [
+                                    'level_id' => '2',
+                                    'username' => $value['B'],
+                                    'nama' => $value['C'],
+                                    'no_induk' => $value['D'],
+                                    'password' => bcrypt($value['E']),
+                                    'foto' => 'images/profile/default.jpg',
+                                    'created_at' => now(),
+                                ];
+                                break;
+
+                            case 'tendik':
+                                $insert[] = [
+                                    'level_id' => '3',
+                                    'username' => $value['B'],
+                                    'nama' => $value['C'],
+                                    'no_induk' => $value['D'],
+                                    'password' => bcrypt($value['E']),
+                                    'foto' => 'images/profile/default.jpg',
+                                    'created_at' => now(),
+                                ];
+                                break;
+
+                            default:
+                                # code...
+                                break;
+                        }
                     }
                 }
                 if (count($insert) > 0) {
-                    // insert data ke database, jika data sudah ada, maka diabaikan
-                    UserModel::insertOrIgnore($insert);
+                    foreach ($insert as $data) {
+                        UserModel::insertOrIgnore([
+                            'level_id' => $data['level_id'],
+                            'username' => $data['username'],
+                            'nama' => $data['nama'],
+                            'password' => $data['password'],
+                            'created_at' => $data['created_at'],
+                        ]);
+
+                        $userId = UserModel::where('username', $data['username'])->value('user_id');
+
+                        // Handle related models based on level_id
+                        switch ($data['level_id']) {
+                            case '1': // Admin
+                                AdminModel::insertOrIgnore([
+                                    'user_id' => $userId,
+                                    'username' => $data['username'],
+                                    'admin_nama' => $data['nama'],
+                                    'no_induk' => $data['no_induk'],
+                                    'password' => $data['password'],
+                                    'foto' => $data['foto'],
+                                    'created_at' => $data['created_at'],
+                                ]);
+                                break;
+                            case '2': // Dosen
+                                DosenModel::insertOrIgnore([
+                                    'user_id' => $userId,
+                                    'username' => $data['username'],
+                                    'dosen_nama' => $data['nama'],
+                                    'nip' => $data['no_induk'],
+                                    'password' => $data['password'],
+                                    'foto' => $data['foto'],
+                                    'created_at' => $data['created_at'],
+                                ]);
+                                break;
+                            case '3': // Tendik
+                                TendikModel::insertOrIgnore([
+                                    'user_id' => $userId,
+                                    'username' => $data['username'],
+                                    'tendik_nama' => $data['nama'],
+                                    'no_induk' => $data['no_induk'],
+                                    'password' => $data['password'],
+                                    'foto' => $data['foto'],
+                                    'created_at' => $data['created_at'],
+                                ]);
+                                break;
+                            default:
+                                // Handle unexpected level_id if needed
+                                break;
+                        }
+                    }
                 }
                 return response()->json([
                     'status' => true,

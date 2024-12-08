@@ -32,23 +32,60 @@
                             <select name="level_id" id="level_id" class="form-control" required>
                                 <option value="">- Pilih Level -</option>
                                 @foreach ($level as $l)
-                                    <option {{ $l->level_id == $user->level_id ? 'selected' : '' }}
-                                        value="{{ $l->level_id }}">{{ $l->level_nama }}</option>
+                                    @if ($l->level_id != 5)
+                                        <option {{ $l->level_id == $user->level_id ? 'selected' : '' }}
+                                            value="{{ $l->level_id }}">{{ $l->level_nama }}</option>
+                                    @endif
                                 @endforeach
                             </select>
                             <small id="error-level_id" class="error-text form-text text-danger"></small>
                         </div>
                         <div class="form-group">
                             <label>Username</label>
-                            <input value="{{ $user->username }}" type="text" name="username" id="username"
-                                class="form-control" required>
+                            <input placeholder="{{ $user->username }}" type="text" name="username" id="username"
+                                class="form-control">
+                            <small class="form-text text-muted">Abaikan jika tidak ingin mengubah Username</small>
                             <small id="error-username" class="error-text form-text text-danger"></small>
                         </div>
                         <div class="form-group">
                             <label>Nama</label>
-                            <input value="{{ $user->nama }}" type="text" name="nama" id="nama"
-                                class="form-control" required>
+                            <input
+                                @switch($user->level_id)
+                            @case('1')
+                                value="{{ $user->admin_nama }}"
+                                @break
+                            @case('2')
+                                value="{{ $user->dosen_nama }}"
+                                @break
+                            @case('3')
+                                value="{{ $user->tendik_nama }}"
+                                @break
+                        
+                            @default
+                                
+                        @endswitch
+                                type="text" name="nama" id="nama" class="form-control" required>
                             <small id="error-nama" class="error-text form-text text-danger"></small>
+                        </div>
+                        <div class="form-group">
+                            <label>Nomer Induk</label>
+                            <input
+                                @switch($user->level_id)
+                                @case('1')
+                                    value="{{ $user->no_induk }}"
+                                    @break
+                                @case('2')
+                                    value="{{ $user->nip }}"
+                                    @break
+                                @case('3')
+                                    value="{{ $user->no_induk }}"
+                                    @break
+                            
+                                @default
+                                    
+                            @endswitch
+                                type="text" name="no_induk" id="no_induk" class="form-control" required>
+                            <small id="error-no_induk" class="error-text form-text text-danger"></small>
                         </div>
                         <div class="form-group">
                             <label>Password</label>
@@ -82,14 +119,21 @@
                             number: true
                         },
                         username: {
-                            required: true,
+                            required: false,
                             minlength: 3,
                             maxlength: 20
+                        },
+                        no_induk: {
+                            required: true,
+                            number: true,
+                            maxlength: 20,
+                            minlength: 10,
                         },
                         nama: {
                             required: true,
                             minlength: 3,
-                            maxlength: 100
+                            maxlength: 100,
+                            number:false,
                         },
                         password: {
                             minlength: 6,

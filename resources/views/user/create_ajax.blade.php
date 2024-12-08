@@ -12,8 +12,10 @@
                     <label>Level Pengguna</label>
                     <select name="level_id" id="level_id" class="form-control" required>
                         <option value="">- Pilih Level -</option>
-                        @foreach ($level as $l)
-                            <option value="{{ $l->level_id }}">{{ $l->level_nama }}</option>
+                        @foreach ($level as $item)
+                            @if ($item->level_id != 5)
+                                <option value="{{ $item->level_id }}">{{ $item->level_nama }}</option>
+                            @endif
                         @endforeach
                     </select>
                     <small id="error-level_id" class="error-text form-text text-danger"></small>
@@ -56,17 +58,21 @@
                 },
                 no_induk: {
                     required: true,
-                    number: true
+                    number: true,
+                    maxlength: 20,
+                    minlength: 10,
                 },
                 username: {
                     required: true,
                     minlength: 3,
-                    maxlength: 20
+                    maxlength: 20,
                 },
                 nama: {
+                    number: false,
                     required: true,
                     minlength: 3,
-                    maxlength: 100
+                    maxlength: 100,
+                    
                 },
                 password: {
                     required: true,
@@ -76,13 +82,13 @@
             },
             submitHandler: function(form) {
                 var formData = new FormData(
-                form);
+                    form);
                 $.ajax({
                     url: form.action,
                     type: form.method,
                     data: formData,
-                            processData: false, // setting processData dan contentType ke false, untuk menghandle file 
-                            contentType: false,
+                    processData: false, // setting processData dan contentType ke false, untuk menghandle file 
+                    contentType: false,
                     success: function(response) {
                         if (response.status) {
                             $('#myModal').modal('hide');
