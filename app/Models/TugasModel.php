@@ -27,7 +27,7 @@ class TugasModel extends Model
     }
     
     public function periode():BelongsTo{
-        return $this->belongsTo(PengumpulanModel::class);
+        return $this->belongsTo(PeriodeModel::class, 'periode_id', 'periode_id');
     }
 
 }

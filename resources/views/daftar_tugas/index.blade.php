@@ -5,15 +5,6 @@
     <div class="card card-outline card-primary">
         <div class="card-header">
             <h3 class="card-title">{{ $page->title }}</h3>
-            {{-- <div class="card-tools">
-                <button onclick="modalAction('{{ url('/daftar_tugas/import') }}')" class="btn btn-info">Import user</button>
-                <a href="{{ url('/daftar_tugas/export_excel') }}" class="btn btn-primary"><i class="fa fa-file-excel"></i> Export
-                    user</a>
-                <a href="{{ url('/daftar_tugas/export_pdf') }}" class="btn btn-warning"><i class="fa fa-file-pdf"></i> Export
-                    user</a>
-                <button onclick="modalAction('{{ url('/daftar_tugas/create_ajax') }}')" class="btn btn-success">Tambah Data
-                    (Ajax)</button>
-            </div> --}}
         </div>
         <div class="card-body">
             @if (session('success'))
@@ -25,15 +16,27 @@
             <div id="filter" class="form-horizontal filter-date p-2 border-bottom mb-2">
                 <div class="col-md-12">
                     <div class="form-group row">
-                        <label class="col-1 control-label col-form-label">Filter:</label>
-                        <div class="col-3">
+                        <label class="col-1 control-label col-form-label">Pembuat:</label>
+                        <div class="col-4">
                             <select class="form-control" id="level_id" name="level_id" required>
                                 <option value="">- Semua -</option>
-                                @foreach ($user as $item)
-                                    <option value="{{ $item->level_id }}">{{ $item->level->level_nama }}</option>
+                                @foreach ($level as $item)
+                                    @if ($item->level_id != 5)
+                                        <option value="{{ $item->level_id }}">{{ $item->level_nama }}</option>
+                                    @endif
                                 @endforeach
                             </select>
                             <small class="form-text text-muted">Pembuat Tugas (Admin, Dosen, Tendik)</small>
+                        </div>
+                        <label class="col-1 control-label col-form-label">Jenis:</label>
+                        <div class="col-4">
+                            <select class="form-control" id="jenis_id" name="jenis_id" required>
+                                <option value="">- Semua -</option>
+                                @foreach ($jenis as $item)
+                                        <option value="{{ $item->jenis_id }}">{{ $item->jenis_nama }}</option>
+                                @endforeach
+                            </select>
+                            <small class="form-text text-muted">Jenis Tugas</small>
                         </div>
                     </div>
                 </div>
@@ -46,6 +49,7 @@
                         <th>Pembuat</th>
                         <th>Nama Tugas</th>
                         <th>Bobot Tugas</th>
+                        <th>Kuota</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -62,9 +66,9 @@
                 $('#myModal').modal('show');
             });
         }
-        var tableUser;
+        var tableListTugas;
         $(document).ready(function() {
-            tableUser = $('#table-daftar_tugas').DataTable({
+            tableListTugas = $('#table-daftar_tugas').DataTable({
                 // serverSide: true, jika ingin menggunakan server side processing
                 processing: true,
                 serverSide: true,
@@ -74,6 +78,7 @@
                     "type": "POST",
                     "data": function(d) {
                         d.level_id = $('#level_id').val();
+                        d.jenis_id = $('#jenis_id').val();
                     }
                 },
                 columns: [{
@@ -86,26 +91,37 @@
                     data: "jenis.jenis_nama",
                     className: "",
                     width: "10%",
-                    orderable: true,
-                    searchable: true
+                    orderable: false,
+                    searchable: false
                 }, {
                     data: "user.nama",
                     className: "",
                     width: "15%",
-                    orderable: true,
-                    searchable: true,
+                    orderable: false,
+                    searchable: false,
                 }, {
                     data: "tugas_nama",
                     className: "",
                     width: "25%",
-                    orderable: true,
-                    searchable: false
+                    orderable: false,
+                    searchable: true,
+                    render: function(data, type, row) {
+                        return data.length > 30 ?
+                            data.substr(0, 30) + '...' :
+                            data;
+                    }
                 }, {
                     data: "tugas_bobot",
                     className: "",
                     width: "10%",
-                    orderable: false,
-                    searchable: true,
+                    orderable: true,
+                    searchable: false,
+                }, {
+                    data: "kuota",
+                    className: "",
+                    width: "7%",
+                    orderable: true,
+                    searchable: false,
                 }, {
                     data: "aksi",
                     className: "text-center",
@@ -116,11 +132,14 @@
             });
             $('#table-daftar_tugas_filter input').unbind().bind().on('keyup', function(e) {
                 if (e.keyCode == 13) { // enter key
-                    tableUser.search(this.value).draw();
+                    tableListTugas.search(this.value).draw();
                 }
             });
             $('#level_id').change(function() {
-                tableUser.draw();
+                tableListTugas.draw();
+            });
+            $('#jenis_id').change(function() {
+                tableListTugas.draw();
             });
         });
     </script>

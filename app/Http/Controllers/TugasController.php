@@ -42,7 +42,9 @@ class TugasController extends Controller
         $activeMenu = 'daftar_tugas';
         $activeSubMenu = '';
         $user = UserModel::all();
-        return view('daftar_tugas.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu, 'user' => $user]);
+        $level = LevelModel::all();
+        $jenis = JenisModel::all();
+        return view('daftar_tugas.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu, 'user' => $user, 'level' => $level, 'jenis' => $jenis ]);
     }
 
     public function list(Request $request)
@@ -66,10 +68,14 @@ class TugasController extends Controller
 
     public function listTugas(Request $request)
     {
-        $tugas = TugasModel::select('tugas_id','jenis_id', 'm_user.user_id','m_user.level_id', 'tugas_nama', 'deskripsi', 'tugas_bobot', 'tugas_tenggat')->join('m_user', 't_tugas.user_id', '=','m_user.user_id')->with('jenis')->with('user');
+        $tugas = TugasModel::select('tugas_id','jenis_id', 'm_user.user_id','m_user.level_id', 'tugas_nama', 'deskripsi', 'tugas_bobot', 'tugas_tenggat','kuota')->join('m_user', 't_tugas.user_id', '=','m_user.user_id')->with('jenis')->with('user');
 
         if ($request->level_id) {
             $tugas->where('level_id', $request->level_id);
+        }
+        
+        if ($request->jenis_id) {
+            $tugas->where('jenis_id', $request->jenis_id);
         }
         return DataTables::of($tugas)
             ->addIndexColumn() // menambahkan kolom index / no urut (default nama kolom: DT_RowIndex) 
@@ -141,12 +147,10 @@ class TugasController extends Controller
      */
     public function show(string $id)
     {
-        $daftar_tugas = TugasModel::select('tugas_id','jenis_id', 'm_user.user_id','m_user.level_id', 'tugas_nama', 'deskripsi', 'tugas_bobot', 'tugas_tenggat', 'periode')->join('m_user', 't_tugas.user_id', '=','m_user.user_id')->with('jenis')->with('user')->find($id);
-        $breadcrumb = (object) ['title' => 'Daftar Tugas', 'list' => ['Home', 'Daftar Tugas', 'Detail']];
-        $page = (object) ['title' => 'Daftar Tugas'];
-        $activeMenu = 'daftar_tugas';
-        $activeSubMenu = '';
-        return view('daftar_tugas.show', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu, 'activeSubMenu' => $activeSubMenu, 'daftar_tugas' => $daftar_tugas]);
+        $daftar_tugas = TugasModel::select('tugas_id','jenis_id', 'm_user.user_id','m_user.level_id', 'tugas_nama', 'deskripsi', 'tugas_bobot', 'tugas_tenggat', 'periode_id', 'kuota')
+        ->join('m_user', 't_tugas.user_id', '=','m_user.user_id')
+        ->with('periode')->with('jenis')->with('user')->find($id);
+        return view('daftar_tugas.show', ['daftar_tugas' => $daftar_tugas]);
     }
     public function show_ajax(string $id)
     {

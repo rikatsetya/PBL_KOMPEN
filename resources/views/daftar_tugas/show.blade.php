@@ -27,15 +27,11 @@
                 <div class="modal-body">
                     <table class="table table-sm table-bordered table-striped">
                         <tr>
-                            <th class="text-right col-3">ID</th>
-                            <td class="col-9">{{ $daftar_tugas->tugas_id }}</td>
-                        </tr>
-                        <tr>
                             <th class="text-right col-3">Jenis Tugas</th>
                             <td class="col-9">{{ $daftar_tugas->jenis->jenis_nama }}</td>
                         </tr>
                         <tr>
-                            <th class="text-right col-3">Pembuat Tugas</th>
+                            <th class="text-right col-3">Pembuat</th>
                             <td class="col-9">{{ $daftar_tugas->user->nama }} ({{ $daftar_tugas->user->level->level_nama }})</td>
                         </tr>
                         <tr>
@@ -47,16 +43,20 @@
                             <td class="col-9">{{ $daftar_tugas->deskripsi }}</td>
                         </tr>
                         <tr>
-                            <th class="text-right col-3">Bobot Tugas</th>
+                            <th class="text-right col-3">Bobot Poin Kompen</th>
                             <td class="col-9">{{ $daftar_tugas->tugas_bobot }}</td>
                         </tr>
                         <tr>
-                            <th class="text-right col-3">Tenggat Tugas</th>
+                            <th class="text-right col-3">Tenggat Pengerjaan</th>
                             <td class="col-9">{{ $daftar_tugas->tugas_tenggat }}</td>
                         </tr>
                         <tr>
                             <th class="text-right col-3">Periode Tugas</th>
-                            <td class="col-9">{{ $daftar_tugas->periode }}</td>
+                            <td class="col-9">{{ $daftar_tugas->periode->periode_tahun }} - {{ $daftar_tugas->periode->periode_semester }}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-right col-3">Kuota Pekerja</th>
+                            <td class="col-9">{{ $daftar_tugas->kuota }}</td>
                         </tr>
                     </table>
                 </div>
