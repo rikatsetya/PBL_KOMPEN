@@ -47,7 +47,8 @@
                         jenis_nama: {
                             required: true,
                             minlength: 3,
-                            maxlength: 100
+                            maxlength: 20,
+                            number: false,
                         }
                     },
                     submitHandler: function(form) {

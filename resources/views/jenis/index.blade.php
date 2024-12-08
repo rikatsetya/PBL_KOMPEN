@@ -4,9 +4,6 @@
         <div class="card-header">
             <h3 class="card-title">Daftar Jenis Tugas</h3>
             <div class="card-tools">
-                {{-- <button onclick="modalAction('{{ url('/jenis/import') }}')" class="btn btn-info">Import jenis</button>
-                <a href="{{ url('/jenis/export_excel') }}" class="btn btn-primary"><i class="fa fa-file-excel"></i> Export jenis</a>
-                <a href="{{ url('/jenis/export_pdf') }}" class="btn btn-warning"><i class="fa fa-file-pdf"></i> Export jenis</a> --}}
                 <button onclick="modalAction('{{ url('/jenis/create_ajax') }}')" class="btn btn-success">Tambah Data
                     (Ajax)</button>
             </div>
@@ -48,10 +45,7 @@
                 ajax: {
                     "url": "{{ url('/jenis/list') }}",
                     "dataType": "json",
-                    "type": "POST",
-                    "data": function(d) {
-                        d.filter_kategori = $('.filter_kategori').val();
-                    }
+                    "type": "POST"
                 },
                 columns: [{
                     data: "DT_RowIndex",
@@ -77,9 +71,6 @@
                 if (e.keyCode == 13) { // enter key
                     tableJenis.search(this.value).draw();
                 }
-            });
-            $('.filter_kategori').change(function() {
-                tableJenis.draw();
             });
         });
     </script>
