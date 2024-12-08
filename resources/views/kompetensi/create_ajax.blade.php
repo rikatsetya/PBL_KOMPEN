@@ -37,6 +37,7 @@
                 kompetensi_deskripsi: {
                     required: true,
                     minlength: 3,
+                    maxlength: 255,
                 }
             },
             submitHandler: function(form) {

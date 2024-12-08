@@ -53,12 +53,12 @@
                         kompetensi_nama: {
                             required: true,
                             minlength: 3,
-                            maxlength: 20
+                            maxlength: 50
                         },
                         kompetensi_deskripsi: {
                             required: true,
                             minlength: 3,
-                            maxlength: 100
+                            maxlength: 255
                         }
                     },
                     submitHandler: function(form) {
