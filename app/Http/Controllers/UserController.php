@@ -472,30 +472,59 @@ class UserController extends Controller
     public function export_excel()
     {
         // ambil data user yang akan di export
-        $user = UserModel::select('level_id', 'no_induk', 'username', 'nama')
-            ->orderBy('level_id')
-            ->with('level')
+        $admin = AdminModel::select('m_user.user_id', 'no_induk', 'm_user.username', 'm_user.nama', 'm_level.level_nama', 'm_user.level_id')
+            ->join('m_user', 'm_admin.user_id', '=', 'm_user.user_id')
+            ->join('m_level', 'm_user.level_id', '=', 'm_level.level_id')
+            ->orderBy('user_id')
+            ->get();
+        $dosen = DosenModel::select('m_user.user_id', 'nip', 'm_user.username', 'm_user.nama', 'm_level.level_nama', 'm_user.level_id')
+            ->join('m_user', 'm_dosen.user_id', '=', 'm_user.user_id')
+            ->join('m_level', 'm_user.level_id', '=', 'm_level.level_id')
+            ->orderBy('user_id')
+            ->get();
+        $tendik = TendikModel::select('m_user.user_id', 'no_induk', 'm_user.username', 'm_user.nama', 'm_level.level_nama', 'm_user.level_id')
+            ->join('m_user', 'm_tendik.user_id', '=', 'm_user.user_id')
+            ->join('m_level', 'm_user.level_id', '=', 'm_level.level_id')
+            ->orderBy('user_id')
             ->get();
 
         // load library excel
         $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet(); // ambil sheet yang aktif
         $sheet->setCellValue('A1', 'No');
-        $sheet->setCellValue('B1', 'No_Induk');
-        $sheet->setCellValue('C1', 'Username');
-        $sheet->setCellValue('D1', 'Nama user');
-        $sheet->setCellValue('E1', 'level');
+        $sheet->setCellValue('B1', 'level');
+        $sheet->setCellValue('C1', 'No_Induk');
+        $sheet->setCellValue('D1', 'Username');
+        $sheet->setCellValue('E1', 'Nama user');
 
         $sheet->getStyle('A1:F1')->getFont()->setBold(true); // bold header
-
+        
         $no = 1; // nomor data dimulai dari 1
         $baris = 2; // baris data dimulai dari baris ke 2
-        foreach ($user as $key => $value) {
+        foreach ($admin as $key => $value) {
             $sheet->setCellValue('A' . $baris, $no);
-            $sheet->setCellValue('B' . $baris, $value->no_induk);
-            $sheet->setCellValue('C' . $baris, $value->username);
-            $sheet->setCellValue('D' . $baris, $value->nama);
-            $sheet->setCellValue('E' . $baris, $value->level->level_nama); // ambil nama kategori
+            $sheet->setCellValue('B' . $baris, $value->level_nama); // ambil nama kategori
+            $sheet->setCellValue('C' . $baris, $value->no_induk);
+            $sheet->setCellValue('D' . $baris, $value->username);
+            $sheet->setCellValue('E' . $baris, $value->nama);
+            $baris++;
+            $no++;
+        }
+        foreach ($dosen as $key => $value) {
+            $sheet->setCellValue('A' . $baris, $no);
+            $sheet->setCellValue('B' . $baris, $value->level_nama); // ambil nama kategori
+            $sheet->setCellValue('C' . $baris, $value->nip);
+            $sheet->setCellValue('D' . $baris, $value->username);
+            $sheet->setCellValue('E' . $baris, $value->nama);
+            $baris++;
+            $no++;
+        }
+        foreach ($tendik as $key => $value) {
+            $sheet->setCellValue('A' . $baris, $no);
+            $sheet->setCellValue('B' . $baris, $value->level_nama); // ambil nama kategori
+            $sheet->setCellValue('C' . $baris, $value->no_induk);
+            $sheet->setCellValue('D' . $baris, $value->username);
+            $sheet->setCellValue('E' . $baris, $value->nama);
             $baris++;
             $no++;
         }
@@ -521,13 +550,24 @@ class UserController extends Controller
 
     public function export_pdf()
     {
-        $user = UserModel::select('level_id', 'no_induk', 'username', 'nama')
-            ->orderBy('level_id')
-            ->orderBy('username')
-            ->with('level')
+        $admin = AdminModel::select('m_user.user_id', 'no_induk', 'm_user.username', 'm_user.nama', 'm_level.level_nama', 'm_user.level_id')
+            ->join('m_user', 'm_admin.user_id', '=', 'm_user.user_id')
+            ->join('m_level', 'm_user.level_id', '=', 'm_level.level_id')
+            ->orderBy('user_id')
             ->get();
+        $dosen = DosenModel::select('m_user.user_id', 'nip', 'm_user.username', 'm_user.nama', 'm_level.level_nama', 'm_user.level_id')
+            ->join('m_user', 'm_dosen.user_id', '=', 'm_user.user_id')
+            ->join('m_level', 'm_user.level_id', '=', 'm_level.level_id')
+            ->orderBy('user_id')
+            ->get();
+        $tendik = TendikModel::select('m_user.user_id', 'no_induk', 'm_user.username', 'm_user.nama', 'm_level.level_nama', 'm_user.level_id')
+            ->join('m_user', 'm_tendik.user_id', '=', 'm_user.user_id')
+            ->join('m_level', 'm_user.level_id', '=', 'm_level.level_id')
+            ->orderBy('user_id')
+            ->get();
+
         // use Barryvdh\DomPDF\Facade\Pdf;
-        $pdf = Pdf::loadView('user.export_pdf', ['user' => $user]);
+        $pdf = Pdf::loadView('user.export_pdf', ['admin' => $admin, 'dosen' => $dosen, 'tendik' => $tendik]);
         $pdf->setPaper('a4', 'portrait'); // set ukuran kertas dan orientasi
         $pdf->setOption("isRemoteEnabled", true); // set true jika ada gambar dari url $pdf->render();
         return $pdf->stream('Data user' . date('Y-m-d H:i:s') . '.pdf');

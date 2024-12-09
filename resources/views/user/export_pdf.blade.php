@@ -96,20 +96,38 @@
             <thead>
                 <tr>
                     <th class="text-center">No</th>
+                    <th>Level</th>
                     <th>No_Induk</th>
                     <th>Username</th>
                     <th>Nama</th>
-                    <th>Level</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($user as $b)
+                @foreach ($admin as $b)
                     <tr>
                         <td class="text-center">{{ $loop->iteration }}</td>
+                        <td>{{ $b->level_nama }}</td>
                         <td>{{ $b->no_induk }}</td>
                         <td>{{ $b->username }}</td>
                         <td>{{ $b->nama }}</td>
-                        <td>{{ $b->level->level_nama }}</td>
+                    </tr>
+                @endforeach
+                @foreach ($dosen as $b)
+                    <tr>
+                        <td class="text-center">{{ $loop->iteration }}</td>
+                        <td>{{ $b->level_nama }}</td>
+                        <td>{{ $b->nip }}</td>
+                        <td>{{ $b->username }}</td>
+                        <td>{{ $b->nama }}</td>
+                    </tr>
+                @endforeach
+                @foreach ($tendik as $b)
+                    <tr>
+                        <td class="text-center">{{ $loop->iteration }}</td>
+                        <td>{{ $b->level_nama }}</td>
+                        <td>{{ $b->no_induk }}</td>
+                        <td>{{ $b->username }}</td>
+                        <td>{{ $b->nama }}</td>
                     </tr>
                 @endforeach
             </tbody>
