@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Yajra\DataTables\DataTables;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AbsensiController extends Controller
 {
@@ -32,8 +33,8 @@ class AbsensiController extends Controller
 
     public function list(Request $request)
     {
-        $absensi = AbsensiModel::select('mahasiswa_id', 'absensi_id', 'sakit', 'izin', 'alpha', 'poin', 'status', 'periode')
-            ->with('mahasiswa');
+        $absensi = AbsensiModel::select('absensi_id','mahasiswa_id', 'periode_id', 'alpha', 'poin', 'status')
+            ->with(['mahasiswa','periode']);
         // Filter data absensi berdasarkan absensi_id
         // if ($request->absensi_id) {
         //     $absensi->where('absensi_id', $request->absensi_id);
@@ -41,7 +42,7 @@ class AbsensiController extends Controller
         return DataTables::of($absensi)
             ->addIndexColumn() // menambahkan kolom index / no urut (default nama kolom: DT_RowIndex) 
             ->addColumn('aksi', function ($absensi) { // menambahkan kolom aksi 
-                $btn  = '<button onclick="modalAction(\'' . url('/daftar_alpha/' . $absensi->absensi_id) . '\')" class="btn btn-info btn-sm" title="Detail tugas">Detail</button>';
+                $btn  = '<button onclick="modalAction(\'' . url('/daftar_alpha/' . $absensi->absensi_id) . '\')" class="btn btn-info btn-sm" title="Detail Absensi">Detail</button>';
                 return $btn;
             })
             ->rawColumns(['aksi']) // memberitahu bahwa kolom aksi adalah html 
@@ -69,8 +70,8 @@ class AbsensiController extends Controller
      */
     public function show(string $id)
     {
-        $absensi = AbsensiModel::find($id);
-        return view('daftar_alpha.show_ajax', [ 'absensi' => $absensi]);
+        $absensi = AbsensiModel::with('mahasiswa')->with('periode')->find($id);
+        return view('daftar_alpha.show_ajax', ['absensi' => $absensi]);
     }
 
     /**
@@ -102,86 +103,231 @@ class AbsensiController extends Controller
         return view('daftar_alpha.import');
     }
     public function import_ajax(Request $request)
-{
-    if ($request->ajax() || $request->wantsJson()) {
-        // Validasi file
-        $rules = [
-            'file_absensi' => ['required', 'mimes:xlsx', 'max:1024'], // Validasi file xlsx, max 1MB
-        ];
-        $validator = Validator::make($request->all(), $rules);
+    {
+        if ($request->ajax() || $request->wantsJson()) {
+            // Validasi file
+            $rules = [
+                'file_absensi' => ['required', 'mimes:xlsx', 'max:1024'], // Validasi file xlsx, max 1MB
+            ];
+            $validator = Validator::make($request->all(), $rules);
 
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Validasi Gagal',
-                'msgField' => $validator->errors(),
-            ]);
-        }
-
-        $file = $request->file('file_absensi'); // Ambil file dari request
-        $reader = IOFactory::createReader('Xlsx'); // Load reader file excel
-        $reader->setReadDataOnly(true); // Hanya membaca data
-        $spreadsheet = $reader->load($file->getRealPath()); // Load file excel
-        $sheet = $spreadsheet->getActiveSheet(); // Ambil sheet yang aktif
-        $data = $sheet->toArray(null, false, true, true); // Ambil data excel sebagai array
-
-        $insert = [];
-        if (count($data) > 1) { // Pastikan ada data lebih dari 1 baris
-            foreach ($data as $baris => $value) {
-                if ($baris > 1) { // Lewati baris pertama (header)
-
-                    // Cari mahasiswa_id berdasarkan NIM
-                    $mahasiswa = MahasiswaModel::where('nim', $value['A'])->first();
-                    if (!$mahasiswa) {
-                        continue; // Lewati jika NIM tidak ditemukan
-                    }
-
-                    // Cari periode_id berdasarkan nama periode
-                    $periode = PeriodeModel::where('nama_periode', $value['E'])->first();
-                    if (!$periode) {
-                        continue; // Lewati jika periode tidak ditemukan
-                    }
-
-                    // Siapkan data untuk insert
-                    $insert[] = [
-                        'mahasiswa_id' => $mahasiswa->id,
-                        'alpha' => $value['B'],
-                        'poin' => $value['C'],
-                        'status' => $value['D'],
-                        'periode_id' => $periode->id,
-                        'created_at' => now(),
-                    ];
-                }
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Validasi Gagal',
+                    'msgField' => $validator->errors(),
+                ]);
             }
 
-            if (count($insert) > 0) {
-                // Insert data ke database, jika data sudah ada, maka diabaikan
-                AbsensiModel::insertOrIgnore($insert);
+            $file = $request->file('file_absensi'); // Ambil file dari request
+            $reader = IOFactory::createReader('Xlsx'); // Load reader file excel
+            $reader->setReadDataOnly(true); // Hanya membaca data
+            $spreadsheet = $reader->load($file->getRealPath()); // Load file excel
+            $sheet = $spreadsheet->getActiveSheet(); // Ambil sheet yang aktif
+            $data = $sheet->toArray(null, false, true, true); // Ambil data excel sebagai array
 
-                return response()->json([
-                    'status' => true,
-                    'message' => 'Data berhasil diimport',
-                ]);
+            $insert = [];
+            if (count($data) > 1) { // Pastikan ada data lebih dari 1 baris
+                foreach ($data as $baris => $value) {
+                    if ($baris > 1) { // Lewati baris pertama (header)
+
+                        // Cari mahasiswa_id berdasarkan NIM
+                        
+                        // if (!$mahasiswaId) {
+                        //     continue; // Lewati jika NIM tidak ditemukan
+                        // }
+
+                        // Cari periode_id berdasarkan nama periode
+                        
+                        // if (!$periodeId) {
+                        //     continue; // Lewati jika periode tidak ditemukan
+                        // }
+
+                        // Siapkan data untuk insert
+                        $insert[] = [
+                            'nim' => $value['A'],
+                            'alpha' => $value['B'],
+                            'poin' => $value['C'],
+                            'status' => $value['D'],
+                            'periode' => $value['E'],
+                            'created_at' => now(),
+                        ];
+                    }
+                }
+
+                if (count($insert) > 0) {
+                    foreach ($insert as $key => $data) {
+                        $mahasiswaId = MahasiswaModel::where('nim', $data['nim'])->value('user_id');
+                        $periodeId = PeriodeModel::where('periode_tahun', $data['periode'])->value('periode_id');
+                        AbsensiModel::insertOrIgnore([
+                            'mahasiswa_id' => $mahasiswaId,
+                            'alpha' => $data['alpha'],
+                            'poin' => $data['poin'],
+                            'status' => $data['status'],
+                            'periode_id' => $periodeId,
+                            'created_at' => $data['created_at'],
+                        ]);
+                    }
+                    // Insert data ke database, jika data sudah ada, maka diabaikan
+                    
+
+                    return response()->json([
+                        'status' => true,
+                        'message' => 'Data berhasil diimport',
+                    ]);
+                } else {
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'Tidak ada data yang valid untuk diimport',
+                    ]);
+                }
             } else {
                 return response()->json([
                     'status' => false,
-                    'message' => 'Tidak ada data yang valid untuk diimport',
+                    'message' => 'Tidak ada data yang diimport',
                 ]);
             }
-        } else {
-            return response()->json([
-                'status' => false,
-                'message' => 'Tidak ada data yang diimport',
-            ]);
         }
+        return redirect('/');
+
+
+        // if ($request->ajax() || $request->wantsJson()) {
+        //     // Validasi file
+        //     $rules = [
+        //         'file_absensi' => ['required', 'mimes:xlsx', 'max:1024'], // Validasi file xlsx, max 1MB
+        //     ];
+        //     $validator = Validator::make($request->all(), $rules);
+    
+        //     if ($validator->fails()) {
+        //         return response()->json([
+        //             'status' => false,
+        //             'message' => 'Validasi Gagal',
+        //             'msgField' => $validator->errors(),
+        //         ]);
+        //     }
+    
+        //     $file = $request->file('file_absensi'); // Ambil file dari request
+        //     $reader = IOFactory::createReader('Xlsx'); // Load reader file excel
+        //     $reader->setReadDataOnly(true); // Hanya membaca data
+        //     $spreadsheet = $reader->load($file->getRealPath()); // Load file excel
+        //     $sheet = $spreadsheet->getActiveSheet(); // Ambil sheet yang aktif
+        //     $data = $sheet->toArray(null, false, true, true); // Ambil data excel sebagai array
+    
+        //     $insert = [];
+        //     if (count($data) > 1) { // Pastikan ada data lebih dari 1 baris
+        //         foreach ($data as $baris => $value) {
+        //             if ($baris > 1) { // Lewati baris pertama (header)
+    
+        //                 // Cari mahasiswa_id berdasarkan NIM
+        //                 $mahasiswa = MahasiswaModel::where('nim', $value['A'])->first();
+        //                 if (!$mahasiswa) {
+        //                     continue; // Lewati jika NIM tidak ditemukan
+        //                 }
+    
+        //                 // Cari periode_id berdasarkan nama periode
+        //                 $periode = PeriodeModel::where('periode_tahun', $value['E'])->first();
+        //                 if (!$periode) {
+        //                     continue; // Lewati jika periode tidak ditemukan
+        //                 }
+    
+        //                 // Siapkan data untuk insert
+        //                 $insert[] = [
+        //                     'mahasiswa_id' => $mahasiswa->id,
+        //                     'alpha' => $value['B'],
+        //                     'poin' => $value['C'],
+        //                     'status' => $value['D'],
+        //                     'periode_id' => $periode->id,
+        //                     'created_at' => now(),
+        //                 ];
+        //             }
+        //         }
+    
+        //         if (count($insert) > 0) {
+        //             // Insert data ke database, jika data sudah ada, maka diabaikan
+        //             AbsensiModel::insertOrIgnore($insert);
+    
+        //             return response()->json([
+        //                 'status' => true,
+        //                 'message' => 'Data berhasil diimport',
+        //             ]);
+        //         } else {
+        //             return response()->json([
+        //                 'status' => false,
+        //                 'message' => 'Tidak ada data yang valid untuk diimport',
+        //             ]);
+        //         }
+        //     } else {
+        //         return response()->json([
+        //             'status' => false,
+        //             'message' => 'Tidak ada data yang diimport',
+        //         ]);
+        //     }
+        // }
+        // return redirect('/');
+
+        // Validasi input file
+        // $request->validate([
+        //     'file' => 'required|mimes:xlsx,xls'
+        // ]);
+
+        // try {
+        //     // Ambil file dari request
+        //     $data = \Maatwebsite\Excel\Facades\Excel::toArray([], $file);
+        //     $file = $request->file('file');
+
+        //     if (!isset($data[0]) || empty($data[0])) {
+        //         return response()->json(['success' => false, 'message' => 'File Excel kosong!'], 400);
+        //     }
+
+        //     $rows = $data[0]; // Data sheet pertama
+        //     $header = array_shift($rows); // Hapus baris header
+
+        //     // Validasi header
+        //     $expectedHeaders = ['nim', 'alpha', 'poin', 'status', 'periode'];
+        //     if ($header !== $expectedHeaders) {
+        //         return response()->json([
+        //             'success' => false,
+        //             'message' => 'Header Excel tidak valid. Harus: nim, alpha, poin, status, periode.'
+        //         ], 400);
+        //     }
+
+        //     foreach ($rows as $row) {
+        //         // Cari mahasiswa berdasarkan NIM
+        //         $mahasiswa = MahasiswaModel::where('nim', $row[0])->first();
+        //         if (!$mahasiswa) {
+        //             return response()->json([
+        //                 'success' => false,
+        //                 'message' => 'Mahasiswa dengan NIM ' . $row[0] . ' tidak ditemukan!'
+        //             ], 404);
+        //         }
+
+        //         // Cari atau buat periode berdasarkan nama
+        //         $periode = PeriodeModel::firstOrCreate(['periode_tahun' => $row[4]]);
+
+        //         // Simpan ke database
+        //         AbsensiModel::updateOrCreate(
+        //             [
+        //                 'mahasiswa_id' => $mahasiswa->mahasiswa_id,
+        //                 'periode_id' => $periode->periode_id
+        //             ],
+        //             [
+        //                 'alpha' => $row[1],
+        //                 'poin' => $row[2],
+        //                 'status' => $row[3],
+        //             ]
+        //         );
+        //     }
+
+        //     return response()->json(['success' => true, 'message' => 'Data berhasil diimport!']);
+        // } catch (\Exception $e) {
+        //     return response()->json(['success' => false, 'message' => 'Terjadi kesalahan: ' . $e->getMessage()], 500);
+        // }
     }
-    return redirect('/');
-}
     public function export_excel()
     {
         // ambil data absensi yang akan di export
-        $absensi = AbsensiModel::select('mahasiswa_id', 'absensi_id', 'sakit', 'izin', 'alpha', 'poin', 'status', 'periode')
-            ->with('mahasiswa')
+        $absensi = AbsensiModel::select('absensi_id', 'mahasiswa_id', 'alpha', 'poin', 'status', 'periode_id')
+            ->with('mahasiswa', 'periode')
             ->orderBy('mahasiswa_id')
             ->get();
         // load library excel
@@ -191,13 +337,11 @@ class AbsensiController extends Controller
         $sheet->setCellValue('B1', 'Absensi ID');
         $sheet->setCellValue('C1', 'NIM');
         $sheet->setCellValue('D1', 'Nama Mahasiswa');
-        $sheet->setCellValue('E1', 'Sakit');
-        $sheet->setCellValue('F1', 'Izin');
-        $sheet->setCellValue('G1', 'Alpha');
-        $sheet->setCellValue('H1', 'Poin');
-        $sheet->setCellValue('I1', 'Status');
-        $sheet->setCellValue('J1', 'Periode');
-        $sheet->getStyle('A1:J1')->getFont()->setBold(true); // bold header
+        $sheet->setCellValue('E1', 'Alpha');
+        $sheet->setCellValue('F1', 'Poin');
+        $sheet->setCellValue('G1', 'Status');
+        $sheet->setCellValue('H1', 'Periode');
+        $sheet->getStyle('A1:H1')->getFont()->setBold(true); // bold header
         $no = 1; // nomor data dimulai dari 1
         $baris = 2; // baris data dimulai dari baris ke 2
         foreach ($absensi as $key => $value) {
@@ -205,16 +349,14 @@ class AbsensiController extends Controller
             $sheet->setCellValue('B' . $baris, $value->absensi_id);
             $sheet->setCellValue('C' . $baris, $value->mahasiswa->nim);
             $sheet->setCellValue('D' . $baris, $value->mahasiswa->mahasiswa_nama);
-            $sheet->setCellValue('E' . $baris, $value->sakit);
-            $sheet->setCellValue('F' . $baris, $value->izin);
-            $sheet->setCellValue('G' . $baris, $value->alpha);
-            $sheet->setCellValue('H' . $baris, $value->poin);
-            $sheet->setCellValue('I' . $baris, $value->status);
-            $sheet->setCellValue('J' . $baris, $value->periode);
+            $sheet->setCellValue('E' . $baris, $value->alpha);
+            $sheet->setCellValue('F' . $baris, $value->poin);
+            $sheet->setCellValue('G' . $baris, $value->status);
+            $sheet->setCellValue('H' . $baris, $value->periode->periode_tahun);
             $baris++;
             $no++;
         }
-        foreach (range('A', 'J') as $columnID) {
+        foreach (range('A', 'H') as $columnID) {
             $sheet->getColumnDimension($columnID)->setAutoSize(true); // set auto size untuk kolom
         }
         $sheet->setTitle('Data absensi'); // set title sheet
@@ -233,14 +375,14 @@ class AbsensiController extends Controller
     } // end function export_excel
     public function export_pdf()
     {
-        $absensi = AbsensiModel::select('absensi_id','m_mahasiswa.mahasiswa_id', 'm_mahasiswa.nim', 'm_mahasiswa.mahasiswa_nama', 'sakit', 'izin', 'alpha', 'poin', 'status', 'periode')
-            ->join('m_mahasiswa', 't_absensi_mhs.mahasiswa_id', '=', 'm_mahasiswa.mahasiswa_id')
+        $absensi = AbsensiModel::select('absensi_id', 'mahasiswa_id', 'alpha', 'poin', 'status', 'periode_id')
+            ->with(['mahasiswa', 'periode']) 
             ->orderBy('absensi_id')
             ->get();
-        // use Barryvdh\DomPDF\Facade\Pdf;
+
         $pdf = Pdf::loadView('daftar_alpha.export_pdf', ['absensi' => $absensi]);
-        $pdf->setPaper('a4', 'portrait'); // set ukuran kertas dan orientasi
-        $pdf->setOption("isRemoteEnabled", true); // set true jika ada gambar dari url $pdf->render();
-        return $pdf->stream('Data absensi' . date('Y-m-d H:i:s') . '.pdf');
+        $pdf->setPaper('a4', 'portrait'); 
+
+        return $pdf->stream('Data_Absensi_' . date('Y-m-d_H-i-s') . '.pdf');
     }
 }
