@@ -76,6 +76,11 @@
                     width: "25%",
                     orderable: true,
                     searchable: true,
+                    render: function(data, type, row) {
+                        return data.length > 20 ?
+                            data.substr(0, 20) + '...' :
+                            data;
+                    }
                 }, {
                     data: "jurusan",
                     className: "",

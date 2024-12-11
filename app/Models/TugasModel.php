@@ -13,7 +13,7 @@ class TugasModel extends Model
     protected $table = 't_tugas';
     protected $primaryKey = 'tugas_id';
 
-    protected $fillable = ['jenis_id','user_id','tugas_nama','deskripsi','tugas_bobot','tugas_tenggat','periode_id','created_at', 'updated_at'];
+    protected $fillable = ['jenis_id','user_id','tugas_nama','deskripsi','tugas_bobot','tugas_tenggat','periode_id', 'kuota','created_at', 'updated_at'];
 
     public function user():BelongsTo{
         return $this->belongsTo(UserModel::class, 'user_id', 'user_id');
