@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
-use App\Models\MahasiswaModel;
+use App\Models\DosenModel;
 use Illuminate\Http\Request;
 
-class MahasiswaController extends Controller
+class DosenController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -37,23 +37,15 @@ class MahasiswaController extends Controller
      */
     public function show(Request $request)
     {
-        $data = MahasiswaModel::select(
-            'm_mahasiswa.user_id',
-            'm_mahasiswa.mahasiswa_id',
-            'nim',
+        $data = DosenModel::select(
+            'user_id',
+            'dosen_id',
+            'nip',
             'username',
-            'mahasiswa_nama',
+            'dosen_nama',
             'foto',
-            'no_telp',
-            'jurusan',
-            'prodi',
-            'kelas',
-            't_absensi_mhs.alpha',
-            't_absensi_mhs.poin',
-            't_absensi_mhs.status',
         )
-            ->leftJoin('t_absensi_mhs', 'm_mahasiswa.mahasiswa_id', '=', 't_absensi_mhs.mahasiswa_id')
-            ->where('m_mahasiswa.user_id', $request->id)
+            ->where('user_id', $request->id)
             ->first();
 
         return response()->json($data);
@@ -64,7 +56,7 @@ class MahasiswaController extends Controller
      */
     public function edit(Request $request)
     {
-        $data = MahasiswaModel::all()->where('user_id', $request->id)->first();
+        $data = DosenModel::all()->where('dosen_id', $request->id)->first();
         $data->mahasiswa_nama = $request->mahasiswa_nama;
         $data->username = $request->username;
         $data->no_telp = $request->no_telp;
@@ -77,7 +69,7 @@ class MahasiswaController extends Controller
      */
     public function update(Request $request)
     {
-        $data = MahasiswaModel::all()->where('user_id', $request->id)->first();
+        $data = DosenModel::all()->where('user_id', $request->id)->first();
         $data->password = bcrypt($request->password);
         $data->save();
         return "Berhasil Mengubah Data";
