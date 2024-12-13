@@ -1,6 +1,11 @@
 <?php
 
-use App\Http\Controllers\TugasController;
+// use App\Http\Controllers\TugasController;
+
+use App\Http\Controllers\api\TugasController;
+use App\Http\Controllers\MahasiswaKompenControllerMbl;
+use App\Http\Controllers\TugasController as ControllersTugasController;
+use App\Http\Controllers\TugasControllerMbl;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,5 +24,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('all_data', [TugasController::class, 'index']);
-Route::post('input_data', [TugasController::class, 'store']);
+Route::post('all_data', [TugasControllerMbl::class, 'index']);
+Route::post('input_data', [TugasControllerMbl::class, 'store']);
+    
+Route::post('list_mhs_kompen', [MahasiswaKompenControllerMbl::class, 'index']);
+Route::post('show_list', [MahasiswaKompenControllerMbl::class, 'show']);
