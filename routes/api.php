@@ -46,4 +46,3 @@ Route::post('show_data', [UpdateKompenSelesaiAController::class, 'showTaskDetail
 Route::post('update_status', [UpdateKompenSelesaiAController::class, 'updateStatusAndReason']);
 
 Route::post('all_data_m', [UpdateKompenSelesaiMController::class, 'showAllData']);
-Route::post('show_data_m', [UpdateKompenSelesaiMController::class, 'showTaskDetail']);
