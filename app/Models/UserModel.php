@@ -7,13 +7,23 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticateable;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class UserModel extends Authenticateable
-{
+class UserModel extends Authenticateable implements JWTSubject
+{   public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
+    
     use HasFactory;
     protected $table = 'm_user'; // Mendefinisikan nama tabel yang digunakan oleh model ini
     protected $primaryKey = 'user_id'; // Mendefinisikan primary key dari tabel yang digunakan
-    protected $fillable = ['level_id', 'no_induk', 'username', 'nama', 'password', 'foto','created_at', 'updated_at'];
+    protected $fillable = ['level_id', 'username', 'nama', 'password','created_at', 'updated_at'];
 
     protected $hiidden = ['password'];
 
@@ -27,6 +37,18 @@ class UserModel extends Authenticateable
 
     public function tugas(): HasMany{
         return $this->hasMany(TugasModel::class);
+    }
+    public function admin(): HasMany{
+        return $this->hasMany(AdminModel::class, 'user_id', 'user_id');
+    }
+    public function tendik(): HasMany{
+        return $this->hasMany(TendikModel::class, 'user_id', 'user_id');
+    }
+    public function dosen(): HasMany{
+        return $this->hasMany(DosenModel::class, 'user_id', 'user_id');
+    }
+    public function mahasiswa(): HasMany{
+        return $this->hasMany(MahasiswaModel::class, 'user_id', 'user_id');
     }
 
     public function getRoleName(): string
@@ -43,4 +65,6 @@ class UserModel extends Authenticateable
     {
         return $this->level->level_kode;
     }
+
+    
 }
