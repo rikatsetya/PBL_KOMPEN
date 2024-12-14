@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Models\DosenModel;
+use App\Models\UserModel;
 use Illuminate\Http\Request;
 
 class DosenController extends Controller
@@ -56,11 +57,13 @@ class DosenController extends Controller
      */
     public function edit(Request $request)
     {
-        $data = DosenModel::all()->where('dosen_id', $request->id)->first();
-        $data->mahasiswa_nama = $request->mahasiswa_nama;
-        $data->username = $request->username;
-        $data->no_telp = $request->no_telp;
-        $data->save();
+        $dataUser= UserModel::all()->where('user_id', $request->id)->first();
+        $dataDosen = DosenModel::all()->where('user_id', $request->id)->first();
+        $dataUser->username = $request->username;
+        $dataUser->save();
+        $dataDosen->dosen_nama = $request->nama;
+        $dataDosen->username = $request->username;
+        $dataDosen->save();
         return "Berhasil Mengubah Data";
     }
 
@@ -69,7 +72,10 @@ class DosenController extends Controller
      */
     public function update(Request $request)
     {
+        $dataUser= UserModel::all()->where('user_id', $request->id)->first();
         $data = DosenModel::all()->where('user_id', $request->id)->first();
+        $dataUser->password = bcrypt($request->password);
+        $dataUser->save();
         $data->password = bcrypt($request->password);
         $data->save();
         return "Berhasil Mengubah Data";

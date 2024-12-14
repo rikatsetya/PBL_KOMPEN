@@ -31,6 +31,7 @@ class AbsensiController extends Controller
         )
             ->leftJoin('t_absensi_mhs', 'm_mahasiswa.mahasiswa_id', '=', 't_absensi_mhs.mahasiswa_id')
             ->leftJoin('t_periode', 't_absensi_mhs.periode_id','=', 't_periode.periode_id')
+            ->where('t_absensi_mhs.alpha', '!=', '0')
             ->get();
 
         return response()->json([

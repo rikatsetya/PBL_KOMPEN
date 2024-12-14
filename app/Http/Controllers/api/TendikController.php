@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Models\TendikModel;
+use App\Models\UserModel;
 use Illuminate\Http\Request;
 
 class TendikController extends Controller
@@ -56,10 +57,12 @@ class TendikController extends Controller
      */
     public function edit(Request $request)
     {
+        $dataUser= UserModel::all()->where('user_id', $request->id)->first();
         $data = TendikModel::all()->where('user_id', $request->id)->first();
-        $data->mahasiswa_nama = $request->mahasiswa_nama;
+        $dataUser->username = $request->username;
+        $dataUser->save();
+        $data->tendik_nama = $request->nama;
         $data->username = $request->username;
-        $data->no_telp = $request->no_telp;
         $data->save();
         return "Berhasil Mengubah Data";
     }
@@ -69,7 +72,10 @@ class TendikController extends Controller
      */
     public function update(Request $request)
     {
+        $dataUser= UserModel::all()->where('user_id', $request->id)->first();
         $data = TendikModel::all()->where('user_id', $request->id)->first();
+        $dataUser->password = bcrypt($request->password);
+        $dataUser->save();
         $data->password = bcrypt($request->password);
         $data->save();
         return "Berhasil Mengubah Data";

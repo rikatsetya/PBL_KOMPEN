@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Models\MahasiswaModel;
+use App\Models\UserModel;
 use Illuminate\Http\Request;
 
 class MahasiswaController extends Controller
@@ -65,6 +66,9 @@ class MahasiswaController extends Controller
     public function edit(Request $request)
     {
         $data = MahasiswaModel::all()->where('user_id', $request->id)->first();
+        $dataUser= UserModel::all()->where('user_id', $request->id)->first();
+        $dataUser->username = $request->username;
+        $dataUser->save();
         $data->mahasiswa_nama = $request->mahasiswa_nama;
         $data->username = $request->username;
         $data->no_telp = $request->no_telp;
@@ -78,6 +82,9 @@ class MahasiswaController extends Controller
     public function update(Request $request)
     {
         $data = MahasiswaModel::all()->where('user_id', $request->id)->first();
+        $dataUser= UserModel::all()->where('user_id', $request->id)->first();
+        $dataUser->password = bcrypt($request->password);
+        $dataUser->save();
         $data->password = bcrypt($request->password);
         $data->save();
         return "Berhasil Mengubah Data";
