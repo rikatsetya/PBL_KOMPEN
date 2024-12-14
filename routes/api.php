@@ -22,26 +22,32 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 Route::post('/logout', App\Http\Controllers\Api\LoginController::class)->name('logout');
 Route::middleware('auth:api')->group(function () {
+
+    Route::group(['prefix' => 'alpha'], function () {
+        Route::post('all_data', [App\Http\Controllers\api\AbsensiController::class, 'index']);
+        Route::post('show_data', [App\Http\Controllers\api\AbsensiController::class, 'show']);
+    });
     
-    Route::post('all_data', [App\Http\Controllers\api\AbsensiController::class, 'index']);
-    Route::post('show_data', [App\Http\Controllers\api\AbsensiController::class, 'show']);
+    Route::group(['prefix' => 'kompen'], function () {
+        Route::post('list_mhs_kompen', [App\Http\Controllers\api\MahasiswaKompenController::class, 'index']);
+        Route::post('show_list', [App\Http\Controllers\api\MahasiswaKompenController::class, 'show']);
+    });
     
     Route::group(['prefix' => 'mahasiswa'], function () {
-        Route::post('/mahasiswa_data', [\App\Http\Controllers\api\MahasiswaController::class, 'show']);
-        Route::post('/edit_profile', [\App\Http\Controllers\api\MahasiswaController::class, 'edit']);
-        Route::post('/edit_password', [\App\Http\Controllers\api\MahasiswaController::class, 'update']);
+        Route::post('mahasiswa_data', [\App\Http\Controllers\api\MahasiswaController::class, 'show']);
+        Route::post('edit_profile', [\App\Http\Controllers\api\MahasiswaController::class, 'edit']);
+        Route::post('edit_password', [\App\Http\Controllers\api\MahasiswaController::class, 'update']);
     });
 
     Route::group(['prefix' => 'dosen'], function () {
         Route::post('dosen_data', [\App\Http\Controllers\api\DosenController::class, 'show']);
-        Route::post('edit_profile', [\App\Http\Controllers\api\DosenController::class, 'edit'])->name('dosen.edit_profile');
-        Route::post('edit_password', [\App\Http\Controllers\api\DosenController::class, 'update'])->name('dosen.edit_password');
+        Route::post('edit_profile', [\App\Http\Controllers\api\DosenController::class, 'edit']);
+        Route::post('edit_password', [\App\Http\Controllers\api\DosenController::class, 'update']);
     });
 
     Route::group(['prefix' => 'tendik'], function () {
         Route::post('tendik_data', [\App\Http\Controllers\api\TendikController::class, 'show']);
-        Route::post('edit_profile', [\App\Http\Controllers\api\TendikController::class, 'edit'])->name('tendik.edit_profile');
-        Route::post('edit_password', [\App\Http\Controllers\api\TendikController::class, 'update'])->name('tendik.edit_password');
+        Route::post('edit_profile', [\App\Http\Controllers\api\TendikController::class, 'edit']);
+        Route::post('edit_password', [\App\Http\Controllers\api\TendikController::class, 'update']);
     });
-    
 });

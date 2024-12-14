@@ -33,7 +33,10 @@ class AbsensiController extends Controller
             ->leftJoin('t_periode', 't_absensi_mhs.periode_id','=', 't_periode.periode_id')
             ->get();
 
-        return response()->json($data);
+        return response()->json([
+            'success'   => true,
+            'data'      => $data
+        ]);
     }
 
     /**
