@@ -67,7 +67,7 @@ class AuthController extends Controller
                 'kelas'      => 'required|string',
                 'password'  => 'required|min:6'
             ];
-            $request['foto']='image/profile/default.jpg';
+            $request['foto']='images/profile/default.jpg';
             // use Illuminate\Support\Facades\Validator;
             $validator = Validator::make($request->all(), $rules);
 
