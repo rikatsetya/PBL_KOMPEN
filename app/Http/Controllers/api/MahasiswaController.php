@@ -69,7 +69,7 @@ class MahasiswaController extends Controller
         $dataUser= UserModel::all()->where('user_id', $request->id)->first();
         $dataUser->username = $request->username;
         $dataUser->save();
-        $data->mahasiswa_nama = $request->mahasiswa_nama;
+        $data->mahasiswa_nama = $request->nama;
         $data->username = $request->username;
         $data->no_telp = $request->no_telp;
         $data->save();
