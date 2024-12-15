@@ -5,24 +5,32 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use App\Models\PengumpulanModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class KompenSelesaiAController extends Controller
 {
     public function showAllData()
     {
         // Ambil semua data pengumpulan tugas beserta tugas dan mahasiswa
-        $data = PengumpulanModel::with(['tugas', 'mahasiswa'])->get();
+
+        $user = Auth::user();
+
+        $data = PengumpulanModel::with(['tugas', 'mahasiswa'])
+            ->whereHas('tugas', function ($query) use ($user) {
+                $query->where('user_id', $user->user_id);
+            })
+            ->get();
 
         return response()->json([
             'success' => true,
-            'data' => $data
+            'data' => $data,
         ]);
     }
 
     // Menampilkan detail tugas berdasarkan pengumpulan_id
     public function showTaskDetail(Request $request)
     {
-        // Ambil pengumpulan_id dari body request
+        $user = Auth::user();
         $id = $request->input('pengumpulan_id');
 
         if (!$id) {
@@ -32,15 +40,17 @@ class KompenSelesaiAController extends Controller
             ], 400);
         }
 
-        // Ambil data pengumpulan berdasarkan pengumpulan_id
         $taskDetail = PengumpulanModel::with(['tugas', 'mahasiswa'])
             ->where('pengumpulan_id', $id)
+            ->whereHas('tugas', function ($query) use ($user) {
+                $query->where('user_id', $user->user_id); // Filter berdasarkan user_id di tabel tugas
+            })
             ->first();
 
         if (!$taskDetail) {
             return response()->json([
                 'success' => false,
-                'message' => 'Task not found'
+                'message' => 'Task not found or not associated with the current user'
             ]);
         }
 
@@ -50,37 +60,39 @@ class KompenSelesaiAController extends Controller
         ]);
     }
 
+
     // Mengupdate status dan alasan
     public function updateStatusAndReason(Request $request)
     {
-        // Validasi input status dan alasan
         $validated = $request->validate([
-            'status' => 'required|in:terima,tolak', // Hanya menerima 'terima' atau 'tolak'
-            'alasan' => 'required_if:status,tolak|string|max:255', // Alasan hanya diperlukan jika status adalah 'tolak'
-            'pengumpulan_id' => 'required|integer', // ID pengumpulan
+            'status' => 'required|in:terima,tolak',
+            'alasan' => 'required_if:status,tolak|string|max:255',
+            'pengumpulan_id' => 'required|integer',
         ]);
 
-        // Mencari task berdasarkan ID
-        $task = PengumpulanModel::find($validated['pengumpulan_id']);
+        $user = Auth::user();
+
+        $task = PengumpulanModel::where('pengumpulan_id', $validated['pengumpulan_id'])
+            ->whereHas('tugas', function ($query) use ($user) {
+                $query->where('user_id', $user->user_id); // Filter berdasarkan user_id di tabel tugas
+            })
+            ->first();
 
         if (!$task) {
             return response()->json([
                 'success' => false,
-                'message' => 'Task not found'
-            ], 404); // Kembalikan status 404 jika task tidak ditemukan
+                'message' => 'Task not found or not associated with the current user'
+            ], 404);
         }
 
-        // Update status
         $task->status = $validated['status'];
 
-        // Jika status "tolak", alasan harus ada
         if ($validated['status'] === 'tolak') {
-            $task->alasan = $validated['alasan']; // Simpan alasan jika status 'tolak'
+            $task->alasan = $validated['alasan'];
         } else {
-            $task->alasan = null; // Jika status 'terima', alasan harus kosong
+            $task->alasan = null;
         }
 
-        // Simpan perubahan ke database
         $task->save();
 
         return response()->json([

@@ -23,7 +23,7 @@ class TugasModel extends Model
     }
 
     public function pengumpulan():HasMany{
-        return $this->hasMany(PengumpulanModel::class, 'pengumpulan_id', 'pengumpulan_id');
+        return $this->hasMany(PengumpulanModel::class, 'tugas_id', 'tugas_id');
     }
     
     public function periode():BelongsTo{
