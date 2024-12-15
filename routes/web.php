@@ -13,6 +13,7 @@ use App\Http\Controllers\MahasiswaKompenController;
 use App\Http\Controllers\TugasController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\UpdateKompenProgresController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -163,3 +164,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/hasil/{id}', [CetakHasilKompenController::class, 'export_pdf']);
     });
 });
+
+Route::get('/kompen_progres', [UpdateKompenProgresController::class, 'index'])->name('kompen_progres.index');
+Route::post('/kompen_progres/list', [UpdateKompenProgresController::class, 'list']);
+Route::get('/kompen_progres/{id}/edit', [UpdateKompenProgresController::class, 'edit'])->name('kompen_progres.edit');
+Route::put('/kompen_progres/{id}/update', [UpdateKompenProgresController::class, 'update']);
