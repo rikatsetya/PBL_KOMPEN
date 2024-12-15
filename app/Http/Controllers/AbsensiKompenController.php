@@ -41,7 +41,7 @@ class AbsensiKompenController extends Controller
     {
         // Ambil data absensi dengan relasi mahasiswa dan periode
         $kompen = AbsensiModel::select('mahasiswa_id', 'absensi_id', 'poin', 'status', 'periode_id')
-            ->with('mahasiswa', 'periode'); // Menghapus titik koma yang salah di sini
+            ->with(['mahasiswa', 'periode']); // Menghapus titik koma yang salah di sini
 
         // Filter berdasarkan mahasiswa_id jika ada
         if ($request->mahasiswa_id) {
@@ -165,12 +165,13 @@ class AbsensiKompenController extends Controller
     {
         $kompen = AbsensiModel::select('mahasiswa_id', 'poin', 'status', 'periode_id')
             ->orderBy('mahasiswa_id')
-            ->with('mahasiswa', 'periode')
+            ->with(['mahasiswa', 'periode'])
             ->get();
         // use Barryvdh\DomPDF\Facade\Pdf;
         $pdf = Pdf::loadView('daftar_kompen.export_pdf', ['kompen' => $kompen]);
-        $pdf->setPaper('a4', 'portrait'); // set ukuran kertas dan orientasi
-        $pdf->setOption("isRemoteEnabled", true); // set true jika ada gambar dari url $pdf->render();
-        return $pdf->stream('Data kompen' . date('Y-m-d H:i:s') . '.pdf');
+        $pdf->setPaper('a4', 'portrait'); // set ukuran kertas dan orientasi 
+        $pdf->setOption("isRemoteEnabled", true); // set true jika ada gambar dari url 
+        $pdf->render();
+        return $pdf->stream('Data_kompen_' . date('Y-m-d H:i:s') . '.pdf');
     }
 }

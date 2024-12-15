@@ -186,5 +186,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/daftar_kompen/export_pdf', [AbsensiKompenController::class, 'export_pdf']);
     });
 
-    
+    Route::middleware(['authorize:MHS'])->group(function () {
+        Route::get('/hasil', [CetakHasilKompenController::class, 'index']);
+        Route::post('/hasil/list', [CetakHasilKompenController::class, 'list']);
+        Route::get('/hasil/{id}', [CetakHasilKompenController::class, 'export_pdf']);
+    });
 });

@@ -352,7 +352,8 @@ class MahasiswaController extends Controller
         // use Barryvdh\DomPDF\Facade\Pdf;
         $pdf = Pdf::loadView('mahasiswa.export_pdf', ['mahasiswa' => $mahasiswa]);
         $pdf->setPaper('a4', 'portrait'); // set ukuran kertas dan orientasi
-        $pdf->setOption("isRemoteEnabled", true); // set true jika ada gambar dari url $pdf->render();
+        $pdf->setOption("isRemoteEnabled", true); // set true jika ada gambar dari url 
+        $pdf->render();
         return $pdf->stream('Data Mahasiswa' . date('Y-m-d H:i:s') . '.pdf');
     }
 }

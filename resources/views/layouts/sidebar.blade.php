@@ -132,7 +132,7 @@
                 </li>
                 <li class="nav-item">
                     <a href="{{ url('/daftar_kompen') }}"
-                        class="nav-link {{ $activeMenu == 'mhs' ? 'active' : '' }} ">
+                        class="nav-link {{ $activeMenu == 'kompen' ? 'active' : '' }} ">
                         <i class="nav-icon fas fa-cash-register"></i>
                         <p>Mahasiswa Kompen</p>
                     </a>

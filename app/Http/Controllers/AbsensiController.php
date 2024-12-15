@@ -190,8 +190,8 @@ class AbsensiController extends Controller
     public function export_excel()
     {
         // ambil data absensi yang akan di export
-        $absensi = AbsensiModel::select('mahasiswa_id', 'absensi_id', 'sakit', 'izin', 'alpha', 'poin', 'status', 'periode')
-            ->with('mahasiswa')
+        $absensi = AbsensiModel::select('absensi_id', 'mahasiswa_id', 'alpha', 'poin', 'status', 'periode_id')
+            ->with('mahasiswa', 'periode')
             ->orderBy('mahasiswa_id')
             ->get();
         // load library excel
@@ -201,13 +201,11 @@ class AbsensiController extends Controller
         $sheet->setCellValue('B1', 'Absensi ID');
         $sheet->setCellValue('C1', 'NIM');
         $sheet->setCellValue('D1', 'Nama Mahasiswa');
-        $sheet->setCellValue('E1', 'Sakit');
-        $sheet->setCellValue('F1', 'Izin');
-        $sheet->setCellValue('G1', 'Alpha');
-        $sheet->setCellValue('H1', 'Poin');
-        $sheet->setCellValue('I1', 'Status');
-        $sheet->setCellValue('J1', 'Periode');
-        $sheet->getStyle('A1:J1')->getFont()->setBold(true); // bold header
+        $sheet->setCellValue('E1', 'Alpha');
+        $sheet->setCellValue('F1', 'Poin');
+        $sheet->setCellValue('G1', 'Status');
+        $sheet->setCellValue('H1', 'Periode');
+        $sheet->getStyle('A1:H1')->getFont()->setBold(true); // bold header
         $no = 1; // nomor data dimulai dari 1
         $baris = 2; // baris data dimulai dari baris ke 2
         foreach ($absensi as $key => $value) {
@@ -215,16 +213,14 @@ class AbsensiController extends Controller
             $sheet->setCellValue('B' . $baris, $value->absensi_id);
             $sheet->setCellValue('C' . $baris, $value->mahasiswa->nim);
             $sheet->setCellValue('D' . $baris, $value->mahasiswa->mahasiswa_nama);
-            $sheet->setCellValue('E' . $baris, $value->sakit);
-            $sheet->setCellValue('F' . $baris, $value->izin);
-            $sheet->setCellValue('G' . $baris, $value->alpha);
-            $sheet->setCellValue('H' . $baris, $value->poin);
-            $sheet->setCellValue('I' . $baris, $value->status);
-            $sheet->setCellValue('J' . $baris, $value->periode);
+            $sheet->setCellValue('E' . $baris, $value->alpha);
+            $sheet->setCellValue('F' . $baris, $value->poin);
+            $sheet->setCellValue('G' . $baris, $value->status);
+            $sheet->setCellValue('H' . $baris, $value->periode->periode_tahun);
             $baris++;
             $no++;
         }
-        foreach (range('A', 'J') as $columnID) {
+        foreach (range('A', 'H') as $columnID) {
             $sheet->getColumnDimension($columnID)->setAutoSize(true); // set auto size untuk kolom
         }
         $sheet->setTitle('Data absensi'); // set title sheet
@@ -243,14 +239,16 @@ class AbsensiController extends Controller
     } // end function export_excel
     public function export_pdf()
     {
-        $absensi = AbsensiModel::select('absensi_id', 'm_mahasiswa.mahasiswa_id', 'm_mahasiswa.nim', 'm_mahasiswa.mahasiswa_nama', 'sakit', 'izin', 'alpha', 'poin', 'status', 'periode')
-            ->join('m_mahasiswa', 't_absensi_mhs.mahasiswa_id', '=', 'm_mahasiswa.mahasiswa_id')
+        $absensi = AbsensiModel::select('absensi_id', 'mahasiswa_id', 'alpha', 'poin', 'status', 'periode_id')
+            ->with(['mahasiswa', 'periode']) 
             ->orderBy('absensi_id')
             ->get();
-        // use Barryvdh\DomPDF\Facade\Pdf;
+
         $pdf = Pdf::loadView('daftar_alpha.export_pdf', ['absensi' => $absensi]);
-        $pdf->setPaper('a4', 'portrait'); // set ukuran kertas dan orientasi
-        $pdf->setOption("isRemoteEnabled", true); // set true jika ada gambar dari url $pdf->render();
-        return $pdf->stream('Data absensi' . date('Y-m-d H:i:s') . '.pdf');
+        $pdf->setPaper('a4', 'portrait');
+        $pdf->setOption("isRemoteEnabled", true); // set true jika ada gambar dari url 
+        $pdf->render();
+        return $pdf->stream('Data_Absensi_' . date('Y-m-d_H-i-s') . '.pdf');
     }
+
 }
