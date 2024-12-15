@@ -14,6 +14,8 @@ use App\Http\Controllers\TugasController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\UpdateKompenProgresController;
+use App\Http\Controllers\UpdateKompenSelesaiAController;
+use App\Http\Controllers\UpdateKompenSelesaiMController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -169,3 +171,13 @@ Route::get('/kompen_progres', [UpdateKompenProgresController::class, 'index'])->
 Route::post('/kompen_progres/list', [UpdateKompenProgresController::class, 'list']);
 Route::get('/kompen_progres/{id}/edit', [UpdateKompenProgresController::class, 'edit'])->name('kompen_progres.edit');
 Route::put('/kompen_progres/{id}/update', [UpdateKompenProgresController::class, 'update']);
+
+Route::get('/kompen_selesai', [UpdateKompenSelesaiAController::class, 'index'])->name('kompen_selesai.index');
+Route::post('/kompen_selesai/list', [UpdateKompenSelesaiAController::class, 'list']);
+Route::get('/kompen_selesai/{id}/detail', [UpdateKompenSelesaiAController::class, 'detail'])->name('kompen_selesai.show');
+Route::get('/kompen_selesai/{id}/edit', [UpdateKompenSelesaiAController::class, 'edit'])->name('kompen_selesai.edit');
+Route::put('/kompen_selesai/{id}', [UpdateKompenSelesaiAController::class, 'update'])->name('kompen_selesai.update');
+
+
+Route::get('/kompen_selesaim', [UpdateKompenSelesaiMController::class, 'index'])->name('kompen_selesai.indexm');
+Route::post('/kompen_selesaim/list', [UpdateKompenSelesaiMController::class, 'list']);
