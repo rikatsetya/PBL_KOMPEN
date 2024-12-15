@@ -96,13 +96,45 @@
                     <a href="{{ url('/daftar_alpha') }}"
                         class="nav-link {{ $activeMenu == 'daftar_alpha' ? 'active' : '' }} ">
                         <i class="nav-icon fas fa-cash-register"></i>
-                        <p>Daftar Mahasiswa Alpha</p>
+                        <p>Mahasiswa Alpha</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ url('/mhs') }}" class="nav-link {{ $activeMenu == 'mhs' ? 'active' : '' }} ">
+                    <a href="{{ url('/daftar_kompen') }}"
+                        class="nav-link {{ $activeMenu == 'mhs' ? 'active' : '' }} ">
                         <i class="nav-icon fas fa-cash-register"></i>
-                        <p>Daftar Mahasiswa Kompen</p>
+                        <p>Mahasiswa Kompen</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url('/tugas') }}" class="nav-link {{ $activeMenu == 'tugas' ? 'active' : '' }} ">
+                        <i class="nav-icon fas fa-cash-register"></i>
+                        <p>Manage Tugas</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url('logout') }}" class="nav-link"
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        <i class="nav-icon fas fa-sign-out-alt"></i>
+                        <p>Logout</p>
+                    </a>
+                    <form id="logout-form" action="{{ url('logout') }}" method="GET" style="display: none;">
+                    </form>
+                </li>
+            @elseif (session('level_id') == 2 || session('level_id') == 3)
+                <li class="nav-header">Informasi Kompen</li>
+                <li class="nav-item">
+                    <a href="{{ url('/daftar_alpha') }}"
+                        class="nav-link {{ $activeMenu == 'daftar_alpha' ? 'active' : '' }} ">
+                        <i class="nav-icon fas fa-cash-register"></i>
+                        <p>Mahasiswa Alpha</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url('/daftar_kompen') }}"
+                        class="nav-link {{ $activeMenu == 'mhs' ? 'active' : '' }} ">
+                        <i class="nav-icon fas fa-cash-register"></i>
+                        <p>Mahasiswa Kompen</p>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -121,39 +153,23 @@
                     </form>
                 </li>
             @else
-                <li class="nav-header">Informasi Kompen</li>
-                <li class="nav-item">
-                    <a href="{{ url('/daftar_alpha') }}"
-                        class="nav-link {{ $activeMenu == 'daftar_alpha' ? 'active' : '' }} ">
-                        <i class="nav-icon fas fa-cash-register"></i>
-                        <p>Daftar Mahasiswa Alpha</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ url('/mhs') }}" class="nav-link {{ $activeMenu == 'mhs' ? 'active' : '' }} ">
-                        <i class="nav-icon fas fa-cash-register"></i>
-                        <p>Daftar Mahasiswa Kompen</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ url('/tugas') }}" class="nav-link {{ $activeMenu == 'tugas' ? 'active' : '' }} ">
-                        <i class="nav-icon fas fa-cash-register"></i>
-                        <p>Manage Tugas</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ url('logout') }}" class="nav-link"
-                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                        <i class="nav-icon fas fa-sign-out-alt"></i>
-                        <p>Logout</p>
-                    </a>
-                    <form id="logout-form" action="{{ url('logout') }}" method="GET" style="display: none;">
-                    </form>
-                </li>
+            <li class="nav-header" style="text-align: center">- Kompen -</li>
+            <li class="nav-item">
+                <a href="{{ url('/hasil') }}" class="nav-link {{ $activeMenu == 'hasil' ? 'active' : '' }} ">
+                    <i class="nav-icon fas fa-cash-register"></i>
+                    <p>Hasil Kompen</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ url('logout') }}" class="nav-link"
+                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <i class="nav-icon fas fa-sign-out-alt"></i>
+                    <p>Logout</p>
+                </a>
+                <form id="logout-form" action="{{ url('logout') }}" method="GET" style="display: none;">
+                </form>
+            </li>
             @endif
-
-
-
         </ul>
     </nav>
 </div>

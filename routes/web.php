@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\AbsensiController;
+use App\Http\Controllers\AbsensiKompenController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CetakHasilKompenController;
 use App\Http\Controllers\JenisController;
 use App\Http\Controllers\KompetensiController;
 use App\Http\Controllers\LevelController;
@@ -139,7 +141,7 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/mahasiswa/{id}/delete_ajax', [MahasiswaController::class, 'delete_ajax']);
     });
 
-    Route::middleware(['authorize:ADM'])->group(function () {
+    Route::middleware(['authorize:ADM,DSN,TDK'])->group(function () {
         Route::get('/tugas', [TugasController::class, 'index']);
         Route::post('/tugas/list', [TugasController::class, 'list']);
         Route::get('/tugas/create_ajax', [TugasController::class, 'create_ajax']);
@@ -155,7 +157,7 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/tugas/{id}/delete_ajax', [TugasController::class, 'delete_ajax']);
     });
 
-    Route::middleware(['authorize:ADM'])->group(function () {
+    Route::middleware(['authorize:ADM,DSN,TDK'])->group(function () {
         Route::get('/daftar_alpha', [AbsensiController::class, 'index']);
         Route::post('/daftar_alpha/list', [AbsensiController::class, 'list']);
         Route::get('/daftar_alpha/import', [AbsensiController::class, 'import']);
@@ -176,4 +178,13 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/mhs/{id}/delete_ajax', [MahasiswaKompenController::class, 'confirm_ajax']);
         Route::delete('/mhs/{id}/delete_ajax', [MahasiswaKompenController::class, 'delete_ajax']);
     });
+
+    Route::middleware(['authorize:ADM,DSN,TDK'])->group(function () {
+        Route::get('/daftar_kompen', [AbsensiKompenController::class, 'index']);
+        Route::post('/daftar_kompen/list', [AbsensiKompenController::class, 'list']);
+        Route::get('/daftar_kompen/export_excel', [AbsensiKompenController::class, 'export_excel']);
+        Route::get('/daftar_kompen/export_pdf', [AbsensiKompenController::class, 'export_pdf']);
+    });
+
+    
 });
