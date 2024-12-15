@@ -27,7 +27,13 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 Route::post('/logout', App\Http\Controllers\Api\LoginController::class)->name('logout');
 Route::middleware('auth:api')->group(function () {
-    
+
+    Route::group(['prefix' => 'tugas'], function () {
+        Route::post('jenis_periode_data', [App\Http\Controllers\api\TugasController::class, 'tugasJenisPeriode']);
+        Route::post('tambah_tugas', [App\Http\Controllers\api\TugasController::class, 'create']);
+        Route::post('tugas_data', [App\Http\Controllers\api\TugasController::class, 'showForDT']);
+        Route::post('all_tugas_data', [App\Http\Controllers\api\TugasController::class, 'showForMhs']);
+    });
     Route::group(['prefix' => 'alpha'], function () {
         Route::post('all_data', [App\Http\Controllers\api\AbsensiController::class, 'index']);
         Route::post('show_data', [App\Http\Controllers\api\AbsensiController::class, 'show']);
