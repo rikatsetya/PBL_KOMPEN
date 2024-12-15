@@ -5,6 +5,7 @@ use App\Http\Controllers\api\MahasiswaController;
 use App\Http\Controllers\api\PengumpulanController;
 use App\Http\Controllers\api\UpdateKompenSelesaiAController;
 use App\Http\Controllers\api\UpdateKompenSelesaiMController;
+use App\Http\Controllers\api\UpdateProgresKompenController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\UserController;
@@ -46,3 +47,7 @@ Route::post('show_data', [UpdateKompenSelesaiAController::class, 'showTaskDetail
 Route::post('update_status', [UpdateKompenSelesaiAController::class, 'updateStatusAndReason']);
 
 Route::get('all_data_m', [UpdateKompenSelesaiMController::class, 'showAllData']);
+
+Route::get('all_data_p', [UpdateProgresKompenController::class, 'allData']);
+Route::post('show_data_p', [UpdateProgresKompenController::class, 'showDetail']);
+Route::post('update_data_p', [UpdateProgresKompenController::class, 'updateData']);
