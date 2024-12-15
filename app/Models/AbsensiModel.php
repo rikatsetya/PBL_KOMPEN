@@ -25,4 +25,7 @@ class AbsensiModel extends Model
     public function surat(): HasOne{
         return $this->hasOne(SuratModel::class, 'surat_id', 'surat_id');
     }
+    public function periode(): BelongsTo{
+        return $this->belongsTo(PeriodeModel::class, 'periode_id', 'periode_id');
+    }
 }

@@ -77,7 +77,7 @@
 <body>
     <table class="border-bottom-header">
         <tr>
-            <td width="15%" class="text-center"><img src="{{ asset('images/logo_polinema.png') }}" style="height: 80px; width:80px"></td>
+            <td width="15%" class="text-center"><img src="{{ asset('image/logo_polinema.png') }}" style="height: 80px; width:80px"></td>
             <td width="85%">
                 <span class="text-center d-block font-11 font-bold mb-1">KEMENTERIAN
                     PENDIDIKAN, KEBUDAYAAN, RISET, DAN TEKNOLOGI</span>
@@ -98,8 +98,6 @@
                     <th class="text-center">No</th>
                     <th>NIM</th>
                     <th>Nama Mahasiswa</th>
-                    <th>Sakit</th>
-                    <th>Izin</th>
                     <th>Alpha</th>
                     <th>Poin</th>
                     <th>Status</th>
@@ -112,12 +110,10 @@
                         <td class="text-center">{{ $loop->iteration }}</td>
                         <td>{{ $b->mahasiswa->nim }}</td>
                         <td>{{ $b->mahasiswa->mahasiswa_nama }}</td>
-                        <td>{{ $b->sakit }}</td>
-                        <td>{{ $b->izin }}</td>
                         <td>{{ $b->alpha }}</td>
                         <td>{{ $b->poin }}</td>
                         <td>{{ $b->status }}</td>
-                        <td>{{ $b->periode }}</td>
+                        <td>{{ $b->periode->periode_tahun }}</td>
                     </tr>
                 @endforeach
             </tbody>

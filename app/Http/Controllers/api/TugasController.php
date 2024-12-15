@@ -70,6 +70,7 @@ class TugasController extends Controller
             ->whereHas('user', function ($query) use ($user) {
                 $query->where('user_id', $user->user_id);
             })
+            ->orderBy('created_at', 'desc')
             ->get();
 
         return response()->json([
