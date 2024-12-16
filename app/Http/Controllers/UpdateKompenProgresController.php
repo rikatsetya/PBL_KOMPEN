@@ -110,7 +110,10 @@ class UpdateKompenProgresController extends Controller
                     $task->foto_sesudah = basename($fotoSesudahPath); // Simpan nama file
                 }
 
-                // Update data task lainnya
+                // Update tanggal secara otomatis
+                $task->tanggal = now(); // Mengupdate kolom tanggal dengan waktu saat ini
+
+                // Simpan perubahan ke database
                 $task->save();
 
                 // Respons sukses
