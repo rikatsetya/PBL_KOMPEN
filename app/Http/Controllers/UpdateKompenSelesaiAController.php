@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\PengumpulanModel;
+use App\Models\UserModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
 
 class UpdateKompenSelesaiAController extends Controller
@@ -21,6 +23,7 @@ class UpdateKompenSelesaiAController extends Controller
         ];
         $activeMenu = 'selesai';
         $activeSubMenu = '';
+        $user = UserModel::all();
         return view('kompen_selesai.index', [
             'breadcrumb' => $breadcrumb,
             'page' => $page,
@@ -32,10 +35,21 @@ class UpdateKompenSelesaiAController extends Controller
     // List of tasks with necessary fields (tugas_nama, mahasiswa_nama, tanggal, status)
     public function list(Request $request)
     {
+        // Get the currently authenticated user
+        $user = Auth::user();
+
+        if (!($user->level_id == 1 || $user->level_id == 2 || $user->level_id == 3)) {
+            return response()->json(['error' => 'Access denied'], 403);
+        }
+
         $selesai = PengumpulanModel::with(['tugas', 'mahasiswa'])
-            ->select('pengumpulan_id', 'tugas_id', 'mahasiswa_id', 'foto_sebelum', 'foto_sesudah', 'tanggal', 'status')
+            ->whereHas('tugas', function ($query) use ($user) {
+                $query->where('user_id', $user->user_id);
+            })
             ->get();
 
+
+        // Return data as DataTable response
         return DataTables::of($selesai)
             ->addIndexColumn()
             ->addColumn('tugas_nama', function ($selesai) {
@@ -48,9 +62,8 @@ class UpdateKompenSelesaiAController extends Controller
                 return $selesai->status ? $selesai->status : 'Belum Diperbarui';
             })
             ->addColumn('aksi', function ($selesai) {
-                // Button for editing
                 return '<button onclick="modalAction(\'' . url('/kompen_selesai/' . $selesai->pengumpulan_id . '/edit') . '\')" class="btn btn-warning btn-sm">Edit</button>
-                        <a href="'. url('/kompen_selesai/' . $selesai->pengumpulan_id . '/detail') . '" class="btn btn-info btn-sm">Detail</a>';
+                        <a href="' . url('/kompen_selesai/' . $selesai->pengumpulan_id . '/detail') . '" class="btn btn-info btn-sm">Detail</a>';
             })
             ->rawColumns(['aksi'])
             ->make(true);
@@ -85,7 +98,6 @@ class UpdateKompenSelesaiAController extends Controller
         ]);
     }
 
-    // Handle status update and reject reason if applicable
     public function update(Request $request, string $id)
     {
         $selesai = PengumpulanModel::find($id);
@@ -93,11 +105,11 @@ class UpdateKompenSelesaiAController extends Controller
         // Validate the form inputs
         $validator = Validator::make($request->all(), [
             'status' => 'required|in:terima,tolak',
-            'alasan' => 'required_if:status,tolak|string|max:255',
+            'alasan' => 'nullable|string|max:255',
         ]);
 
         if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
+            return response()->json(['status' => 'error', 'errors' => $validator->errors()->all()], 422);
         }
 
         // Update the status and reason (if rejected)
@@ -109,6 +121,6 @@ class UpdateKompenSelesaiAController extends Controller
         // Save the changes
         $selesai->save();
 
-        return redirect()->route('kompen_selesai.index')->with('success', 'Status berhasil diperbarui!');
+        return response()->json(['status' => 'success', 'message' => 'Status berhasil diperbarui!']);
     }
 }

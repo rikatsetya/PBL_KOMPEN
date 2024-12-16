@@ -74,7 +74,7 @@
                         searchable: false,
                         render: function(data, type, row) {
                             return data ?
-                                `<img src="{{ asset('storage/foto_sebelum/') }}/${data}" class="img-fluid rounded" style="max-width: 100px; max-height: 100px;">` :
+                                `<img src="{{ asset('foto_sebelum/${data}') }}" class="img-fluid rounded" style="max-width: 100px; max-height: 100px;">` :
                                 'No Image';
                         }
                     },
@@ -86,7 +86,7 @@
                         searchable: false,
                         render: function(data, type, row) {
                             return data ?
-                                `<img src="{{ asset('storage/foto_sesudah/') }}/${data}" class="img-fluid rounded" style="max-width: 100px; max-height: 100px;">` :
+                                `<img src="{{ asset('foto_sesudah/${data}') }}" class="img-fluid rounded" style="max-width: 100px; max-height: 100px;">` :
                                 'No Image';
                         }
                     },
