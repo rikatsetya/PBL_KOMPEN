@@ -33,6 +33,7 @@ Route::middleware('auth:api')->group(function () {
         Route::post('tambah_tugas', [App\Http\Controllers\api\TugasController::class, 'create']);
         Route::post('tugas_data', [App\Http\Controllers\api\TugasController::class, 'showForDT']);
         Route::post('all_tugas_data', [App\Http\Controllers\api\TugasController::class, 'showForMhs']);
+        Route::post('pilih_tugas', [App\Http\Controllers\api\TugasController::class, 'pilih']);
     });
     Route::group(['prefix' => 'alpha'], function () {
         Route::post('all_data', [App\Http\Controllers\api\AbsensiController::class, 'index']);
