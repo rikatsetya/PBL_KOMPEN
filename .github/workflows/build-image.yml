@@ -3,7 +3,7 @@ name: Image Builder
 on:
   push:
     branches:
-      - main 
+      - main
 
 env:
   REGISTRY_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_IMAGE }}
