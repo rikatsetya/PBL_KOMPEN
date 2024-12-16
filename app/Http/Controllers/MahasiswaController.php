@@ -3,10 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\MahasiswaModel;
-<<<<<<< HEAD
 use App\Models\UserModel;
-=======
->>>>>>> 0916f1e641e08abb12c4e55b5e84393c72c4d7e5
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
