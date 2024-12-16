@@ -113,6 +113,12 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="{{ url('/kompen_selesai') }}" class="nav-link {{ $activeMenu == 'selesai' ? 'active' : '' }} ">
+                        <i class="nav-icon fas fa-cash-register"></i>
+                        <p>Kompen Selesai</p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{ url('logout') }}" class="nav-link"
                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         <i class="nav-icon fas fa-sign-out-alt"></i>
@@ -144,6 +150,12 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="{{ url('/kompen_selesai') }}" class="nav-link {{ $activeMenu == 'selesai' ? 'active' : '' }} ">
+                        <i class="nav-icon fas fa-cash-register"></i>
+                        <p>Kompen Selesai</p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{ url('logout') }}" class="nav-link"
                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         <i class="nav-icon fas fa-sign-out-alt"></i>
@@ -154,6 +166,18 @@
                 </li>
             @else
             <li class="nav-header" style="text-align: center">- Kompen -</li>
+            <li class="nav-item">
+                <a href="{{ url('/kompen_progres') }}" class="nav-link {{ $activeMenu == 'progres' ? 'active' : '' }} ">
+                    <i class="nav-icon fas fa-cash-register"></i>
+                    <p>Progres Kompen</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ url('/kompen_selesaim') }}" class="nav-link {{ $activeMenu == 'selesai' ? 'active' : '' }} ">
+                    <i class="nav-icon fas fa-cash-register"></i>
+                    <p>Kompen Selesai</p>
+                </a>
+            </li>
             <li class="nav-item">
                 <a href="{{ url('/hasil') }}" class="nav-link {{ $activeMenu == 'hasil' ? 'active' : '' }} ">
                     <i class="nav-icon fas fa-cash-register"></i>

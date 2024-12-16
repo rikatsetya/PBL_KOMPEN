@@ -12,6 +12,9 @@ use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\MahasiswaKompenController;
 use App\Http\Controllers\PeriodeController;
 use App\Http\Controllers\TugasController;
+use App\Http\Controllers\UpdateKompenProgresController;
+use App\Http\Controllers\UpdateKompenSelesaiAController;
+use App\Http\Controllers\UpdateKompenSelesaiMController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
@@ -190,5 +193,25 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/hasil', [CetakHasilKompenController::class, 'index']);
         Route::post('/hasil/list', [CetakHasilKompenController::class, 'list']);
         Route::get('/hasil/{id}', [CetakHasilKompenController::class, 'export_pdf']);
+    });
+
+    Route::middleware(['authorize:MHS'])->group(function () {
+        Route::get('/kompen_progres', [UpdateKompenProgresController::class, 'index'])->name('kompen_progres.index');
+        Route::post('/kompen_progres/list', [UpdateKompenProgresController::class, 'list']);
+        Route::get('/kompen_progres/{id}/edit', [UpdateKompenProgresController::class, 'edit'])->name('kompen_progres.edit');
+        Route::put('/kompen_progres/{id}/update', [UpdateKompenProgresController::class, 'update']);
+    });
+
+    Route::middleware(['authorize:ADM,DSN,TDK'])->group(function () {
+        Route::get('/kompen_selesai', [UpdateKompenSelesaiAController::class, 'index'])->name('kompen_selesai.index');
+        Route::post('/kompen_selesai/list', [UpdateKompenSelesaiAController::class, 'list']);
+        Route::get('/kompen_selesai/{id}/detail', [UpdateKompenSelesaiAController::class, 'detail'])->name('kompen_selesai.show');
+        Route::get('/kompen_selesai/{id}/edit', [UpdateKompenSelesaiAController::class, 'edit'])->name('kompen_selesai.edit');
+        Route::put('/kompen_selesai/{id}', [UpdateKompenSelesaiAController::class, 'update'])->name('kompen_selesai.update');
+    });
+
+    Route::middleware(['authorize:MHS'])->group(function () {
+        Route::get('/kompen_selesaim', [UpdateKompenSelesaiMController::class, 'index'])->name('kompen_selesai.indexm');
+        Route::post('/kompen_selesaim/list', [UpdateKompenSelesaiMController::class, 'list']);
     });
 });
