@@ -2,14 +2,21 @@
 
 use App\Http\Controllers\AbsensiController;
 use App\Http\Controllers\AbsensiKompenController;
+<<<<<<< HEAD
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CetakHasilKompenController;
+=======
+use App\Http\Controllers\CetakHasilKompenController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AuthController;
+>>>>>>> 0916f1e641e08abb12c4e55b5e84393c72c4d7e5
 use App\Http\Controllers\JenisController;
 use App\Http\Controllers\KompetensiController;
 use App\Http\Controllers\LevelController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\MahasiswaKompenController;
+<<<<<<< HEAD
 use App\Http\Controllers\ManageTugasController;
 use App\Http\Controllers\PeriodeController;
 use App\Http\Controllers\PilihKompenController;
@@ -17,6 +24,10 @@ use App\Http\Controllers\TugasController;
 use App\Http\Controllers\UpdateKompenProgresController;
 use App\Http\Controllers\UpdateKompenSelesaiAController;
 use App\Http\Controllers\UpdateKompenSelesaiMController;
+=======
+use App\Http\Controllers\PeriodeController;
+use App\Http\Controllers\TugasController;
+>>>>>>> 0916f1e641e08abb12c4e55b5e84393c72c4d7e5
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
@@ -124,7 +135,11 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/periode/{id}/delete_ajax', [PeriodeController::class, 'delete_ajax']);
     });
 
+<<<<<<< HEAD
     Route::middleware(['authorize:ADM'])->group(function () {
+=======
+    Route::middleware(['authorize:ADM,MHS'])->group(function () {
+>>>>>>> 0916f1e641e08abb12c4e55b5e84393c72c4d7e5
         Route::get('/daftar_tugas', [TugasController::class, 'indexTugas']);
         Route::post('/daftar_tugas/list', [TugasController::class, 'listTugas']);
         Route::get('/daftar_tugas/{id}', [TugasController::class, 'show']);
@@ -146,6 +161,7 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/mahasiswa/{id}/delete_ajax', [MahasiswaController::class, 'delete_ajax']);
     });
 
+<<<<<<< HEAD
     Route::middleware(['authorize:ADM,DSN,TDK'])->group(function () {
         Route::get('/manage_tugas', [ManageTugasController::class, 'index']);
         Route::post('/manage_tugas/list', [ManageTugasController::class, 'list']);
@@ -163,6 +179,25 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::middleware(['authorize:ADM,DSN,TDK'])->group(function () {
+=======
+    Route::middleware(['authorize:ADM'])->group(function () {
+        Route::get('/tugas', [TugasController::class, 'index']);
+        Route::post('/tugas/list', [TugasController::class, 'list']);
+        Route::get('/tugas/create_ajax', [TugasController::class, 'create_ajax']);
+        Route::post('/tugas/ajax', [TugasController::class, 'store_ajax']);
+        Route::get('/tugas/import', [TugasController::class, 'import']); //ajax form upload excel
+        Route::post('/tugas/import_ajax', [TugasController::class, 'import_ajax']); //ajax import excel
+        Route::get('/tugas/export_excel', [TugasController::class, 'export_excel']); // export excel
+        Route::get('/tugas/export_pdf', [TugasController::class, 'export_pdf']);
+        Route::get('/tugas/{id}/show_ajax', [TugasController::class, 'show_ajax']);
+        Route::get('/tugas/{id}/edit_ajax', [TugasController::class, 'edit_ajax']);
+        Route::put('/tugas/{id}/update_ajax', [TugasController::class, 'update_ajax']);
+        Route::get('/tugas/{id}/delete_ajax', [TugasController::class, 'confirm_ajax']);
+        Route::delete('/tugas/{id}/delete_ajax', [TugasController::class, 'delete_ajax']);
+    });
+
+    Route::middleware(['authorize:ADM'])->group(function () {
+>>>>>>> 0916f1e641e08abb12c4e55b5e84393c72c4d7e5
         Route::get('/daftar_alpha', [AbsensiController::class, 'index']);
         Route::post('/daftar_alpha/list', [AbsensiController::class, 'list']);
         Route::get('/daftar_alpha/import', [AbsensiController::class, 'import']);
@@ -196,6 +231,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/hasil/list', [CetakHasilKompenController::class, 'list']);
         Route::get('/hasil/{id}', [CetakHasilKompenController::class, 'export_pdf']);
     });
+<<<<<<< HEAD
 
     Route::middleware(['authorize:MHS'])->group(function () {
         Route::get('/kompen_progres', [UpdateKompenProgresController::class, 'index'])->name('kompen_progres.index');
@@ -224,3 +260,6 @@ Route::middleware(['auth'])->group(function () {
     });
 
 });
+=======
+});
+>>>>>>> 0916f1e641e08abb12c4e55b5e84393c72c4d7e5

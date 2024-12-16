@@ -14,13 +14,12 @@ class SuratModel extends Model
 
     protected $fillable = ['mahasiswa_id','admin_id','absensi_id','tanggal_pengajuan','created_at', 'updated_at'];
 
-    public function mahasiswa(): BelongsTo{
+    public function mahasiswa(): BelongsTo
+    {
         return $this->belongsTo(MahasiswaModel::class);
     }
-    public function admin(): BelongsTo{
-        return $this->belongsTo(AdminModel::class);
-    }
-    public function absensi(): BelongsTo{
+    public function absensi(): BelongsTo
+    {
         return $this->belongsTo(AdminModel::class);
     }
 }

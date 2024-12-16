@@ -237,6 +237,7 @@ class AbsensiController extends Controller
         $writer->save('php://output');
         exit;
     } // end function export_excel
+
     public function export_pdf()
     {
         $absensi = AbsensiModel::select('absensi_id', 'mahasiswa_id', 'alpha', 'poin', 'status', 'periode_id')
@@ -250,5 +251,4 @@ class AbsensiController extends Controller
         $pdf->render();
         return $pdf->stream('Data_Absensi_' . date('Y-m-d_H-i-s') . '.pdf');
     }
-
 }

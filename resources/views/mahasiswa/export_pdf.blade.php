@@ -96,6 +96,7 @@
             <thead>
                 <tr>
                     <th class="text-center">No</th>
+<<<<<<< HEAD
                     <th>NIM</th>
                     <th>Username</th>
                     <th>Nama</th>
@@ -114,10 +115,30 @@
                         <td>{{ $b->jurusan }}</td>
                         <td>{{ $b->prodi }}</td>
                         <td>{{ $b->kelas }}</td>
+=======
+                    <th>No_Induk</th>
+                    <th>Username</th>
+                    <th>Nama</th>
+                    <th>Level</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($user as $b)
+                    <tr>
+                        <td class="text-center">{{ $loop->iteration }}</td>
+                        <td>{{ $b->no_induk }}</td>
+                        <td>{{ $b->username }}</td>
+                        <td>{{ $b->nama }}</td>
+                        <td>{{ $b->level->level_nama }}</td>
+>>>>>>> 0916f1e641e08abb12c4e55b5e84393c72c4d7e5
                     </tr>
                 @endforeach
             </tbody>
         </table>
 </body>
 
+<<<<<<< HEAD
 </html>
+=======
+</html>
+>>>>>>> 0916f1e641e08abb12c4e55b5e84393c72c4d7e5

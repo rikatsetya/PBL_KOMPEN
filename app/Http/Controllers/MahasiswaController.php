@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\MahasiswaModel;
+<<<<<<< HEAD
 use App\Models\UserModel;
+=======
+>>>>>>> 0916f1e641e08abb12c4e55b5e84393c72c4d7e5
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -239,43 +242,20 @@ class MahasiswaController extends Controller
                         $insert[] = [
                             'nim'               => $value['A'],
                             'username'          => $value['B'],
-                            'nama'              => $value['C'],
+                            'mahasiswa_nama'    => $value['C'],
                             'password'          => bcrypt($value['D']),
-                            'no_telp'           => '-',
-                            'jurusan'           => $value['E'],
-                            'prodi'             => $value['F'],
-                            'kelas'             => $value['G'],
-                            'foto'              => 'images/profile/default.jpg',
+                            'no_telp'           => $value['E'],
+                            'jurusan'           => $value['F'],
+                            'prodi'             => $value['G'],
+                            'kelas'             => $value['H'],
+                            'foto'              => $value['I'],
                             'created_at'        => now(),
                         ];
                     }
                 }
                 if (count($insert) > 0) {
-                    foreach ($insert as $key => $data) {
-                        UserModel::insertOrIgnore([
-                            'level_id'               => '5',
-                            'username'          => $data['username'],
-                            'nama'      => $data['nama'],
-                            'password'          => $data['password'],
-                            'created_at'        => $data['created_at'],
-                        ]);
-
-                        $userId = UserModel::where('username', $data['username'])->value('user_id');
-                        MahasiswaModel::insertOrIgnore([
-                            'user_id'           => $userId,
-                            'username'          => $data['username'],
-                            'mahasiswa_nama'    => $data['nama'],
-                            'password'          => $data['password'],
-                            'nim'               => $data['nim'],
-                            'no_telp'           => $data['no_telp'],
-                            'jurusan'           => $data['jurusan'],
-                            'prodi'             => $data['prodi'],
-                            'kelas'             => $data['kelas'],
-                            'foto'              => $data['foto'],
-                            'created_at'        => $data['created_at'],
-                        ]);
-                    }
                     // insert data ke database, jika data sudah ada, maka diabaikan
+                    MahasiswaModel::insertOrIgnore($insert);
                 }
                 return response()->json([
                     'status' => true,
@@ -302,30 +282,34 @@ class MahasiswaController extends Controller
         $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet(); // ambil sheet yang aktif
         $sheet->setCellValue('A1', 'No');
-        $sheet->setCellValue('B1', 'nim');
-        $sheet->setCellValue('C1', 'username');
-        $sheet->setCellValue('D1', 'mahasiswa_nama');
-        $sheet->setCellValue('E1', 'jurusan');
-        $sheet->setCellValue('F1', 'prodi');
-        $sheet->setCellValue('G1', 'kelas');
+        $sheet->setCellValue('B1', 'mahasiswa_id');
+        $sheet->setCellValue('C1', 'nim');
+        $sheet->setCellValue('D1', 'username');
+        $sheet->setCellValue('E1', 'mahasiswa_nama');
+        $sheet->setCellValue('F1', 'foto');
+        $sheet->setCellValue('G1', 'jurusan');
+        $sheet->setCellValue('H1', 'prodi');
+        $sheet->setCellValue('I1', 'kelas');
 
-        $sheet->getStyle('A1:G1')->getFont()->setBold(true); // bold header
+        $sheet->getStyle('A1:I1')->getFont()->setBold(true); // bold header
 
         $no = 1; // nomor data dimulai dari 1
         $baris = 2; // baris data dimulai dari baris ke 2
         foreach ($mahasiswa as $key => $value) {
             $sheet->setCellValue('A' . $baris, $no);
-            $sheet->setCellValue('B' . $baris, $value->nim);
-            $sheet->setCellValue('C' . $baris, $value->username);
-            $sheet->setCellValue('D' . $baris, $value->mahasiswa_nama);
-            $sheet->setCellValue('E' . $baris, $value->jurusan);
-            $sheet->setCellValue('F' . $baris, $value->prodi);
-            $sheet->setCellValue('G' . $baris, $value->kelas);
+            $sheet->setCellValue('B' . $baris, $value->mahasiswa_id);
+            $sheet->setCellValue('C' . $baris, $value->nim);
+            $sheet->setCellValue('D' . $baris, $value->username);
+            $sheet->setCellValue('E' . $baris, $value->mahasiswa_nama);
+            $sheet->setCellValue('F' . $baris, $value->foto);
+            $sheet->setCellValue('G' . $baris, $value->jurusan);
+            $sheet->setCellValue('H' . $baris, $value->prodi);
+            $sheet->setCellValue('I' . $baris, $value->kelas);
             $baris++;
             $no++;
         }
 
-        foreach (range('A', 'G') as $columnID) {
+        foreach (range('A', 'I') as $columnID) {
             $sheet->getColumnDimension($columnID)->setAutoSize(true); // set auto size untuk kolom
         }
 
@@ -352,8 +336,7 @@ class MahasiswaController extends Controller
         // use Barryvdh\DomPDF\Facade\Pdf;
         $pdf = Pdf::loadView('mahasiswa.export_pdf', ['mahasiswa' => $mahasiswa]);
         $pdf->setPaper('a4', 'portrait'); // set ukuran kertas dan orientasi
-        $pdf->setOption("isRemoteEnabled", true); // set true jika ada gambar dari url 
-        $pdf->render();
+        $pdf->setOption("isRemoteEnabled", true); // set true jika ada gambar dari url $pdf->render();
         return $pdf->stream('Data Mahasiswa' . date('Y-m-d H:i:s') . '.pdf');
     }
 }
