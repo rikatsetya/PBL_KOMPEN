@@ -59,8 +59,8 @@
                             <td class="col-9">{{ $tugas->tugas_tenggat }}</td>
                         </tr>
                         <tr>
-                            <th class="text-right col-3">Periode :</th>
-                            <td class="col-9">{{ $tugas->periode }}</td>
+                            <th class="text-right col-3">Periode Tugas</th>
+                            <td class="col-9">{{ $tugas->periode->periode_tahun }} {{$tugas->periode->periode_semester}}</td>
                         </tr>
                     </table>
                 </div>

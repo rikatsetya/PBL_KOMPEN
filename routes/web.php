@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\PilihKompenController;
+use App\Http\Controllers\PilihKompenControllerController;
 use App\Http\Controllers\TugasController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
@@ -37,4 +39,10 @@ Route::group(['prefix' => 'tugas'], function() {
     Route::get('/{id}/delete_ajax', [TugasController::class, 'confirm_ajax']);
     Route::delete('/{id}/delete_ajax', [TugasController::class, 'delete_ajax']);
     Route::delete('/{id}', [TugasController::class, 'destroy']);
+});
+
+Route::group(['prefix' => 'pilihkompen'], function() {
+    Route::get('/', [PilihKompenController ::class, 'index']);
+    Route::post('/list', [PilihKompenController::class, 'list']);
+    Route::get('/{id}/show_ajax', [PilihKompenController::class, 'show_ajax']);
 });

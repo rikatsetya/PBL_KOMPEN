@@ -38,60 +38,12 @@
                     <p>Manage Tugas</p>
                 </a>
             </li>
+            <li class="nav-header">Lihat dan Pilih Kompen</li>
             <li class="nav-item">
-                <a href="{{ url('/level') }}" class="nav-link {{ ($activeMenu == 'level')?'active' : '' }} ">
-                    <i class="nav-icon fas fa-layer-group"></i>
-                    <p>Level Pengguna</p>
+                <a href="{{ url('/pilihkompen') }}" class="nav-link {{ $activeMenu == 'pilihkompen' ? 'active' : '' }} ">
+                    <i class="nav-icon far fa-address-card"></i>
+                    <p>Lihat dan Pilih Kompen</p>
                 </a>
             </li>
-            <li class="nav-item">
-                <a href="{{ url('/user') }}" class="nav-link {{ ($activeMenu == 'user')?'active' : '' }}">
-                    <i class="nav-icon far fa-user"></i>
-                    <p>Data Pengguna</p>
-                </a>
-            </li>
-            <li class="nav-header">Data Barang</li>
-            <li class="nav-item">
-                <a href="{{ url('/kategori') }}" class="nav-link {{ ($activeMenu =='kategori')? 'active' : '' }} ">
-                    <i class="nav-icon far fa-bookmark"></i>
-                    <p>Kategori Barang</p>
-                </a>
-            </li>
-            <li class="nav-item"> 
-                <a href="{{ url('/supplier') }}" class="nav-link {{ ($activeMenu == 'supplier')? 'active' : '' }} "> 
-                  <i class="nav-icon fas fa-truck"></i>
-                  <p>Data Supplier</p> 
-                </a> 
-            </li>
-            <li class="nav-item">
-                <a href="{{ url('/barang') }}" class="nav-link {{ ($activeMenu =='barang')? 'active' : '' }} ">
-                    <i class="nav-icon far fa-list-alt"></i>
-                    <p>Data Barang</p>
-                </a>
-            </li>
-            <li class="nav-header">Data Transaksi</li>
-            <li class="nav-item">
-                <a href="{{ url('/stok') }}" class="nav-link {{ ($activeMenu == 'stok')?'active' : '' }} ">
-                    <i class="nav-icon fas fa-cubes"></i>
-                    <p>Stok Barang</p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="{{ url('/penjualan') }}" class="nav-link {{ ($activeMenu =='penjualan')? 'active' : '' }} ">
-                    <i class="nav-icon fas fa-cash-register"></i>
-                    <p>Transaksi Penjualan</p>
-                </a>
-            </li>
-            
-                        <!-- Add Log Out Button -->
-                        <li class="nav-header">Akun</li>
-                        <li class="nav-item">
-                            <a href="{{ url('logout') }}" class="nav-link">
-                                <i class="nav-icon fas fa-sign-out-alt"></i>
-                                <p>Log Out</p>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
                 <!-- /.sidebar-menu -->
             </div>

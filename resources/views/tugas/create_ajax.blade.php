@@ -45,6 +45,13 @@
                     <small id="error-tugas_bobot" class="error-text form-text text-danger"></small>
                 </div>
 
+                <!-- Kuota -->
+                <div class="form-group">
+                    <label>Kuota</label>
+                    <input type="text" name="kuota" id="kuota" class="form-control" required>
+                    <small id="error-kuota" class="error-text form-text text-danger"></small>
+                </div>
+
                 <!-- tenggat -->
                 <div class="form-group">
                     <label>Tenggat</label>
@@ -55,14 +62,19 @@
                 <!-- periode -->
                 <div class="form-group">
                     <label>Periode</label>
-                    <select name="periode" id="periode" class="form-control"
-                        required> 
+                    <select name="periode_id" id="periode_id" class="form-control" required>
                         <option value="" selected>--Select--</option>
-                        <option value="2024/2025">2024/2025</option>
+                        
+                        <@foreach ($periode as $periode): ?>
+                        <option value="
+                            <?= $periode['periode_id']; ?>">
+                            <?= $periode['periode_tahun']; ?>
+                        </option>
+                        <@endforeach; ?>
+                        
                     </select>
-                    <small id="error-periode" class="error-text form-text text-danger"></small>
+                    <small id="error-periode_id" class="error-text form-text text-danger"></small>
                 </div>
-            </div>
 
             <div class="modal-footer">
                 <button type="button" data-dismiss="modal" class="btn btn-warning">Batal</button>
@@ -95,12 +107,17 @@
                     minlength: 1,
                     maxlength: 3
                 },
+                kuota: {
+                    required: true,
+                    minlength: 1,
+                    maxlength: 2
+                },
                 tugas_tenggat: {
                     required: true,
                     minlength: 5,
                     maxlength: 20
                 },
-                periode: {
+                periode_id: {
                     required: true
                 }
             },

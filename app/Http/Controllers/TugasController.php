@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\JenisModel;
 use App\Models\LevelModel;
+use App\Models\PeriodeModel;
 use App\Models\TugasModel;
 use App\Models\UserModel;
 use Illuminate\Http\Request;
@@ -27,12 +28,34 @@ class TugasController extends Controller
         $activeMenu = 'tugas';
         // $activeSubMenu = '';
         $user = UserModel::all();
-        return view('tugas.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu, 'user' => $user]);
+        $jenis = JenisModel::all();
+        return view('tugas.index', 
+        [
+            'breadcrumb' => $breadcrumb, 
+            'page' => $page, 
+            'activeMenu' => $activeMenu, 
+            'user' => $user,
+            'jenis.jenis_nama' => $jenis
+        ]);
     }
 
     public function list(Request $request)
     {
-        $tugas = TugasModel::select('tugas_id','jenis_id', 'm_user.user_id','m_user.level_id', 'tugas_nama', 'deskripsi', 'tugas_bobot', 'tugas_tenggat', 'periode')->join('m_user', 't_tugas.user_id', '=','m_user.user_id')->with('jenis')->with('user');
+        $tugas = TugasModel::select(
+            'tugas_id',
+            't_tugas.jenis_id', 
+            'm_user.user_id',
+            'm_user.level_id', 
+            'tugas_nama', 
+            'deskripsi', 
+            'tugas_bobot', 
+            'kuota', 
+            'tugas_tenggat', 
+            'periode_id',
+            't_jenis_tugas.jenis_nama'
+        )
+        ->join('m_user', 't_tugas.user_id', '=','m_user.user_id')->with('jenis')->with('user')
+        ->leftJoin('t_jenis_tugas', 't_tugas.jenis_id', '=', 't_jenis_tugas.jenis_id');
 
         if ($request->level_id) {
             $tugas->where('level_id', $request->level_id);
@@ -56,10 +79,12 @@ class TugasController extends Controller
     {
         $jenis = JenisModel::select('jenis_id', 'jenis_nama')->get();
         $user = UserModel::select('user_id', 'username')->get();
+        $periode = PeriodeModel::select('periode_id', 'periode_tahun')->get();
 
         return view('tugas.create_ajax')
             ->with('jenis', $jenis)
-            ->with('user', $user);
+            ->with('user', $user)
+            ->with('periode', $periode);
     }
 
     /**
@@ -75,8 +100,9 @@ class TugasController extends Controller
                 'tugas_nama' => 'required|string|max:255',
                 'deskripsi' => 'required|min:1',
                 'tugas_bobot' => 'required|integer',
+                'kuota' => 'required|integer',
                 'tugas_tenggat' => 'required|string',
-                'periode' => 'required|string',
+                'periode_id' => 'required',
             ];
 
             // Menggunakan Validator untuk memvalidasi input
@@ -110,7 +136,7 @@ class TugasController extends Controller
      */
     public function show_ajax(string $id)
     {
-        $tugas = TugasModel::select('tugas_id','jenis_id', 'm_user.user_id','m_user.level_id', 'tugas_nama', 'deskripsi', 'tugas_bobot', 'tugas_tenggat', 'periode')->join('m_user', 't_tugas.user_id', '=','m_user.user_id')->with('jenis')->with('user')->find($id);
+        $tugas = TugasModel::select('tugas_id','jenis_id', 'm_user.user_id','m_user.level_id', 'tugas_nama', 'deskripsi', 'tugas_bobot', 'kuota', 'tugas_tenggat', 'periode_id')->join('m_user', 't_tugas.user_id', '=','m_user.user_id')->with('jenis')->with('user')->find($id);
         $breadcrumb = (object) ['title' => 'Daftar Tugas', 'list' => ['Home', 'Daftar Tugas', 'Detail']];
         $page = (object) ['title' => 'Daftar Tugas'];
         $activeMenu = 'tugas';

@@ -64,7 +64,7 @@
                     </div>
                     <div class="form-group">
                         <label>Periode</label>
-                        <select name="periode" id="periode" class="form-control"
+                        <select name="periode" id="periode_id" class="form-control"
                             required> 
                             <option value="" selected>--Select--</option>
                             <option value="2024/2025">2024/2025</option>
