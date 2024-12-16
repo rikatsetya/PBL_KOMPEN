@@ -12,32 +12,33 @@
             @if (session('error'))
                 <div class="alert alert-danger">{{ session('error') }}</div>
             @endif
-            <div class="table-responsive">
-                <table class="table table-bordered table-striped table-hover" id="table_kompen_selesai">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th>No</th>
-                            <th>Nama Tugas</th>
-                            <th>Nama Mahasiswa</th>
-                            <th>Foto Sebelum</th>
-                            <th>Foto Sesudah</th>
-                            <th>Tanggal</th>
-                            <th>Status</th>
-                            <th>Alasan</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-            </div>
+            <table class="table table-bordered table-striped table-hover table-sm" id="table-hasil">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Nama Tugas</th>
+                        <th>Nama Mahasiswa</th>
+                        <th>Foto Sebelum</th>
+                        <th>Foto Sesudah</th>
+                        <th>Tanggal</th>
+                        <th>Status</th>
+                        <th>Alasan</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
         </div>
     </div>
+    </div>
 @endsection
+@push('css')
+@endpush
 
 @push('js')
     <script>
         var tableKompenSelesai;
         $(document).ready(function() {
-            tableKompenSelesai = $('#table_kompen_selesai').DataTable({
+            tableKompenSelesai = $('#table-hasil').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
@@ -111,7 +112,6 @@
                         orderable: false,
                         searchable: false,
                         render: function(data, type, row) {
-                            // If status is "Tolak", display the alasan, otherwise display nothing
                             return data ? data : '-';
                         }
                     }
@@ -119,7 +119,7 @@
             });
 
             // Search functionality on enter key
-            $('#table_kompen_selesai_filter input').unbind().bind('keyup', function(e) {
+            $('#table-hasil_filter input').unbind().bind('keyup', function(e) {
                 if (e.keyCode == 13) { // enter key
                     tableKompenSelesai.search(this.value).draw();
                 }

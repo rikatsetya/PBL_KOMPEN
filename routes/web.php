@@ -207,7 +207,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/kompen_selesai/list', [UpdateKompenSelesaiAController::class, 'list']);
         Route::get('/kompen_selesai/{id}/detail', [UpdateKompenSelesaiAController::class, 'detail'])->name('kompen_selesai.show');
         Route::get('/kompen_selesai/{id}/edit', [UpdateKompenSelesaiAController::class, 'edit'])->name('kompen_selesai.edit');
-        Route::put('/kompen_selesai/{id}', [UpdateKompenSelesaiAController::class, 'update'])->name('kompen_selesai.update');
+        Route::put('/kompen_selesai/{id}/update', [UpdateKompenSelesaiAController::class, 'update']);
     });
 
     Route::middleware(['authorize:MHS'])->group(function () {
