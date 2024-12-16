@@ -155,7 +155,7 @@ class AbsensiController extends Controller
                     foreach ($insert as $key => $data) {
                         $mahasiswaId = MahasiswaModel::where('nim', $data['nim'])->value('mahasiswa_id');
                         $periodeId = PeriodeModel::where('periode_tahun', $data['periode'])->value('periode_id');
-                        AbsensiModel::insertOrIgnore([
+                        AbsensiModel::create([
                             'mahasiswa_id' => $mahasiswaId,
                             'alpha' => $data['alpha'],
                             'poin' => $data['poin'],
