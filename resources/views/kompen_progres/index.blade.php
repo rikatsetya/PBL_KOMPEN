@@ -29,8 +29,7 @@
     </div>
 
     <!-- Modal for updating the photos -->
-    <div id="myModal" class="modal fade animate shake" tabindex="-1" data-backdrop="static" data-keyboard="false"
-        data-width="75%"></div>
+    <div id="myModal" class="modal fade animate shake" tabindex="-1" data-backdrop="static" data-keyboard="false" data-width="75%"></div>
 @endsection
 
 @push('js')
@@ -41,26 +40,25 @@
                 $('#myModal').modal('show');
             });
         }
-
         var tableKompenProgres;
         $(document).ready(function() {
             tableKompenProgres = $('#table_kompen_progres').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ url('/kompen_progres/list') }}",
-                    type: "POST",
-                    data: function(d) {
+                    "url": "{{ url('/kompen_progres/list') }}",
+                    "dataType": "json",
+                    "type": "POST",
+                    "data": function(d) {
                         d._token = '{{ csrf_token() }}'; // Menambahkan token CSRF
                     },
-                    dataType: "json"
                 },
                 columns: [{
                         data: "DT_RowIndex",
                         className: "text-center",
                         width: "5%",
                         orderable: false,
-                        searchable: false
+                        searchable: false,
                     },
                     {
                         data: "tugas_nama",
@@ -84,7 +82,7 @@
                         searchable: false,
                         render: function(data, type, row) {
                             return data ?
-                                `<img src="{{ asset('foto_sebelum') }}/${data}" class="img-thumbnail" width="100" height="100">` :
+                                `<img src="{{ asset('foto_sebelum/${data}') }}" class="img-thumbnail" width="100" height="100">` :
                                 'No Image';
                         }
                     },
@@ -96,7 +94,7 @@
                         searchable: false,
                         render: function(data, type, row) {
                             return data ?
-                                `<img src="{{ asset('foto_sesudah') }}/${data}" class="img-thumbnail" width="100" height="100">` :
+                                `<img src="{{ asset('foto_sesudah/${data}') }}" class="img-thumbnail" width="100" height="100">` :
                                 'No Image';
                         }
                     },
@@ -112,11 +110,10 @@
                         className: "text-center",
                         width: "15%",
                         orderable: false,
-                        searchable: false
+                        searchable: false,
                     }
                 ]
             });
-
             // Search functionality on enter key
             $('#table_kompen_progres_filter input').unbind().bind('keyup', function(e) {
                 if (e.keyCode == 13) { // enter key

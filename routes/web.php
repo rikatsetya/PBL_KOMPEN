@@ -10,7 +10,9 @@ use App\Http\Controllers\KompetensiController;
 use App\Http\Controllers\LevelController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\MahasiswaKompenController;
+use App\Http\Controllers\ManageTugasController;
 use App\Http\Controllers\PeriodeController;
+use App\Http\Controllers\PilihKompenController;
 use App\Http\Controllers\TugasController;
 use App\Http\Controllers\UpdateKompenProgresController;
 use App\Http\Controllers\UpdateKompenSelesaiAController;
@@ -145,19 +147,19 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::middleware(['authorize:ADM,DSN,TDK'])->group(function () {
-        Route::get('/tugas', [TugasController::class, 'index']);
-        Route::post('/tugas/list', [TugasController::class, 'list']);
-        Route::get('/tugas/create_ajax', [TugasController::class, 'create_ajax']);
-        Route::post('/tugas/ajax', [TugasController::class, 'store_ajax']);
-        Route::get('/tugas/import', [TugasController::class, 'import']); //ajax form upload excel
-        Route::post('/tugas/import_ajax', [TugasController::class, 'import_ajax']); //ajax import excel
-        Route::get('/tugas/export_excel', [TugasController::class, 'export_excel']); // export excel
-        Route::get('/tugas/export_pdf', [TugasController::class, 'export_pdf']);
-        Route::get('/tugas/{id}/show_ajax', [TugasController::class, 'show_ajax']);
-        Route::get('/tugas/{id}/edit_ajax', [TugasController::class, 'edit_ajax']);
-        Route::put('/tugas/{id}/update_ajax', [TugasController::class, 'update_ajax']);
-        Route::get('/tugas/{id}/delete_ajax', [TugasController::class, 'confirm_ajax']);
-        Route::delete('/tugas/{id}/delete_ajax', [TugasController::class, 'delete_ajax']);
+        Route::get('/manage_tugas', [ManageTugasController::class, 'index']);
+        Route::post('/manage_tugas/list', [ManageTugasController::class, 'list']);
+        Route::get('/manage_tugas/create_ajax', [ManageTugasController::class, 'create_ajax']);
+        Route::post('/manage_tugas/ajax', [ManageTugasController::class, 'store_ajax']);
+        Route::get('/manage_tugas/import', [ManageTugasController::class, 'import']); //ajax form upload excel
+        Route::post('/manage_tugas/import_ajax', [ManageTugasController::class, 'import_ajax']); //ajax import excel
+        Route::get('/manage_tugas/export_excel', [ManageTugasController::class, 'export_excel']); // export excel
+        Route::get('/manage_tugas/export_pdf', [ManageTugasController::class, 'export_pdf']);
+        Route::get('/manage_tugas/{id}/show_ajax', [ManageTugasController::class, 'show_ajax']);
+        Route::get('/manage_tugas/{id}/edit_ajax', [ManageTugasController::class, 'edit_ajax']);
+        Route::put('/manage_tugas/{id}/update_ajax', [ManageTugasController::class, 'update_ajax']);
+        Route::get('/manage_tugas/{id}/delete_ajax', [ManageTugasController::class, 'confirm_ajax']);
+        Route::delete('/manage_tugas/{id}/delete_ajax', [ManageTugasController::class, 'delete_ajax']);
     });
 
     Route::middleware(['authorize:ADM,DSN,TDK'])->group(function () {
@@ -201,7 +203,13 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/kompen_progres/{id}/edit', [UpdateKompenProgresController::class, 'edit'])->name('kompen_progres.edit');
         Route::put('/kompen_progres/{id}/update', [UpdateKompenProgresController::class, 'update']);
     });
-
+    
+    Route::middleware(['authorize:MHS'])->group(function () {
+        Route::get('/pilihkompen', [PilihKompenController ::class, 'index']);
+        Route::post('/pilihkompen/list', [PilihKompenController::class, 'list']);
+        Route::get('/pilihkompen/{id}/show_ajax', [PilihKompenController::class, 'show_ajax']);
+    });
+    
     Route::middleware(['authorize:ADM,DSN,TDK'])->group(function () {
         Route::get('/kompen_selesai', [UpdateKompenSelesaiAController::class, 'index'])->name('kompen_selesai.index');
         Route::post('/kompen_selesai/list', [UpdateKompenSelesaiAController::class, 'list']);
@@ -214,4 +222,5 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/kompen_selesaim', [UpdateKompenSelesaiMController::class, 'index'])->name('kompen_selesai.indexm');
         Route::post('/kompen_selesaim/list', [UpdateKompenSelesaiMController::class, 'list']);
     });
+
 });

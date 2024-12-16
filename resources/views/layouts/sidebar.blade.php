@@ -98,7 +98,8 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ url('/tugas') }}" class="nav-link {{ $activeMenu == 'tugas' ? 'active' : '' }} ">
+                    <a href="{{ url('/manage_tugas') }}"
+                        class="nav-link {{ $activeMenu == 'tugas' ? 'active' : '' }} ">
                         <i class="nav-icon fas fa-plus"></i>
                         <p>Manage Tugas</p>
                     </a>
@@ -126,6 +127,12 @@
                         class="nav-link {{ $activeMenu == 'progres' ? 'active' : '' }} ">
                         <i class="nav-icon fas fa-file"></i>
                         <p>Progres Kompen</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url('/pilihkompen') }}" class="nav-link {{ $activeMenu == 'pilihkompen' ? 'active' : '' }} ">
+                        <i class="nav-icon far fa-address-card"></i>
+                        <p>Lihat dan Pilih Kompen</p>
                     </a>
                 </li>
                 <li class="nav-item">
