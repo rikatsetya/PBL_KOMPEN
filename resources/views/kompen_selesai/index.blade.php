@@ -13,8 +13,8 @@
                 <div class="alert alert-danger">{{ session('error') }}</div>
             @endif
             <div class="table-responsive">
-                <table class="table table-bordered table-striped table-hover" id="table_kompen_selesai">
-                    <thead class="thead-dark">
+                <table class="table table-bordered table-sm table-striped table-hover" id="table_kompen_selesai">
+                    <thead>
                         <tr>
                             <th>No</th>
                             <th>Nama Tugas</th>
@@ -52,9 +52,12 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    "url": "{{ url('/kompen_selesai/list') }}", // Ensure this URL is correct as per controller
+                    "url": "{{ url('/kompen_selesai/list') }}", // URL controller yang benar
                     "dataType": "json",
-                    "type": "POST"
+                    "type": "POST",
+                    "data": function(d) {
+                        d._token = '{{ csrf_token() }}'; // Tambahkan token CSRF untuk keamanan
+                    }
                 },
                 columns: [{
                         data: "DT_RowIndex",

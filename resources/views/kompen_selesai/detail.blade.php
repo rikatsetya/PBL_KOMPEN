@@ -23,13 +23,23 @@
                 </tr>
                 <tr>
                     <th class="text-right">Foto Sebelum</th>
-                    <td><img src="{{ asset('foto_sebelum/' . $selesai->foto_sebelum) }}" width="100"
-                            height="100" alt="Foto Sebelum"></td>
+                    <td>
+                        @if($selesai->foto_sebelum && file_exists(public_path('foto_sebelum/' . $selesai->foto_sebelum)))
+                            <img src="{{ asset('foto_sebelum/' . $selesai->foto_sebelum) }}" width="100" height="100" alt="Foto Sebelum">
+                        @else
+                            <span>No Image</span>
+                        @endif
+                    </td>
                 </tr>
                 <tr>
                     <th class="text-right">Foto Sesudah</th>
-                    <td><img src="{{ asset('foto_sesudah/' . $selesai->foto_sesudah) }}" width="100"
-                            height="100" alt="Foto Sesudah"></td>
+                    <td>
+                        @if($selesai->foto_sesudah && file_exists(public_path('foto_sesudah/' . $selesai->foto_sesudah)))
+                            <img src="{{ asset('foto_sesudah/' . $selesai->foto_sesudah) }}" width="100" height="100" alt="Foto Sesudah">
+                        @else
+                            <span>No Image</span>
+                        @endif
+                    </td>
                 </tr>
                 <tr>
                     <th class="text-right">Tanggal</th>
@@ -54,6 +64,9 @@
                     <p>Status belum diperbarui. Admin akan mengupdate status setelah pengecekan.</p>
                 </div>
             @endif
+
+            <!-- Tombol Kembali -->
+            <a href="{{ url('/kompen_selesai') }}" class="btn btn-primary">Kembali</a>
         </div>
     </div>
 @endsection
