@@ -15,16 +15,14 @@ use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\DataTables;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Log;
 
 class CetakHasilKompenController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        Log::info('CetakHasilKompenController@index');
         $breadcrumb = (object) [
             'title' => 'Daftar Hasil Kompen',
             'list' => ['Home', 'hasil kompen']
@@ -61,16 +59,20 @@ class CetakHasilKompenController extends Controller
         }
 
         // Query for absensi data related to the logged-in mahasiswa
-        $hasil = AbsensiModel::select('mahasiswa_id', 'absensi_id', 'poin', 'status', 'periode_id')
+        $hasil = AbsensiModel::select('t_absensi_mhs.mahasiswa_id', 't_absensi_mhs.absensi_id', 't_absensi_mhs.poin', 't_absensi_mhs.status', 't_absensi_mhs.periode_id')
+            ->leftJoin('t_surat_kompen', 't_surat_kompen.mahasiswa_id', '=', 't_absensi_mhs.mahasiswa_id')
             ->with('mahasiswa', 'periode') // Include related mahasiswa and periode models
-            ->where('mahasiswa_id', $mahasiswa->mahasiswa_id); // Filter by mahasiswa_id
+            ->where('t_absensi_mhs.mahasiswa_id', $mahasiswa->mahasiswa_id); // Filter by mahasiswa_id
 
         // Apply filters based on status and periode_id if provided
         if ($request->status) {
-            $hasil->where('status', $request->status);
+            $hasil->where('t_absensi_mhs.status', $request->status);
         }
         if ($request->periode_id) {
-            $hasil->where('periode_id', $request->periode_id);
+            $hasil->where('t_absensi_mhs.periode_id', $request->periode_id);
+        }
+        if ($request->surat_uuid) {
+            $hasil->where('t_surat_kompen.surat_uuid', $request->surat_uuid);
         }
 
         // Return data in DataTables format

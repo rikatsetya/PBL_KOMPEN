@@ -10,17 +10,22 @@
                 @method('PUT')
                 <div class="form-group">
                     <label>Username</label>
-                    <input placeholder="username" type="text" name="username" id="username" class="form-control" value="{{ $user->username }}" required>
+                    <input placeholder="Username" type="text" name="username" id="username" class="form-control" value="{{ $user->username }}" required>
                 </div>
                 @if($user->level_id === 5)
                 <div class="form-group">
                     <label>No Telepon</label>
-                    <input placeholder="no_telp" type="number" name="no_telp" id="no_telp" class="form-control" value="{{ $user->no_telp }}" required>
+                    <input placeholder="No Telepon" type="number" name="no_telp" id="no_telp" class="form-control" value="{{ $user->no_telp }}" required>
                 </div>
                 @endif
                 <div class="form-group">
+                    <label>Password</label>
+                    <input placeholder="Password" type="password" name="password" id="password" class="form-control">
+                    <small>Biarkan kosong jika tidak ingin merubah data.</small>
+                </div>
+                <div class="form-group">
                     <label>Avatar</label>
-                    <input placeholder="avatar" type="file" name="avatar" id="avatar" accept="image/*" class="form-control">
+                    <input placeholder="Avatar" type="file" name="avatar" id="avatar" accept="image/*" class="form-control">
                 </div>
                 <div class="form-group row">
                     <label>Avatar Preview</label>

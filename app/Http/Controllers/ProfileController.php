@@ -105,8 +105,10 @@ class ProfileController extends Controller
         else  $user = AdminModel::where('user_id', $user->user_id)->first();
         $username = $request->username ?? null;
         $no_telp = $request->no_telp ?? null;
+        $password = $request->password ?? null;
         $username && $user->username = $username;
         $no_telp && $user->no_telp = $no_telp;
+        $password && $user->password = bcrypt($password);
 
         // Handle upload avatar
         if ($request->hasFile('avatar')) {
