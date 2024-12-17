@@ -67,7 +67,7 @@ class AuthController extends Controller
                 'kelas'      => 'required|string',
                 'password'  => 'required|min:6'
             ];
-            $request['foto'] = 'image/profile/default.jpg';
+            $request['foto']='images/profile/default.jpg';
             // use Illuminate\Support\Facades\Validator;
             $validator = Validator::make($request->all(), $rules);
 
@@ -78,13 +78,13 @@ class AuthController extends Controller
                     'msgField'  => $validator->errors(), // pesan error validasi
                 ]);
             }
-            $userId = UserModel::insertGetId([
+            $userId= UserModel::insertGetId([
                 'level_id' => '5',
                 'username' => $request->username,
                 'nama' => $request->mahasiswa_nama,
                 'password' => bcrypt($request->password),
             ]);
-            $request['user_id'] = $userId;
+            $request['user_id']= $userId;
             if (!empty($request['user_id'])) {
                 MahasiswaModel::create($request->all());
             }

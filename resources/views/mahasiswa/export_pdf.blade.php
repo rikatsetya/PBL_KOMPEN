@@ -96,20 +96,24 @@
             <thead>
                 <tr>
                     <th class="text-center">No</th>
-                    <th>No_Induk</th>
+                    <th>NIM</th>
                     <th>Username</th>
                     <th>Nama</th>
-                    <th>Level</th>
+                    <th>Jurusan</th>
+                    <th>Prodi</th>
+                    <th>Kelas</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($user as $b)
+                @foreach ($mahasiswa as $b)
                     <tr>
                         <td class="text-center">{{ $loop->iteration }}</td>
-                        <td>{{ $b->no_induk }}</td>
+                        <td>{{ $b->nim }}</td>
                         <td>{{ $b->username }}</td>
-                        <td>{{ $b->nama }}</td>
-                        <td>{{ $b->level->level_nama }}</td>
+                        <td>{{ $b->mahasiswa_nama }}</td>
+                        <td>{{ $b->jurusan }}</td>
+                        <td>{{ $b->prodi }}</td>
+                        <td>{{ $b->kelas }}</td>
                     </tr>
                 @endforeach
             </tbody>

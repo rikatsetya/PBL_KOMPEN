@@ -98,8 +98,6 @@
                     <th class="text-center">No</th>
                     <th>NIM</th>
                     <th>Nama Mahasiswa</th>
-                    <th>Sakit</th>
-                    <th>Izin</th>
                     <th>Alpha</th>
                     <th>Poin</th>
                     <th>Status</th>
@@ -115,7 +113,7 @@
                         <td>{{ $b->alpha }}</td>
                         <td>{{ $b->poin }}</td>
                         <td>{{ $b->status }}</td>
-                        <td>{{ $b->periode }}</td>
+                        <td>{{ $b->periode->periode_tahun }}</td>
                     </tr>
                 @endforeach
             </tbody>

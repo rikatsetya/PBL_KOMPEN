@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Models\MahasiswaModel;
+use App\Models\UserModel;
 use Illuminate\Http\Request;
 
 class MahasiswaController extends Controller
@@ -37,10 +38,8 @@ class MahasiswaController extends Controller
      */
     public function show(Request $request)
     {
-        
-        $id = $request->input('id');
-
         $data = MahasiswaModel::select(
+            'm_mahasiswa.user_id',
             'm_mahasiswa.mahasiswa_id',
             'nim',
             'username',
@@ -55,7 +54,7 @@ class MahasiswaController extends Controller
             't_absensi_mhs.status',
         )
             ->leftJoin('t_absensi_mhs', 'm_mahasiswa.mahasiswa_id', '=', 't_absensi_mhs.mahasiswa_id')
-            ->where('m_mahasiswa.mahasiswa_id', $id)
+            ->where('m_mahasiswa.user_id', $request->id)
             ->first();
 
         return response()->json($data);
@@ -66,8 +65,11 @@ class MahasiswaController extends Controller
      */
     public function edit(Request $request)
     {
-        $data = MahasiswaModel::select('mahasiswa_id','mahasiswa_nama','username','no_telp')->where('mahasiswa_id', $request->mahasiswa_id)->first();
-        $data->mahasiswa_nama = $request->mahasiswa_nama;
+        $data = MahasiswaModel::all()->where('user_id', $request->id)->first();
+        $dataUser = UserModel::all()->where('user_id', $request->id)->first();
+        $dataUser->username = $request->username;
+        $dataUser->save();
+        $data->mahasiswa_nama = $request->nama;
         $data->username = $request->username;
         $data->no_telp = $request->no_telp;
         $data->save();
@@ -79,7 +81,10 @@ class MahasiswaController extends Controller
      */
     public function update(Request $request)
     {
-        $data = MahasiswaModel::all()->where('mahasiswa_id', $request->mahasiswa_id)->first();
+        $data = MahasiswaModel::all()->where('user_id', $request->id)->first();
+        $dataUser = UserModel::all()->where('user_id', $request->id)->first();
+        $dataUser->password = bcrypt($request->password);
+        $dataUser->save();
         $data->password = bcrypt($request->password);
         $data->save();
         return "Berhasil Mengubah Data";
@@ -92,4 +97,29 @@ class MahasiswaController extends Controller
     {
         //
     }
+
+    // public function listKompen()
+    // {
+    //     $breadcrumb = (object) [
+    //         'title' => 'Daftar Hasil Kompen',
+    //         'list' => ['Home', 'hasil kompen']
+    //     ];
+    //     $page = (object) [
+    //         'title' => 'Daftar Hasil Kompen Mahasiswa yang terdaftar dalam sistem'
+    //     ];
+    //     $activeMenu = 'hasil';
+    //     $activeSubMenu = '';
+
+    //     // Get all periods
+    //     $periode = PeriodeModel::all();
+    //     $user = UserModel::all();
+
+    //     return view('hasil_kompen.index', [
+    //         'breadcrumb' => $breadcrumb,
+    //         'page' => $page,
+    //         'activeMenu' => $activeMenu,
+    //         'activeSubMenu' => $activeSubMenu,
+    //         'periode' => $periode
+    //     ]);
+    // }
 }

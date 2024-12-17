@@ -20,7 +20,7 @@
         <div id="modal-master" class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Detail Data Tugas</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Detail Data Absensi</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
                 </div>
@@ -48,7 +48,7 @@
                         </tr>
                         <tr>
                             <th>Periode</th>
-                            <td>{{ $absensi->periode ?? '-' }}</td>
+                            <td>{{ $absensi->periode->periode_tahun ?? '-' }}</td>
                         </tr>
                     </table>
                 </div>

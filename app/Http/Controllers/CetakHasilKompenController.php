@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\DataTables;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 
 class CetakHasilKompenController extends Controller
 {
@@ -23,6 +24,7 @@ class CetakHasilKompenController extends Controller
      */
     public function index()
     {
+        Log::info('CetakHasilKompenController@index');
         $breadcrumb = (object) [
             'title' => 'Daftar Hasil Kompen',
             'list' => ['Home', 'hasil kompen']

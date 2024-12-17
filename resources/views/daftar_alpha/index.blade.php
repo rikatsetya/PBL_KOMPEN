@@ -25,6 +25,8 @@
                         <th>NIM</th>
                         <th>Nama Mahasiswa</th>
                         <th>Alpha</th>
+                        <th>Poin</th>
+                        <th>Status</th>
                         <th>Periode</th>
                         <th>Aksi</th>
                     </tr>
@@ -79,6 +81,18 @@
                     width: "5%",
                     orderable: false,
                     searchable: false
+                }, {
+                    data: "poin",
+                    className: "",
+                    width: "5%",
+                    orderable: false,
+                    searchable: false
+                }, {
+                    data: "status",
+                    className: "",
+                    width: "10%",
+                    orderable: false,
+                    searchable: true
                 }, {
                     data: "periode.periode_tahun",
                     className: "",
