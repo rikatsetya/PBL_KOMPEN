@@ -93,8 +93,8 @@
                     data: "status",
                     className: "",
                     width: "10%",
-                    orderable: false,
-                    searchable: true
+                    orderable: true,
+                    searchable: false
                 }, {
                     data: "periode.periode_tahun",
                     className: "",

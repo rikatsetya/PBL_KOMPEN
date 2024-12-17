@@ -4,6 +4,8 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Models\JenisModel;
+use App\Models\MahasiswaModel;
+use App\Models\PengumpulanModel;
 use App\Models\PeriodeModel;
 use App\Models\TugasModel;
 use Illuminate\Http\Request;
@@ -87,5 +89,35 @@ class TugasController extends Controller
             'success' => true,
             'data' => $data,
         ]);
+    }
+
+    public function pilih(Request $request)
+    {
+        $user = Auth::user();
+        $mhs = MahasiswaModel::where('user_id', $user->user_id)->first();
+        // $cek = PengumpulanModel::where('mahasiswa_id', '=',  $request->mahasiswa_id, 'AND' ,'tugas_id', '=', $request->tugas_id)->get();
+        $cek = PengumpulanModel::where('mahasiswa_id', $mhs->mahasiswa_id)
+        ->where('tugas_id', $request->tugas_id)
+        ->exists();
+
+        if (!$cek) {
+            // Jika tidak ada, buat data baru
+            $data = PengumpulanModel::create([
+                'mahasiswa_id' => $mhs->mahasiswa_id,
+                'tugas_id' => $request->tugas_id,
+            ]);
+    
+            return response()->json([
+                'success' => true,
+                'message' => 'Data berhasil ditambahkan.',
+                'data' => $data,
+            ], 201);
+        } else {
+            // Jika sudah ada, kirimkan respons error
+            return response()->json([
+                'success' => false,
+                'message' => 'Data sudah ada. Tidak boleh duplikasi.',
+            ], 409);
+        }
     }
 }
