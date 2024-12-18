@@ -167,7 +167,6 @@
             <td>: {{ $hasil->periode->periode_tahun }}</td>
         </tr>
     </table>
->>>>>>> 891245d9ac3e594ce7fcb33e2fe76f97c000ef58
 
     <p class="font-11">
         Dengan ini menyatakan bahwa mahasiswa yang bersangkutan telah menyelesaikan semua kewajiban kompensasi
