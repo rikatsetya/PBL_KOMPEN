@@ -6,11 +6,7 @@
         <div class="card-header">
             <h3 class="card-title">{{ $page->title }}</h3>
             <div class="card-tools">
-<<<<<<< HEAD
                 <button onclick="modalAction('{{ url('/user/import') }}')" class="btn btn-info"><i class="fa fa-file-excel"></i> Import user</button>
-=======
-                <button onclick="modalAction('{{ url('/user/import') }}')" class="btn btn-info">Import user</button>
->>>>>>> 0916f1e641e08abb12c4e55b5e84393c72c4d7e5
                 <a href="{{ url('/user/export_excel') }}" class="btn btn-primary"><i class="fa fa-file-excel"></i> Export
                     user</a>
                 <a href="{{ url('/user/export_pdf') }}" class="btn btn-warning"><i class="fa fa-file-pdf"></i> Export
@@ -123,8 +119,4 @@
             });
         });
     </script>
-<<<<<<< HEAD
 @endpush
-=======
-@endpush
->>>>>>> 0916f1e641e08abb12c4e55b5e84393c72c4d7e5
