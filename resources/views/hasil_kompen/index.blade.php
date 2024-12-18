@@ -137,15 +137,6 @@
                 }
             ]
         });
-<<<<<<< HEAD
-    </script>
-<<<<<<< HEAD
-@endpush
-=======
-@endpush
->>>>>>> 0916f1e641e08abb12c4e55b5e84393c72c4d7e5
-=======
-
         // Reload the DataTable when the filters are changed
         $('#status, #periode_id').change(function() {
             tableHasil.draw();
@@ -162,4 +153,3 @@
     });
 </script>
 @endpush
->>>>>>> 891245d9ac3e594ce7fcb33e2fe76f97c000ef58

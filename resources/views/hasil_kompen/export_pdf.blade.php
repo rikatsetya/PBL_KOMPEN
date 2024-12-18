@@ -27,11 +27,6 @@
             display: block;
         }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 891245d9ac3e594ce7fcb33e2fe76f97c000ef58
         .d-flex {
             display: flex;
         }
@@ -43,11 +38,6 @@
         .j-right {
             justify-content: flex-end;
         }
-
-<<<<<<< HEAD
->>>>>>> 0916f1e641e08abb12c4e55b5e84393c72c4d7e5
-=======
->>>>>>> 891245d9ac3e594ce7fcb33e2fe76f97c000ef58
         img.image {
             width: auto;
             height: 80px;
@@ -67,19 +57,10 @@
             padding: 5px 1px 5px 1px;
         }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 891245d9ac3e594ce7fcb33e2fe76f97c000ef58
         .m-0 {
             margin: 0;
         }
 
-<<<<<<< HEAD
->>>>>>> 0916f1e641e08abb12c4e55b5e84393c72c4d7e5
-=======
->>>>>>> 891245d9ac3e594ce7fcb33e2fe76f97c000ef58
         .font-10 {
             font-size: 10pt;
         }
@@ -122,15 +103,14 @@
     <!-- Surat Header -->
     <table class="border-bottom-header">
         <tr>
-<<<<<<< HEAD
-<<<<<<< HEAD
+
             <td width="15%" class="text-center"><img src="{{ asset('images/logo_polinema.png') }}" style="height: 80px; width:80px"> </td>
-=======
+
             <td width="15%" class="text-center"><img src="{{ public_path('images/logo_polinema.png') }}" style="height: 80px; width:80px"></td>
->>>>>>> 0916f1e641e08abb12c4e55b5e84393c72c4d7e5
-=======
+
+
             <td width="15%" class="text-center"><img src="{{ public_path('images/logo_polinema.png') }}" style="height: 80px; width:80px"></td>
->>>>>>> 891245d9ac3e594ce7fcb33e2fe76f97c000ef58
+
             <td width="85%">
                 <span class="text-center d-block font-11 font-bold mb-1">KEMENTERIAN
                     PENDIDIKAN, KEBUDAYAAN, RISET, DAN TEKNOLOGI</span>
@@ -149,8 +129,7 @@
 
     <!-- Informasi Surat -->
     @if ($hasil->mahasiswa)
-<<<<<<< HEAD
-<<<<<<< HEAD
+
         <table class="header-table">
             <tr>
                 <td width="25%">Nama</td>
@@ -169,7 +148,7 @@
                 <td>: {{ $hasil->periode->periode_tahun }}</td>
             </tr>
         </table>
-=======
+
     <table class="header-table">
         <tr>
             <td width="25%">Nama</td>
@@ -226,66 +205,4 @@
     @endif
 </body>
 
-<<<<<<< HEAD
 </html>
-=======
-    <table class="header-table">
-        <tr>
-            <td width="25%">Nama</td>
-            <td>: {{ $hasil->mahasiswa->mahasiswa_nama }}</td>
-        </tr>
-        <tr>
-            <td>NIM</td>
-            <td>: {{ $hasil->mahasiswa->nim }}</td>
-        </tr>
-        <tr>
-            <td>Kelas</td>
-            <td>: {{ $hasil->mahasiswa->kelas }}</td>
-        </tr>
-        <tr>
-            <td>Semester</td>
-            <td>: {{ $hasil->periode->periode_tahun }}</td>
-        </tr>
-    </table>
-
-    <p class="font-11">
-        Dengan ini menyatakan bahwa mahasiswa yang bersangkutan telah menyelesaikan semua kewajiban kompensasi
-        yang berlaku dan dinyatakan <strong>BEBAS KOMPENSASI</strong>.
-        Dengan demikian, yang bersangkutan diperkenankan untuk mengikuti Ujian Akhir Semester (UAS) pada
-        semester yang sedang berjalan.
-    </p>
-
-    <p class="font-11">Demikian surat keterangan ini dibuat agar dapat digunakan sebagaimana mestinya.</p>
-
-    <!-- Footer -->
-    <table class="header-table">
-        <tr>
-            <td style="text-align: right;">
-                <div style="display: inline-block; text-align: center;">
-                    <!-- Date and 'Mengetahui' text without extra space -->
-                    <p style="font-size: 11pt; margin: 0; text-align: right;">
-                        Malang, {{ \Carbon\Carbon::now()->isoFormat('D MMMM YYYY') }}
-                    </p>
-                    <p style="margin: 0; text-align: center;">
-                        Mengetahui,<br><br>
-                        <!-- Qrcode image -->
-                        <img src="{{ public_path($hasil->qrcode) }}"
-                            style="height: 100px; width: 100px; display: block; margin: 0 auto;">
-                        <br><br>
-                        Ka. Program Studi
-                    </p>
-                </div>
-            </td>
-        </tr>
-    </table>
-
-    @else
-    <p>Data tidak lengkap atau tidak ditemukan.</p>
-    @endif
-</body>
-
-</html>
->>>>>>> 0916f1e641e08abb12c4e55b5e84393c72c4d7e5
-=======
-</html>
->>>>>>> 891245d9ac3e594ce7fcb33e2fe76f97c000ef58
