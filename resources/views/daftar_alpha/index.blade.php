@@ -6,13 +6,9 @@
         <div class="card-header">
             <h3 class="card-title">{{ $page->title }}</h3>
             <div class="card-tools">
-<<<<<<< HEAD
                 @if (session('level_id')==1)
                 <button onclick="modalAction('{{ url('/daftar_alpha/import') }}')" class="btn btn-info btn-sm">Import Absensi</button>
                 @endif
-=======
-                <button onclick="modalAction('{{ url('/daftar_alpha/import') }}')" class="btn btn-info btn-sm">Import Absensi</button>
->>>>>>> 0916f1e641e08abb12c4e55b5e84393c72c4d7e5
                 <a href="{{ url('/daftar_alpha/export_excel') }}" class="btn btn-primary btn-sm"><i class="fa fa-file-excel"></i> Export Absensi</a>
                 <a href="{{ url('/daftar_alpha/export_pdf') }}" class="btn btn-warning btn-sm"><i class="fa fa-file-pdf"></i> Export Absensi</a>
             </div>
@@ -31,11 +27,8 @@
                         <th>NIM</th>
                         <th>Nama Mahasiswa</th>
                         <th>Alpha</th>
-<<<<<<< HEAD
                         <th>Poin</th>
                         <th>Status</th>
-=======
->>>>>>> 0916f1e641e08abb12c4e55b5e84393c72c4d7e5
                         <th>Periode</th>
                         <th>Aksi</th>
                     </tr>
