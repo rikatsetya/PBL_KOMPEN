@@ -24,7 +24,7 @@
                         <p>Total Mahasiswa: {{ $totalAbsensi }}</p>
                         <p>Lunas: {{ $lunas }}</p>
                         <p>Belum Lunas: {{ $belumLunas }}</p>
-                        <p>Tidak Pernah Alpha: {{ $alphaKosong }}</p>
+                        <p>Tidak Memiliki Alpha: {{ $alphaKosong }}</p>
                     </div>
                 </div>
             </div>
