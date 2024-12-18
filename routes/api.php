@@ -20,12 +20,12 @@ use Illuminate\Support\Facades\Route;
 // Route::post('update_kompen_selesai', [\App\Http\Controllers\api\KompenSelesaiAController::class, 'updateStatusAndReason']);
 
 
-Route::post('/login', App\Http\Controllers\Api\LoginController::class)->name('login');
-Route::post('/register', App\Http\Controllers\Api\RegisterController::class)->name('register');
+Route::post('/login', App\Http\Controllers\api\LoginController::class)->name('login');
+Route::post('/register', App\Http\Controllers\api\RegisterController::class)->name('register');
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::post('/logout', App\Http\Controllers\Api\LoginController::class)->name('logout');
+Route::post('/logout', App\Http\Controllers\api\LoginController::class)->name('logout');
 Route::middleware('auth:api')->group(function () {
 
     Route::group(['prefix' => 'tugas'], function () {
