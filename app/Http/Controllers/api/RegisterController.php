@@ -18,7 +18,7 @@ class RegisterController extends Controller
             'username'  => 'required|string|min:3|unique:m_mahasiswa,username',
             'mahasiswa_nama'      => 'required|string|max:100',
             'nim'      => 'required|integer|unique:m_mahasiswa,nim',
-            'no_telp'      => 'required|integer',
+            'no_telp'      => 'required|string',
             'jurusan'      => 'required|string',
             'prodi'      => 'required|string',
             'kelas'      => 'required|string|max:2',
