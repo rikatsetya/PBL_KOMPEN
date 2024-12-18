@@ -52,11 +52,7 @@
                         </tr>
                         <tr>
                             <th>Periode</th>
-<<<<<<< HEAD
                             <td>{{ $absensi->periode->periode_tahun ?? '-' }}</td>
-=======
-                            <td>{{ $absensi->periode ?? '-' }}</td>
->>>>>>> 0916f1e641e08abb12c4e55b5e84393c72c4d7e5
                         </tr>
                     </table>
                 </div>

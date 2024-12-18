@@ -6,11 +6,7 @@
                     class="fas fa-bars"></i></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-<<<<<<< HEAD
             <a href="{{ url('/') }}" class="nav-link">Home</a>
-=======
-            <a href="../../index3.html" class="nav-link">Home</a>
->>>>>>> 0916f1e641e08abb12c4e55b5e84393c72c4d7e5
         </li>
         <li class="nav-item d-none d-sm-inline-block">
             <a href="#" class="nav-link">Contact</a>
@@ -42,7 +38,6 @@
             </div>
         </li>
 
-<<<<<<< HEAD
         <!-- Messages Dropdown Menu -->
         <li class="nav-item dropdown">
             <a class="nav-link" data-toggle="dropdown" href="#">
@@ -105,9 +100,6 @@
                 <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
             </div>
         </li>
-=======
-       
->>>>>>> 0916f1e641e08abb12c4e55b5e84393c72c4d7e5
         <!-- Notifications Dropdown Menu -->
         <li class="nav-item dropdown">
             <a class="nav-link" data-toggle="dropdown" href="#">
@@ -135,24 +127,16 @@
                 <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
             </div>
         </li>
-<<<<<<< HEAD
-=======
-        
->>>>>>> 0916f1e641e08abb12c4e55b5e84393c72c4d7e5
         <li class="nav-item">
             <a class="nav-link" data-widget="fullscreen" href="#" role="button">
                 <i class="fas fa-expand-arrows-alt"></i>
             </a>
         </li>
-<<<<<<< HEAD
         <li class="nav-item">
             <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#"
                 role="button">
                 <i class="fas fa-th-large"></i>
             </a>
         </li>
-=======
-
->>>>>>> 0916f1e641e08abb12c4e55b5e84393c72c4d7e5
     </ul>
 </nav>

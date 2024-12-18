@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 <form action="{{ url('/manage_tugas/ajax') }}" method="POST" id="form-tambah" enctype="multipart/form-data">
-=======
-<form action="{{ url('/tugas/ajax') }}" method="POST" id="form-tambah" enctype="multipart/form-data">
->>>>>>> 0916f1e641e08abb12c4e55b5e84393c72c4d7e5
     @csrf
     <div id="modal-master" class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -49,7 +45,6 @@
                     <small id="error-tugas_bobot" class="error-text form-text text-danger"></small>
                 </div>
 
-<<<<<<< HEAD
                 <!-- Kuota -->
                 <div class="form-group">
                     <label>Kuota</label>
@@ -57,8 +52,6 @@
                     <small id="error-kuota" class="error-text form-text text-danger"></small>
                 </div>
 
-=======
->>>>>>> 0916f1e641e08abb12c4e55b5e84393c72c4d7e5
                 <!-- tenggat -->
                 <div class="form-group">
                     <label>Tenggat</label>
@@ -69,7 +62,6 @@
                 <!-- periode -->
                 <div class="form-group">
                     <label>Periode</label>
-<<<<<<< HEAD
                     <select name="periode_id" id="periode_id" class="form-control" required>
                         <option value="" selected>--Select--</option>
                         
@@ -83,16 +75,6 @@
                     </select>
                     <small id="error-periode_id" class="error-text form-text text-danger"></small>
                 </div>
-=======
-                    <select name="periode" id="periode" class="form-control"
-                        required> 
-                        <option value="" selected>--Select--</option>
-                        <option value="2024/2025">2024/2025</option>
-                    </select>
-                    <small id="error-periode" class="error-text form-text text-danger"></small>
-                </div>
-            </div>
->>>>>>> 0916f1e641e08abb12c4e55b5e84393c72c4d7e5
 
             <div class="modal-footer">
                 <button type="button" data-dismiss="modal" class="btn btn-warning">Batal</button>
@@ -125,24 +107,17 @@
                     minlength: 1,
                     maxlength: 3
                 },
-<<<<<<< HEAD
                 kuota: {
                     required: true,
                     minlength: 1,
                     maxlength: 2
                 },
-=======
->>>>>>> 0916f1e641e08abb12c4e55b5e84393c72c4d7e5
                 tugas_tenggat: {
                     required: true,
                     minlength: 5,
                     maxlength: 20
                 },
-<<<<<<< HEAD
                 periode_id: {
-=======
-                periode: {
->>>>>>> 0916f1e641e08abb12c4e55b5e84393c72c4d7e5
                     required: true
                 }
             },

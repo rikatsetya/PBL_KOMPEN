@@ -24,20 +24,13 @@
     <link rel="stylesheet" href="{{ asset('adminlte/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('adminlte/dist/css/adminlte.min.css') }}">
-<<<<<<< HEAD
     <script src="https://kit.fontawesome.com/632b2cdc3f.js" crossorigin="anonymous"></script>
-=======
->>>>>>> 0916f1e641e08abb12c4e55b5e84393c72c4d7e5
 
     @stack('css')
     <!-- Digunakan untuk memanggil custom css dari perintah push('css') pada masing-masing view -->
 </head>
 
-<<<<<<< HEAD
 <body class="hold-transition sidebar-mini sidebar-collapse layout-fixed">
-=======
-<body class="hold-transition sidebar-mini">
->>>>>>> 0916f1e641e08abb12c4e55b5e84393c72c4d7e5
     <!-- Site wrapper -->
     <div class="wrapper">
         <!-- Navbar -->

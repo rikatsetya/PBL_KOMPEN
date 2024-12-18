@@ -1,24 +1,15 @@
-<<<<<<< HEAD
 <form action="{{ url('/mahasiswa/import_ajax') }}" method="POST" id="form-import" enctype="multipart/form-data">
-=======
-<form action="{{ url('/user/import_ajax') }}" method="POST" id="form-import" enctype="multipart/form-data">
->>>>>>> 0916f1e641e08abb12c4e55b5e84393c72c4d7e5
     @csrf
     <div id="modal-master" class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-<<<<<<< HEAD
                 <h5 class="modal-title" id="exampleModalLabel">Import Data Mahasiswa</h5>
-=======
-                <h5 class="modal-title" id="exampleModalLabel">Import Data user</h5>
->>>>>>> 0916f1e641e08abb12c4e55b5e84393c72c4d7e5
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
                 <div class="form-group">
                     <label>Download Template</label>
-<<<<<<< HEAD
                     <a href="{{ asset('template_mahasiswa.xlsx') }}" class="btn btn-info btn-sm" download><i
                             class="fa fa-file-excel"></i>Download</a>
                     <small id="error-mahasiswa_id" class="error-text form-text text-danger"></small>
@@ -27,16 +18,6 @@
                     <label>Pilih File</label>
                     <input type="file" name="file_mahasiswa" id="file_mahasiswa" class="form-control" required>
                     <small id="error-file_mahasiswa" class="error-text form-text text-danger"></small>
-=======
-                    <a href="{{ asset('template_user.xlsx') }}" class="btn btn-info btn-sm" download><i
-                            class="fa fa-file-excel"></i>Download</a>
-                    <small id="error-kategori_id" class="error-text form-text text-danger"></small>
-                </div>
-                <div class="form-group">
-                    <label>Pilih File</label>
-                    <input type="file" name="file_user" id="file_user" class="form-control" required>
-                    <small id="error-file_user" class="error-text form-text text-danger"></small>
->>>>>>> 0916f1e641e08abb12c4e55b5e84393c72c4d7e5
                 </div>
             </div>
             <div class="modal-footer">
@@ -50,11 +31,7 @@
     $(document).ready(function() {
         $("#form-import").validate({
             rules: {
-<<<<<<< HEAD
                 file_mahasiswa: {
-=======
-                file_user: {
->>>>>>> 0916f1e641e08abb12c4e55b5e84393c72c4d7e5
                     required: true,
                     extension: "xlsx"
                 },

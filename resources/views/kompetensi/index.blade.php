@@ -4,12 +4,6 @@
         <div class="card-header">
             <h3 class="card-title">Daftar kompetensi</h3>
             <div class="card-tools">
-<<<<<<< HEAD
-=======
-                <button onclick="modalAction('{{ url('/kompetensi/import') }}')" class="btn btn-info">Import kompetensi</button>
-                <a href="{{ url('/kompetensi/export_excel') }}" class="btn btn-primary"><i class="fa fa-file-excel"></i> Export kompetensi</a>
-                <a href="{{ url('/kompetensi/export_pdf') }}" class="btn btn-warning"><i class="fa fa-file-pdf"></i> Export kompetensi</a>
->>>>>>> 0916f1e641e08abb12c4e55b5e84393c72c4d7e5
                 <button onclick="modalAction('{{ url('/kompetensi/create_ajax') }}')" class="btn btn-success">Tambah Data
                     (Ajax)</button>
             </div>
@@ -63,39 +57,28 @@
                     width: "5%",
                     orderable: false,
                     searchable: false
-<<<<<<< HEAD
                 }, {
-=======
-                },{
->>>>>>> 0916f1e641e08abb12c4e55b5e84393c72c4d7e5
                     data: "kompetensi_nama",
                     className: "",
                     width: "10%",
                     orderable: true,
-<<<<<<< HEAD
                     searchable: true,
                     render: function(data, type, row) {
                         return data.length > 10 ?
                             data.substr(0, 10) + '...' :
                             data;
                     }
-=======
-                    searchable: true
->>>>>>> 0916f1e641e08abb12c4e55b5e84393c72c4d7e5
                 }, {
                     data: "kompetensi_deskripsi",
                     className: "",
                     width: "37%",
                     orderable: true,
                     searchable: true,
-<<<<<<< HEAD
                     render: function(data, type, row) {
                         return data.length > 40 ?
                             data.substr(0, 40) + '...' :
                             data;
                     }
-=======
->>>>>>> 0916f1e641e08abb12c4e55b5e84393c72c4d7e5
                 }, {
                     data: "aksi",
                     className: "text-center",
@@ -111,8 +94,4 @@
             });
         });
     </script>
-<<<<<<< HEAD
 @endpush
-=======
-@endpush
->>>>>>> 0916f1e641e08abb12c4e55b5e84393c72c4d7e5

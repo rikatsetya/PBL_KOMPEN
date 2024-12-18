@@ -91,7 +91,6 @@
                     orderable: false,
                     searchable: false
                 }, {
-<<<<<<< HEAD
                     data: "poin",
                     className: "",
                     width: "5%",
@@ -104,8 +103,6 @@
                     orderable: true,
                     searchable: false
                 }, {
-=======
->>>>>>> 0916f1e641e08abb12c4e55b5e84393c72c4d7e5
                     data: "periode.periode_tahun",
                     className: "",
                     width: "10%",

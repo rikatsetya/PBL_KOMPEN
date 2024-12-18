@@ -15,7 +15,8 @@
             </div>
         </div>
     @else
-        <form action="{{ url('/kompetensi/' . $kompetensi->kompetensi_id . '/update_ajax') }}" method="POST" id="form-edit">
+        <form action="{{ url('/kompetensi/' . $kompetensi->kompetensi_id . '/update_ajax') }}" method="POST"
+            id="form-edit">
             @csrf
             @method('PUT')
             <div id="modal-master" class="modal-dialog modal-lg" role="document">
@@ -28,14 +29,14 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label>kompetensi nama</label>
-                            <input value="{{ $kompetensi->kompetensi_nama }}" type="text" name="kompetensi_nama" id="kompetensi_nama"
-                                class="form-control" required>
+                            <input value="{{ $kompetensi->kompetensi_nama }}" type="text" name="kompetensi_nama"
+                                id="kompetensi_nama" class="form-control" required>
                             <small id="error-kompetensi_nama" class="error-text form-text text-danger"></small>
                         </div>
                         <div class="form-group">
                             <label>deskripsi kompetensi</label>
-                            <input value="{{ $kompetensi->kompetensi_deskripsi }}" type="text" name="kompetensi_deskripsi" id="kompetensi_deskripsi"
-                                class="form-control" required>
+                            <input value="{{ $kompetensi->kompetensi_deskripsi }}" type="text"
+                                name="kompetensi_deskripsi" id="kompetensi_deskripsi" class="form-control" required>
                             <small id="error-kompetensi_deskripsi" class="error-text form-text text-danger"></small>
                         </div>
                     </div>
@@ -104,8 +105,4 @@
                 });
             });
         </script>
-<<<<<<< HEAD
     @endempty
-=======
-    @endempty
->>>>>>> 0916f1e641e08abb12c4e55b5e84393c72c4d7e5

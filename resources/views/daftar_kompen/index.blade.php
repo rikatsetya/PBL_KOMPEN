@@ -19,25 +19,6 @@
             @if (session('error'))
                 <div class="alert alert-danger">{{ session('error') }}</div>
             @endif
-<<<<<<< HEAD
-=======
-            <div id="filter" class="form-horizontal filter-date p-2 border-bottom mb-2">
-                <div class="col-md-12">
-                    <div class="form-group row">
-                        <label class="col-1 control-label col-form-label">Filter:</label>
-                        <div class="col-3">
-                            <select class="form-control" id="mahasiswa_id" name="mahasiswa_id" required>
-                                <option value="">- Semua -</option>
-                                @foreach ($mahasiswa as $item)
-                                    <option value="{{ $item->mahasiswa_id }}">{{ $item->mahasiswa_nama }}</option>
-                                @endforeach
-                            </select>
-                            <small class="form-text text-muted">mahasiswa</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
->>>>>>> 0916f1e641e08abb12c4e55b5e84393c72c4d7e5
             <table class="table table-bordered table-striped table-hover table-sm" id="table-kompen">
                 <thead>
                     <tr>

@@ -12,20 +12,12 @@
                     <h5><i class="icon fas fa-ban"></i> Kesalahan!!!</h5>
                     Data yang anda cari tidak ditemukan
                 </div>
-<<<<<<< HEAD
                 <a href="{{ url('/manage_tugas') }}" class="btn btn-warning">Kembali</a>
-=======
-                <a href="{{ url('/tugas') }}" class="btn btn-warning">Kembali</a>
->>>>>>> 0916f1e641e08abb12c4e55b5e84393c72c4d7e5
             </div>
         </div>
     </div>
 @else
-<<<<<<< HEAD
     <form action="{{ url('/manage_tugas/' . $tugas->tugas_id . '/delete_ajax') }}" method="POST" id="formdelete">
-=======
-    <form action="{{ url('/tugas/' . $tugas->tugas_id . '/delete_ajax') }}" method="POST" id="formdelete">
->>>>>>> 0916f1e641e08abb12c4e55b5e84393c72c4d7e5
         @csrf
         @method('DELETE')
         <div id="modal-master" class="modal-dialog modal-lg" role="document">
@@ -67,13 +59,8 @@
                             <td class="col-9">{{ $tugas->tugas_tenggat }}</td>
                         </tr>
                         <tr>
-<<<<<<< HEAD
                             <th class="text-right col-3">Periode Tugas</th>
                             <td class="col-9">{{ $tugas->periode->periode_tahun }} {{$tugas->periode->periode_semester}}</td>
-=======
-                            <th class="text-right col-3">Periode :</th>
-                            <td class="col-9">{{ $tugas->periode }}</td>
->>>>>>> 0916f1e641e08abb12c4e55b5e84393c72c4d7e5
                         </tr>
                     </table>
                 </div>

@@ -76,14 +76,11 @@
                     width: "25%",
                     orderable: true,
                     searchable: true,
-<<<<<<< HEAD
                     render: function(data, type, row) {
                         return data.length > 20 ?
                             data.substr(0, 20) + '...' :
                             data;
                     }
-=======
->>>>>>> 0916f1e641e08abb12c4e55b5e84393c72c4d7e5
                 }, {
                     data: "jurusan",
                     className: "",
@@ -117,8 +114,4 @@
             });
         });
     </script>
-<<<<<<< HEAD
 @endpush
-=======
-@endpush
->>>>>>> 0916f1e641e08abb12c4e55b5e84393c72c4d7e5

@@ -12,20 +12,12 @@
                     <h5><i class="icon fas fa-ban"></i> Kesalahan!!!</h5>
                     Data yang anda cari tidak ditemukan
                 </div>
-<<<<<<< HEAD
                 <a href="{{ url('/manage_tugas') }}" class="btn btn-warning">Kembali</a>
-=======
-                <a href="{{ url('/tugas') }}" class="btn btn-warning">Kembali</a>
->>>>>>> 0916f1e641e08abb12c4e55b5e84393c72c4d7e5
             </div>
         </div>
     </div>
 @else
-<<<<<<< HEAD
     <form action="{{ url('/manage_tugas/' . $tugas->tugas_id . '/update_ajax') }}" method="POST" id="formedit" enctype="multipart/form-data">
-=======
-    <form action="{{ url('/tugas/' . $tugas->tugas_id . '/update_ajax') }}" method="POST" id="formedit" enctype="multipart/form-data">
->>>>>>> 0916f1e641e08abb12c4e55b5e84393c72c4d7e5
         @csrf
         @method('PUT')
         <div id="modal-master" class="modal-dialog modal-lg" role="document">
@@ -72,11 +64,7 @@
                     </div>
                     <div class="form-group">
                         <label>Periode</label>
-<<<<<<< HEAD
                         <select name="periode" id="periode_id" class="form-control"
-=======
-                        <select name="periode" id="periode" class="form-control"
->>>>>>> 0916f1e641e08abb12c4e55b5e84393c72c4d7e5
                             required> 
                             <option value="" selected>--Select--</option>
                             <option value="2024/2025">2024/2025</option>
